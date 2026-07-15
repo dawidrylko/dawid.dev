@@ -52,7 +52,7 @@ This repo replaces a Quartz fork with a thin overlay: only content, owner overri
 | `quartz/plugins/emitters/robots.ts` | Own `robots.txt` emitter, wired directly in `quartz.config.ts` | Check upstream still has no equivalent emitter before assuming this is still needed |
 | `quartz/styles/custom.scss` | Quartz's official user-CSS extension point | Rarely affected by bumps; verify it's still imported the same way |
 | `quartz/static/icon.png`, `quartz/static/og-image.png` | Site branding, wins over upstream defaults | No action needed on bump beyond confirming the paths still exist upstream |
-| `.github/workflows/cd.yaml`, `.github/workflows/pr-build.yaml`, `.github/scripts/google.sh`, `.github/scripts/bing.sh` | Own CI/CD: deploy pipeline, PR build check, search-engine notification scripts | Independent of Quartz version; revisit only if the build/deploy steps change |
+| `.github/workflows/cd.yaml`, `.github/workflows/pr-build.yaml`, `.github/scripts/bing.sh` | Own CI/CD: deploy pipeline, PR build check, search-engine notification script | Independent of Quartz version; revisit only if the build/deploy steps change |
 | `scripts/assemble.sh`, `.quartz-version` | The overlay mechanism itself and the version pin | `.quartz-version` changes every bump; `assemble.sh` only if the materialization logic needs to change |
 | `content/**` | All site content (Obsidian notes and assets) | Not Quartz-version-sensitive |
 | `README.md`, `MAINTENANCE.md`, `LICENSE.txt` | Repo documentation and license | Update `LICENSE.txt` copyright year/authors only if that changes upstream |
@@ -67,7 +67,7 @@ This repo replaces a Quartz fork with a thin overlay: only content, owner overri
 
 ## Deployment notes
 
-- Push to `master` runs `.github/workflows/cd.yaml`: assemble → `npm ci` → `npx quartz build` → deploy to GitHub Pages (custom domain via Quartz's CNAME emitter) → notify job pings the Google Indexing API and the Bing URL Submission API.
+- Push to `master` runs `.github/workflows/cd.yaml`: assemble → `npm ci` → `npx quartz build` → deploy to GitHub Pages (custom domain via Quartz's CNAME emitter) → notify job pings the Bing URL Submission API.
 - Add `[skip notify]` to a commit message to skip the notify job.
 - `workflow_dispatch` allows triggering the deploy workflow manually from the Actions tab.
 - Every pull request runs `.github/workflows/pr-build.yaml`: assemble + build only, no deploy — a fast correctness check before merge.
