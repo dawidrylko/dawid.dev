@@ -1,0 +1,35 @@
+# dawid.dev
+
+Source for [dawid.dev](https://dawid.dev), Dawid Ryłko's digital garden, authored in [Obsidian](https://obsidian.md) and published with [Quartz](https://quartz.jzhao.xyz).
+
+## How this repo works
+
+This repo is a **thin overlay** on top of Quartz, not a fork. It contains only content, the owner's overrides (config, layout, a couple of custom components, branding, CI/CD), and a pin file (`.quartz-version`) that records the exact upstream Quartz tag and commit. No upstream Quartz code and no upstream git history is committed here. `scripts/assemble.sh` downloads the pinned Quartz release and materializes it into the working tree at build time, skipping any path already tracked in this repo so overrides always win.
+
+## Local development
+
+Requires Node >= 22.
+
+```sh
+./scripts/assemble.sh
+npm ci
+npx quartz build --serve
+```
+
+The site serves at http://localhost:8080. A fresh clone won't typecheck in an editor until `scripts/assemble.sh` has run at least once, since `quartz.config.ts` and `quartz.layout.ts` import from `./quartz/...` paths that only exist after assembly.
+
+## Publishing
+
+Pushing to `master` triggers `.github/workflows/cd.yaml`: assemble, install, build, and deploy to GitHub Pages, followed by a notify job that pings the Google Indexing API and the Bing URL Submission API. Add `[skip notify]` to a commit message to skip those pings. Pull requests get a build-only check via `.github/workflows/pr-build.yaml` (assemble + build, no deploy).
+
+## Drafts
+
+Notes under `content/private/` are excluded from git (via `.gitignore`) and from the Quartz build (via `ignorePatterns` in `quartz.config.ts`).
+
+## Updating Quartz
+
+See [MAINTENANCE.md](./MAINTENANCE.md) for the version-bump procedure.
+
+## License
+
+MIT. The published site is generated with [Quartz](https://github.com/jackyzha0/quartz) and embeds its code, hence the shared copyright attribution in `LICENSE.txt`.
