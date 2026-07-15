@@ -20,7 +20,7 @@ The site serves at http://localhost:8080. A fresh clone won't typecheck in an ed
 
 ## Publishing
 
-Pushing to `master` triggers `.github/workflows/cd.yaml`: assemble, install, build, and deploy to GitHub Pages, followed by a notify job that pings the Google Indexing API and the Bing URL Submission API. Add `[skip notify]` to a commit message to skip those pings. Pull requests get a build-only check via `.github/workflows/pr-build.yaml` (assemble + build, no deploy).
+Pushing to `master` triggers `.github/workflows/cd.yaml`: assemble, install, build, and deploy to GitHub Pages, followed by a notify job that pings the Bing URL Submission API. Add `[skip notify]` to a commit message to skip the ping. Pull requests get a build-only check via `.github/workflows/pr-build.yaml` (assemble + build, no deploy).
 
 ## Drafts
 
