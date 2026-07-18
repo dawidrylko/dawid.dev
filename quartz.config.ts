@@ -1,6 +1,7 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 import { Robots } from "./quartz/plugins/emitters/robots"
+import { LlmsTxt } from "./quartz/plugins/emitters/llmstxt"
 
 const name = "dawid.dev"
 const author = "Dawid Ryłko"
@@ -96,6 +97,7 @@ const config: QuartzConfig = {
       Plugin.CustomOgImages(),
       Plugin.CNAME(),
       Robots(),
+      LlmsTxt(),
     ],
   },
 }
