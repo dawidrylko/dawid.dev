@@ -24,7 +24,7 @@ Pushing to `master` triggers `.github/workflows/cd.yaml`: assemble, install, bui
 
 ## Search quality
 
-`search-quality.config.ts` configures [search-quality-kit](https://github.com/SilesianSolutions/search-quality-kit), which audits the built `public/` directory for crawlability, metadata, canonicals, structured data, links, accessibility and hreflang. It runs report-only on every pull request, so it reports without blocking; the report is uploaded as a workflow artifact and summarised in the job summary.
+`search-quality.config.ts` configures [search-quality-kit](https://github.com/SilesianSolutions/search-quality-kit), which audits the built `public/` directory for crawlability, metadata, canonicals, structured data, links, accessibility and hreflang. It runs on every pull request and fails the build on error-severity findings; warnings and info are reported without blocking. The report is uploaded as a workflow artifact and summarised in the job summary.
 
 The tool is fetched at run time rather than pinned as a dependency, because this repo tracks no `package.json` — see the overlay model above. For the same reason the config imports nothing: the kit never lands in `node_modules`, so its `defineConfig` and `presets` helpers would not resolve. They are identity functions and plain data, so their values are inlined and the kit validates the result against its schema on load.
 
