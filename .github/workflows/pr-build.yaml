@@ -35,5 +35,3 @@ jobs:
 
       - name: Search quality
         uses: SilesianSolutions/search-quality-kit@v0
-        with:
-          report-only: "true"
