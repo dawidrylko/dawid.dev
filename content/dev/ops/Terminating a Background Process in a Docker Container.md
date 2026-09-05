@@ -1,5 +1,6 @@
 ---
 date: 2025-02-25
+description: "Kill a background process inside a running Docker container: exec into the shell, find it with ps aux, then stop it by PID and know when SIGTERM is enough."
 tags:
   - dev
   - ops

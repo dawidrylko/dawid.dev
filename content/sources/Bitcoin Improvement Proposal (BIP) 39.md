@@ -1,5 +1,6 @@
 ---
 date: 2024-04-23
+description: "The full text of BIP-39, the Bitcoin standard for mnemonic codes that generate deterministic keys: wordlist rules, seed derivation and the reference notes."
 ---
 
 <pre>

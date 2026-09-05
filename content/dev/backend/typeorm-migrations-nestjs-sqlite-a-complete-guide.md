@@ -1,6 +1,7 @@
 ---
-title: "TypeORM Migrations in NestJS with SQLite: A Complete Guide"
+title: "TypeORM Migrations in NestJS: A Complete Guide"
 date: 2025-03-07
+description: "Set up TypeORM migrations in NestJS end to end: config with synchronize false, npm scripts, generating and running migrations, and the SQLite rebuild trap."
 tags:
   - dev
   - backend
@@ -10,11 +11,11 @@ tags:
 ---
 
 > [!tldr]
-> TypeORM migrations provide a structured approach to database schema evolution in NestJS applications with SQLite. Set up your configuration with `synchronize: false`, create migration scripts in your package.json, and follow a workflow of entity creation, migration generation, review, and execution. Remember that SQLite handles alterations differently than other databases by rebuilding tables rather than directly modifying them.
+> TypeORM migrations provide a structured approach to database schema evolution in NestJS applications. Set up your configuration with `synchronize: false`, create migration scripts in your package.json, and follow a workflow of entity creation, migration generation, review, and execution. Remember that SQLite handles alterations differently than other databases by rebuilding tables rather than directly modifying them.
 
 ## 🌐 Overview
 
-Managing database schema changes can be challenging, especially in applications that evolve over time. Database migrations solve this problem by providing version control for your database schema. This guide focuses on implementing TypeORM migrations in a NestJS application using SQLite.
+Managing database schema changes can be challenging, especially in applications that evolve over time. Database migrations solve this problem by providing version control for your database schema. This guide walks through TypeORM migrations in a NestJS application. SQLite is the worked example throughout, and a later section covers what changes when the driver is PostgreSQL or MySQL.
 
 Migrations ensure that:
 
@@ -139,6 +140,29 @@ If needed, roll back the most recent migration:
 pnpm migration:revert
 ```
 
+## 🔀 Switching the Driver
+
+Everything above is driver independent. The `synchronize: false` rule, the npm scripts, the generate, review, run and revert loop, and the migration files themselves work the same way against PostgreSQL, MySQL and SQLite. Only two things change.
+
+The first is the connection block:
+
+```typescript
+// PostgreSQL
+export const TypeormConfig = {
+  type: "postgres",
+  host: process.env.DB_HOST,
+  port: 5432,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  entities: ["dist/**/*.entity{.js,.ts}"],
+  migrations: ["dist/migrations/**/*.js"],
+  synchronize: false,
+};
+```
+
+The second is the SQL that `migration:generate` writes for you. A generated migration is dialect specific, so a file generated against SQLite is not portable to PostgreSQL. If you develop on one engine and deploy on another, generate against the engine you deploy to, and read the generated SQL before running it.
+
 ## 🔍 SQLite Specific Considerations
 
 SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite cannot directly alter tables by adding or removing columns. Instead, TypeORM handles this by:
@@ -240,6 +264,6 @@ Remember that SQLite has constraints when altering tables. In complex cases, you
 
 ## 📌 Summary
 
-Implementing TypeORM migrations with SQLite in a NestJS application provides a structured approach to database schema evolution. While SQLite has limitations compared to other database systems, TypeORM effectively abstracts most of these differences.
+Implementing TypeORM migrations in a NestJS application provides a structured approach to database schema evolution. The workflow is the same on every driver; only the connection block and the generated SQL change. While SQLite has limitations compared to other database systems, TypeORM effectively abstracts most of these differences.
 
 By following this guide, you can establish a robust workflow for managing your database schema changes, ensuring your application remains maintainable and your data safe throughout the development lifecycle.

@@ -1,6 +1,7 @@
 ---
 title: "Set and Map: Essential TypeScript Data Structures"
 date: 2025-02-27
+description: "Set stores unique values, Map stores key-value pairs with keys of any type. When to reach for each in TypeScript, and how both beat plain objects and arrays."
 tags:
   - dev
   - typescript

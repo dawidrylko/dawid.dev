@@ -14,7 +14,7 @@ const author = "Dawid Ryłko"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: `💻 ${name}`,
-    pageTitleSuffix: ` | ${author} | Software Engineer`,
+    pageTitleSuffix: ` - ${author}`,
     enableSPA: true,
     enablePopovers: true,
     analytics: {

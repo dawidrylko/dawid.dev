@@ -1,6 +1,7 @@
 ---
-title: "Hiding Data in Emoji: An Introduction to Unicode Steganography"
+title: "Emoji Steganography: How to Hide Text in Emoji"
 date: 2025-02-27
+description: "How to hide text inside a single emoji using Unicode variation selectors and zero-width joiners, what the encoding costs in bytes, and how to decode it again."
 tags:
   - sec
   - steganography

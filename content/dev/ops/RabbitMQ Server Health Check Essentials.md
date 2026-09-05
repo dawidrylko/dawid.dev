@@ -1,5 +1,7 @@
 ---
+title: "RabbitMQ Health Check: Seven Ways to Verify a Server"
 date: 2025-02-27
+description: "Seven ways to check whether RabbitMQ is running: systemd status, rabbitmq-diagnostics, open ports, processes, logs, the management API and cluster diagnostics."
 tags:
   - dev
   - ops

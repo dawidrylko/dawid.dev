@@ -1,5 +1,6 @@
 ---
 date: 2024-04-24
+description: "Mirror a repository between GitLab and GitHub over SSH so pushes stay in sync automatically: deploy keys on both sides, the remote setup and a status check."
 tags:
   - dev
   - ops

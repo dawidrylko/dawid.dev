@@ -1,5 +1,6 @@
 ---
 date: 2024-07-20
+description: "Install Proxmox VE on a Raspberry Pi step by step: update the system, fix the hosts file and root password, add the Proxmox key and repository, then install."
 tags:
   - dev
   - ops
