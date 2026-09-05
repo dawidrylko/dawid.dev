@@ -1,6 +1,7 @@
 ---
-title: "Gmail SMTP with Cloudflare Email Routing: A Complete Guide"
+title: "Cloudflare Email Routing with Gmail: Send As over SMTP"
 date: 2025-03-19
+description: "Route a custom domain into Gmail with Cloudflare Email Routing, then send as that address over Gmail SMTP. App password, SPF and DMARC, and the outbound limit."
 tags:
   - dev
   - ops

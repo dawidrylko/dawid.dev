@@ -1,5 +1,6 @@
 ---
 date: 2024-05-02
+description: "A bash script that backs up Homebridge and Zigbee2MQTT configuration into a GitHub repository, with paths and service names kept in a separate config file."
 tags:
   - dev
   - iot

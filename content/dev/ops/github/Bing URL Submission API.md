@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "Notify Bing about new and updated pages straight from GitHub Actions using the Bing URL Submission API: build the JSON payload, pass the key, submit the URLs."
 tags:
   - dev
   - ops
