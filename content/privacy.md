@@ -10,7 +10,7 @@ This document explains how personal data is handled on [dawid.dev](https://dawid
 
 The controller of your personal data is **Dawid Ryłko**, who runs this site as a personal collection of notes. Contact: [hello@dawid.dev](mailto:hello@dawid.dev).
 
-No data protection officer has been appointed. Questions about this document go to the address above.
+No data protection officer has been appointed, because none of the conditions in article 37 GDPR applies. Questions about this document go to the address above.
 
 ## What is collected
 
