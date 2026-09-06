@@ -2,6 +2,9 @@ import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 import { Robots } from "./quartz/plugins/emitters/robots"
 import { LlmsTxt } from "./quartz/plugins/emitters/llmstxt"
+import { KatexAssets } from "./quartz/plugins/emitters/katexAssets"
+import { SelfHostedLatex } from "./quartz/plugins/transformers/selfHostedLatex"
+import { YouTubeFacade } from "./quartz/plugins/transformers/youtubeFacade"
 
 const name = "dawid.dev"
 const author = "Dawid Ryłko"
@@ -17,17 +20,14 @@ const config: QuartzConfig = {
     pageTitleSuffix: ` - ${author}`,
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "google",
-      tagId: "G-D2GF97WSHZ",
-    },
+    analytics: null,
     locale: "en-US",
     baseUrl: name,
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
-      cdnCaching: true,
+      cdnCaching: false,
       typography: {
         header: "Schibsted Grotesk",
         body: "Source Sans Pro",
@@ -74,10 +74,11 @@ const config: QuartzConfig = {
       }),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
       Plugin.GitHubFlavoredMarkdown(),
+      YouTubeFacade(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
+      SelfHostedLatex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
@@ -98,6 +99,7 @@ const config: QuartzConfig = {
       Plugin.CNAME(),
       Robots(),
       LlmsTxt(),
+      KatexAssets(),
     ],
   },
 }

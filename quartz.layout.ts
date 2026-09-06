@@ -1,14 +1,22 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import ContentMeta from "./quartz/components/custom/ContentMeta"
+import CookieConsent from "./quartz/components/custom/CookieConsent"
 import Footer from "./quartz/components/custom/Footer"
+import Head from "./quartz/components/custom/Head"
+
+const measurementId = "G-D2GF97WSHZ"
+const privacySlug = "privacy"
+const cookiesSlug = "cookies"
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
-  head: Component.Head(),
+  head: Head(),
   header: [],
-  afterBody: [],
+  afterBody: [CookieConsent({ measurementId, privacySlug, cookiesSlug })],
   footer: Footer({
+    privacySlug,
+    cookiesSlug,
     links: {
       Home: "https://dawid.dev",
       Website: "https://dawidrylko.com/",

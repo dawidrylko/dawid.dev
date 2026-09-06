@@ -20,7 +20,13 @@ The site serves at http://localhost:8080. A fresh clone won't typecheck in an ed
 
 ## Publishing
 
-Pushing to `master` triggers `.github/workflows/cd.yaml`: assemble, install, build, and deploy to GitHub Pages, followed by a notify job that pings the Bing URL Submission API. Add `[skip notify]` to a commit message to skip the ping. Pull requests get a build check via `.github/workflows/pr-build.yaml` (assemble + build, no deploy) followed by a technical search-quality audit of the built output.
+Pushing to `master` triggers `.github/workflows/cd.yaml`: assemble, install, build, and deploy to GitHub Pages, followed by a notify job that pings the Bing URL Submission API. Add `[skip notify]` to a commit message to skip the ping. Pull requests get a build check via `.github/workflows/pr-build.yaml` (assemble, build, consent-layer tests, no deploy) followed by a technical search-quality audit of the built output.
+
+## Privacy and consent
+
+The site makes no third-party request until the visitor allows it. Google Analytics is not wired through Quartz's built-in provider; it sits behind a first-party consent banner, and `gtag.js` is injected only after a grant. Fonts and KaTeX are served from this domain rather than from Google Fonts and jsDelivr. `content/privacy.md` and `content/cookies.md` describe what that means for the reader, and both are linked from the footer alongside a control that reopens the banner. The two notes with a YouTube video ship a click-to-load facade instead of the player, so nothing reaches Google until the reader presses play.
+
+The moving parts, the invariants that keep them honest, and how to verify a change are documented in [MAINTENANCE.md](./MAINTENANCE.md#consent-and-third-party-requests).
 
 ## Search quality
 
