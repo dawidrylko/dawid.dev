@@ -33,14 +33,14 @@ export default {
   suppressions: [
     {
       code: "indexability.noindex",
-      urlPattern: "/privacy**",
+      urlPattern: "/privacy",
       reason:
         "Privacy policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
       owner: "dawidrylko",
     },
     {
       code: "indexability.noindex",
-      urlPattern: "/cookies**",
+      urlPattern: "/cookies",
       reason:
         "Cookie policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
       owner: "dawidrylko",
