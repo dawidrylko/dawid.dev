@@ -5,6 +5,7 @@ import { googleFontHref, googleFontSubsetHref } from "../../util/theme"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { unescapeHTML } from "../../util/escape"
 import { CustomOgImagesEmitterName } from "../../plugins/emitters/ogImage"
+import { isNoindexSlug } from "./noindexRoutes"
 export default (() => {
   const Head: QuartzComponent = ({
     cfg,
@@ -51,6 +52,11 @@ export default (() => {
           </>
         )}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Legal pages stay reachable and keep passing internal links, but they
+            are not search landing pages. "follow", never "nofollow": these are
+            ordinary 200 pages. The other half of the rule lives in the Sitemap
+            emitter, which leaves the same slugs out. */}
+        {isNoindexSlug(fileData.slug) && <meta name="robots" content="noindex, follow" />}
 
         <meta name="og:site_name" content={cfg.pageTitle}></meta>
         <meta property="og:title" content={title} />

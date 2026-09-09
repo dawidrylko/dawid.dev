@@ -25,6 +25,27 @@ export default {
   profiles: {
     default: "personal",
   },
+  // The two legal pages carry "noindex, follow" on purpose and are left out of
+  // the sitemap. The indexability check cannot tell a deliberate exclusion from
+  // an accidental one, so the decision is recorded here rather than silenced:
+  // an accidental noindex anywhere else still fails. Both halves are asserted
+  // by quartz/components/custom/noindexRoutes.test.ts.
+  suppressions: [
+    {
+      code: "indexability.noindex",
+      urlPattern: "/privacy**",
+      reason:
+        "Privacy policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
+      owner: "dawidrylko",
+    },
+    {
+      code: "indexability.noindex",
+      urlPattern: "/cookies**",
+      reason:
+        "Cookie policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
+      owner: "dawidrylko",
+    },
+  ],
   ci: {
     failOn: ["error"],
   },
