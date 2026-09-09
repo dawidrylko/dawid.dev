@@ -4,6 +4,7 @@ import { Robots } from "./quartz/plugins/emitters/robots"
 import { LlmsTxt } from "./quartz/plugins/emitters/llmstxt"
 import { KatexAssets } from "./quartz/plugins/emitters/katexAssets"
 import { Sitemap } from "./quartz/plugins/emitters/sitemap"
+import { RSS } from "./quartz/plugins/emitters/rss"
 import { SelfHostedLatex } from "./quartz/plugins/transformers/selfHostedLatex"
 import { YouTubeFacade } from "./quartz/plugins/transformers/youtubeFacade"
 
@@ -89,12 +90,16 @@ const config: QuartzConfig = {
       Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.ContentIndex({
-        // Owned Sitemap() below emits it instead, so the noindex pages can be
-        // left out. Upstream offers no per-page filter.
+        // Owned Sitemap() and RSS() below emit those two files instead, so the
+        // noindex pages can be left out of both. Upstream offers no per-page
+        // filter for either. What stays here is static/contentIndex.json, which
+        // keeps the full content set so site search and popovers still find the
+        // legal pages.
         enableSiteMap: false,
-        enableRSS: true,
+        enableRSS: false,
       }),
       Sitemap(),
+      RSS(),
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.Favicon(),
