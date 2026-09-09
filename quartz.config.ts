@@ -3,6 +3,7 @@ import * as Plugin from "./quartz/plugins"
 import { Robots } from "./quartz/plugins/emitters/robots"
 import { LlmsTxt } from "./quartz/plugins/emitters/llmstxt"
 import { KatexAssets } from "./quartz/plugins/emitters/katexAssets"
+import { Sitemap } from "./quartz/plugins/emitters/sitemap"
 import { SelfHostedLatex } from "./quartz/plugins/transformers/selfHostedLatex"
 import { YouTubeFacade } from "./quartz/plugins/transformers/youtubeFacade"
 
@@ -88,9 +89,12 @@ const config: QuartzConfig = {
       Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.ContentIndex({
-        enableSiteMap: true,
+        // Owned Sitemap() below emits it instead, so the noindex pages can be
+        // left out. Upstream offers no per-page filter.
+        enableSiteMap: false,
         enableRSS: true,
       }),
+      Sitemap(),
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.Favicon(),

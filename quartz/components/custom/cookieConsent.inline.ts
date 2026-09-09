@@ -7,44 +7,43 @@ import {
   writeConsent,
 } from "./consentBrowser"
 
-type Layer = "summary" | "settings"
+// Behaviour mirrors the banner on dawidrylko.com: a bottom bar that is not
+// modal. It does not trap focus and does not lock scrolling, so the page stays
+// usable while the question is open, and the two answers cost the same single
+// click.
 
 let appliedGrant: boolean | null = null
 let opener: HTMLElement | null = null
 
-function focusableIn(root: HTMLElement): HTMLElement[] {
-  const nodes = root.querySelectorAll<HTMLElement>(
-    'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
-  )
-  return Array.from(nodes).filter((node) => !node.hidden && node.offsetParent !== null)
+function stateLine(banner: HTMLElement): HTMLElement | null {
+  return banner.querySelector<HTMLElement>(".cookie-consent-state")
 }
 
-function setLayer(banner: HTMLElement, layer: Layer) {
-  banner.dataset.layer = layer
+/** The "your current choice" line, shown only over a decision already on record. */
+function showState(banner: HTMLElement, decided: boolean | null) {
+  const line = stateLine(banner)
+  if (!line) return
 
-  for (const section of banner.querySelectorAll<HTMLElement>("[data-consent-layer]")) {
-    section.hidden = section.dataset.consentLayer !== layer
+  if (decided === null) {
+    line.textContent = ""
+    line.hidden = true
+    return
   }
+
+  line.textContent = (decided ? line.dataset.allowed : line.dataset.refused) ?? ""
+  line.hidden = false
 }
 
-function dialogOf(banner: HTMLElement): HTMLElement {
-  return banner.querySelector<HTMLElement>(".cookie-consent-dialog") ?? banner
-}
-
-function openBanner(banner: HTMLElement, layer: Layer) {
+function openBanner(banner: HTMLElement, decided: boolean | null) {
+  showState(banner, decided)
   banner.hidden = false
-  setLayer(banner, layer)
-  dialogOf(banner).focus()
+  banner.focus()
 }
 
 function closeBanner(banner: HTMLElement) {
   banner.hidden = true
   opener?.focus()
   opener = null
-}
-
-function analyticsToggle(banner: HTMLElement): HTMLInputElement | null {
-  return banner.querySelector<HTMLInputElement>("#cookie-consent-analytics")
 }
 
 function applyGrant(measurementId: string, granted: boolean) {
@@ -71,9 +70,7 @@ function decide(banner: HTMLElement, measurementId: string, granted: boolean) {
     applyGrant(measurementId, granted)
   }
 
-  const toggle = analyticsToggle(banner)
-  if (toggle) toggle.checked = granted
-
+  showState(banner, granted)
   closeBanner(banner)
 }
 
@@ -85,51 +82,22 @@ document.addEventListener("nav", () => {
   const record = readConsent(Date.now())
   applyGrant(measurementId, record?.analytics ?? false)
 
-  const toggle = analyticsToggle(banner)
-  if (toggle) toggle.checked = record?.analytics ?? false
-
   if (record) {
+    showState(banner, record.analytics)
     banner.hidden = true
   } else {
-    openBanner(banner, "summary")
+    openBanner(banner, null)
   }
 
+  // Escape only dismisses a banner reopened over an existing decision. On a
+  // first visit there is nothing to fall back to, so the question stays until
+  // it is answered one way or the other.
   const onKeydown = (event: KeyboardEvent) => {
-    if (banner.hidden) return
+    if (banner.hidden || event.key !== "Escape") return
+    if (!readConsent(Date.now())) return
 
-    if (event.key === "Escape") {
-      event.preventDefault()
-
-      if (banner.dataset.layer === "settings" && !readConsent(Date.now())) {
-        setLayer(banner, "summary")
-        dialogOf(banner).focus()
-      } else {
-        closeBanner(banner)
-      }
-
-      return
-    }
-
-    if (event.key !== "Tab") return
-
-    const focusable = focusableIn(banner)
-    if (focusable.length === 0) return
-
-    const first = focusable[0]
-    const last = focusable[focusable.length - 1]
-    const active = document.activeElement as HTMLElement | null
-    const inside = active !== null && focusable.includes(active)
-
-    if (!inside) {
-      event.preventDefault()
-      ;(event.shiftKey ? last : first).focus()
-    } else if (event.shiftKey && active === first) {
-      event.preventDefault()
-      last.focus()
-    } else if (!event.shiftKey && active === last) {
-      event.preventDefault()
-      first.focus()
-    }
+    event.preventDefault()
+    closeBanner(banner)
   }
 
   document.addEventListener("keydown", onKeydown)
@@ -144,24 +112,13 @@ document.addEventListener("nav", () => {
       switch (action) {
         case "open":
           opener = control
-          openBanner(banner, "settings")
-          break
-        case "customise":
-          setLayer(banner, "settings")
-          dialogOf(banner).focus()
-          break
-        case "back":
-          setLayer(banner, "summary")
-          dialogOf(banner).focus()
+          openBanner(banner, readConsent(Date.now())?.analytics ?? null)
           break
         case "accept":
           decide(banner, measurementId, true)
           break
         case "reject":
           decide(banner, measurementId, false)
-          break
-        case "save":
-          decide(banner, measurementId, analyticsToggle(banner)?.checked ?? false)
           break
       }
     }

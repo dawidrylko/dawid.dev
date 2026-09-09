@@ -7,6 +7,17 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../../util/lang"
 import { joinSegments, pathToRoot } from "../../util/path"
 
+// Consent gate for GA4. Art. 399 of the Prawo komunikacji elektronicznej
+// requires prior consent for anything written to the device, and Poland grants
+// analytics no exemption, so the measurement loader is injected only once this
+// banner has been answered.
+//
+// The banner is deliberately not modal: it neither locks scrolling nor traps
+// focus, so the site stays fully usable while the question is open. Refusing is
+// one click, exactly like accepting. The wording, the layout and the two
+// answers are shared verbatim with dawidrylko.com, so the same question reads
+// the same way on both sites.
+
 interface Options {
   measurementId: string
   privacySlug: string
@@ -24,67 +35,40 @@ export default ((opts?: Options) => {
         id="cookie-consent"
         class={classNames(displayClass, "cookie-consent")}
         data-measurement-id={opts.measurementId}
-        data-layer="summary"
+        role="dialog"
+        tabindex={-1}
+        aria-labelledby="cookie-consent-title"
+        aria-describedby="cookie-consent-description"
         hidden
       >
-        <div
-          class="cookie-consent-dialog"
-          role="dialog"
-          tabindex={-1}
-          aria-modal="true"
-          aria-labelledby="cookie-consent-title"
-          aria-describedby="cookie-consent-description"
-        >
-          <h2 id="cookie-consent-title">Cookies and analytics</h2>
+        <div class="cookie-consent-text">
+          <h2 id="cookie-consent-title">Analytics cookies</h2>
           <p id="cookie-consent-description">
-            This site measures traffic with Google Analytics, which stores cookies on your device
-            and sends your IP address to Google in the United States. It runs only if you allow it,
-            and you can change your answer at any time from the link in the footer.
+            This site measures traffic with Google Analytics 4, which stores two cookies on your
+            device. Nothing is loaded and nothing is stored until you agree. Refusing keeps the site
+            fully usable.
           </p>
+          <p
+            class="cookie-consent-state"
+            data-allowed="Your current choice: analytics allowed."
+            data-refused="Your current choice: analytics refused."
+            hidden
+          ></p>
           <p class="cookie-consent-links">
-            <a href={joinSegments(baseDir, opts.privacySlug)}>Privacy policy</a>
             <a href={joinSegments(baseDir, opts.cookiesSlug)}>Cookie policy</a>
+            <span class="separator" aria-hidden="true">
+              •
+            </span>
+            <a href={joinSegments(baseDir, opts.privacySlug)}>Privacy policy</a>
           </p>
-
-          <div class="cookie-consent-categories" data-consent-layer="settings" hidden>
-            <div class="cookie-consent-category">
-              <label for="cookie-consent-necessary">Strictly necessary</label>
-              <input id="cookie-consent-necessary" type="checkbox" checked disabled />
-              <p>
-                Your theme choice and the notes you have already opened, both kept in your browser
-                and never sent anywhere. These cannot be switched off.
-              </p>
-            </div>
-            <div class="cookie-consent-category">
-              <label for="cookie-consent-analytics">Analytics</label>
-              <input id="cookie-consent-analytics" type="checkbox" />
-              <p>
-                Google Analytics 4, to count visits and see which notes people read. Off unless you
-                turn it on.
-              </p>
-            </div>
-          </div>
-
-          <div class="cookie-consent-actions" data-consent-layer="summary">
-            <button type="button" class="cookie-consent-secondary" data-consent-action="customise">
-              Customise
-            </button>
-            <button type="button" data-consent-action="reject">
-              Reject analytics
-            </button>
-            <button type="button" data-consent-action="accept">
-              Accept analytics
-            </button>
-          </div>
-
-          <div class="cookie-consent-actions" data-consent-layer="settings" hidden>
-            <button type="button" class="cookie-consent-secondary" data-consent-action="back">
-              Back
-            </button>
-            <button type="button" data-consent-action="save">
-              Save choice
-            </button>
-          </div>
+        </div>
+        <div class="cookie-consent-actions">
+          <button type="button" data-consent-action="reject">
+            Refuse
+          </button>
+          <button type="button" data-consent-action="accept">
+            Accept
+          </button>
         </div>
       </div>
     )
