@@ -29,13 +29,36 @@ export default {
   // the sitemap. The indexability check cannot tell a deliberate exclusion from
   // an accidental one, so the decision is recorded here rather than silenced:
   // an accidental noindex anywhere else still fails. Both halves are asserted
-  // by quartz/components/custom/noindexRoutes.test.ts.
+  // by quartz/components/custom/noindexRoutes.test.ts, and the slug list itself
+  // lives in quartz/components/custom/noindexRoutes.ts (this file deliberately
+  // imports nothing, so it is repeated rather than shared).
+  //
+  // The patterns carry the .html suffix because `crawl.mode` is "static": the
+  // kit walks the built directory, so it reports /privacy.html, not /privacy.
+  // The extensionless form is listed too, so switching to a served crawl later
+  // does not silently reopen the finding. Exact paths rather than a "/privacy**"
+  // glob, which would also swallow a future note whose slug starts with the
+  // same word.
   suppressions: [
+    {
+      code: "indexability.noindex",
+      urlPattern: "/privacy.html",
+      reason:
+        "Privacy policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
+      owner: "dawidrylko",
+    },
     {
       code: "indexability.noindex",
       urlPattern: "/privacy",
       reason:
         "Privacy policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
+      owner: "dawidrylko",
+    },
+    {
+      code: "indexability.noindex",
+      urlPattern: "/cookies.html",
+      reason:
+        "Cookie policy is intentionally noindexed; it stays reachable for users but is not a search landing page.",
       owner: "dawidrylko",
     },
     {
