@@ -31,24 +31,28 @@ function mediaBlock(css: string, prelude: RegExp): string {
 }
 
 describe("built stylesheet", { skip: missing ? "run `npx quartz build` first" : false }, () => {
-  // Below the mobile breakpoint the left sidebar is one nowrap flex row, and
-  // the mobile grid gives #quartz-body a single `auto` column. An `auto` track
+  // Below the mobile breakpoint the left sidebar is one flex row, and the
+  // mobile grid gives #quartz-body a single `auto` column. An `auto` track
   // takes its content's min-content width as its automatic minimum, so as soon
   // as that row stops fitting, the track grows past the padding box and takes
   // the article, the tags and the code blocks out with it. At a 360px viewport
   // the row wanted 346.5px against the 328px left by the 1rem side padding:
   // the page overflowed by 2px and lost its whole right margin.
   //
-  // Both declarations are asserted separately and on purpose. Together they
-  // free 24px and the row needs 18.5px of that to fit, so neither alone gets
-  // the track back inside the padding box: measured at 360px, the gap alone
-  // leaves it 2.5px over and the padding alone 10.5px over. One combined
-  // assertion would stay green with either half gone.
+  // The three declarations are asserted separately because they fail
+  // separately. `flex-wrap` is the one that makes overflow impossible at any
+  // width: measured at 320px, the track lands on 288px against 288px available.
+  // The gap and the padding free 24px between them, which is what keeps the row
+  // on a single line up to the top of the query rather than wrapping earlier.
+  // Lose the wrap and 320px overflows again by 18px; lose either spacing
+  // declaration and the row wraps sooner than it needs to. One combined
+  // assertion would stay green with any of the three gone.
   //
-  // Two limits, both worth knowing before trusting this or deleting it.
+  // What this does and does not prove, worth knowing before trusting it or
+  // deleting it.
   //
   // It reads CSS text, not layout, so it cannot show the row still fits. That
-  // check stays a browser run at 360px against the built output.
+  // check stays a browser run against the built output.
   //
   // What it does guard is the rule reaching the stylesheet at all. `assemble.sh`
   // skips every tracked path, so a Quartz bump cannot overwrite custom.scss; the
@@ -57,10 +61,16 @@ describe("built stylesheet", { skip: missing ? "run `npx quartz build` first" : 
   // it silently disappears from index.css.
   //
   // It can also go red with the source untouched. The assertions take `.5rem`
-  // and `0.5rem`, but a minifier emitting `8px`, or folding the selector into a
-  // list, fails them while the declaration is intact. Read a red here as "the
-  // emitted CSS changed shape" and re-measure before rewriting the rule.
-  const narrowSidebar = () => mediaBlock(read("index.css"), /@media[^{]*max-width:\s*380px/)
+  // and `0.5rem` and tolerate the minifier dropping `all and` from the prelude,
+  // but a minifier emitting `8px`, rewriting `23.75em` to `380px`, or folding a
+  // selector into a list, fails them while the declarations are intact. Read a
+  // red here as "the emitted CSS changed shape" and re-measure before rewriting
+  // the rule.
+  const narrowSidebar = () => mediaBlock(read("index.css"), /@media[^{]*max-width:\s*23\.75em/)
+
+  test("the narrow-viewport sidebar may wrap, so it can never widen the grid", () => {
+    assert.match(narrowSidebar(), /\.sidebar\.left\{[^}]*flex-wrap:\s*wrap/)
+  })
 
   test("the narrow-viewport sidebar keeps its tightened flex gap", () => {
     // Flex.tsx writes `gap` as an inline style, so losing `!important` here is
