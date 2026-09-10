@@ -72,3 +72,46 @@ footer {
     opacity: 0.85;
   }
 }
+
+// Left sidebar at the narrow end of mobile.
+//
+// Below the $mobile breakpoint the left sidebar is a single nowrap flex row:
+// explorer toggle, page title, spacer, then the search + darkmode + reader mode
+// group. The mobile grid gives #quartz-body a single `auto` column, and the
+// automatic minimum of an `auto` track is its content's min-content width, so
+// once that row stops fitting the track grows past the padding box and drags
+// every other grid item (article, tags, code blocks) out with it.
+//
+// Measured on the built site at a 360px viewport, where 1rem of side padding
+// leaves 328px for the track:
+//
+//   upstream        track 346.5px   right margin -2.5px (clipped; page scrolls 2px)
+//   padding alone   track 338.5px   right margin   5.5px
+//   gap alone       track 330.5px   right margin  13.5px
+//   both            track 328.0px   right margin  16.0px
+//
+// Both declarations are load-bearing: together they free 24px and the row needs
+// 18.5px of that to fit. Only the two pieces of pure slack in the row are
+// touched, so typography and the component set stay as they are.
+//
+// This narrows the failure, it does not close it everywhere. After the fix the
+// row's min-content is 322.5px, so it fits from a 355px viewport up. Measured:
+// 355px gives a 323px track against 323px available, 360px gives 328 against
+// 328, and 320px still overflows the document by 18px. Closing that residue
+// means letting the row wrap onto a second line, which changes the shape of the
+// header on a phone, so it is left as an open question rather than decided here.
+// The 380px bound is the top of the range: above ~378px the row fits unaided, so
+// 390px and up never enter the query.
+@media all and (max-width: 380px) {
+  .sidebar.left {
+    // Flex.tsx emits `gap` as an inline style, so a stylesheet rule cannot win
+    // without !important.
+    & .flex-component {
+      gap: 0.5rem !important;
+    }
+
+    & .search > .search-button {
+      padding-right: 0.5rem;
+    }
+  }
+}
