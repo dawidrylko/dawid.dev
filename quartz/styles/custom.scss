@@ -80,30 +80,34 @@ footer {
 // group. The mobile grid gives #quartz-body a single `auto` column, and the
 // automatic minimum of an `auto` track is its content's min-content width, so
 // once that row stops fitting the track grows past the padding box and drags
-// every other grid item (article, tags, code blocks) out with it.
+// every other grid item (article, tags, code blocks) out with it. At a 360px
+// viewport the row wanted 346.5px against the 328px left by the 1rem side
+// padding: the page scrolled 2px and lost its whole right margin.
 //
-// Measured on the built site at a 360px viewport, where 1rem of side padding
-// leaves 328px for the track:
+// Three declarations, and they do different jobs.
 //
-//   upstream        track 346.5px   right margin -2.5px (clipped; page scrolls 2px)
-//   padding alone   track 338.5px   right margin   5.5px
-//   gap alone       track 330.5px   right margin  13.5px
-//   both            track 328.0px   right margin  16.0px
+// `flex-wrap` is the structural one: a row that may take a second line can
+// never force the track wider than the column, at any width or font size. It is
+// what actually closes the failure, including the 320px phones that the spacing
+// tightening alone still left overflowing by 18px. Measured at 320px: track
+// 288px against 288px available, document delta 0.
 //
-// Both declarations are load-bearing: together they free 24px and the row needs
-// 18.5px of that to fit. Only the two pieces of pure slack in the row are
-// touched, so typography and the component set stay as they are.
+// The gap and padding tightening stays because it decides how often the wrap
+// has to happen. Together they free 24px, which keeps the row on one line
+// between roughly 365px and the top of this query; below that it wraps and the
+// page title stops breaking across two lines, which reads better than the
+// orphaned emoji it produces today.
 //
-// This narrows the failure, it does not close it everywhere. After the fix the
-// row's min-content is 322.5px, so it fits from a 355px viewport up. Measured:
-// 355px gives a 323px track against 323px available, 360px gives 328 against
-// 328, and 320px still overflows the document by 18px. Closing that residue
-// means letting the row wrap onto a second line, which changes the shape of the
-// header on a phone, so it is left as an open question rather than decided here.
-// The 380px bound is the top of the range: above ~378px the row fits unaided, so
-// 390px and up never enter the query.
-@media all and (max-width: 380px) {
+// The bound is `em`, not `px`, because everything measured here scales with the
+// reader's font while a px bound would not. At the default 16px it is exactly
+// the 380px this was written against, above which the row fits unaided; a
+// reader who raised their default font gets the same treatment at the wider
+// viewport where they actually need it. `em` in a media query deliberately
+// ignores `html { font-size }` and follows the browser setting.
+@media all and (max-width: 23.75em) {
   .sidebar.left {
+    flex-wrap: wrap;
+
     // Flex.tsx emits `gap` as an inline style, so a stylesheet rule cannot win
     // without !important.
     & .flex-component {
