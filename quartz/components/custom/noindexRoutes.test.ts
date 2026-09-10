@@ -24,9 +24,10 @@ describe("noindex slugs", () => {
 })
 
 describe("built output", { skip: missing ? "run `npx quartz build` first" : false }, () => {
-  // Both halves of the rule, asserted together on purpose. Applying one without
-  // the other tells a crawler two different things about the same URL, and each
-  // half lives in a different file, so nothing else would catch the drift.
+  // Two of the three surfaces the rule covers, asserted together on purpose.
+  // Applying one without the other tells a crawler two different things about
+  // the same URL, and each lives in a different file, so nothing else would
+  // catch the drift. The feed is the third, below.
   test("the legal pages are noindex and stay out of the sitemap", () => {
     const sitemap = read("sitemap.xml")
 
@@ -42,6 +43,60 @@ describe("built output", { skip: missing ? "run `npx quartz build` first" : fals
       assert.doesNotMatch(robots[1], /nofollow/, `${slug} must not be a dead end`)
 
       assert.doesNotMatch(sitemap, new RegExp(`/${slug}<`), `${slug} leaked into the sitemap`)
+    }
+  })
+
+  // The third surface. A page told to crawlers that it is not a search landing
+  // page has no business being announced to subscribers as the newest post
+  // either. Both documents are dated later than every article and the window
+  // holds ten items, so while they were in the feed they cost two real articles
+  // their slot. ContentIndex runs with `enableRSS: false` and the owned emitter
+  // in quartz/plugins/emitters/rss.tsx applies the same list.
+  test("the legal pages stay out of the RSS feed", () => {
+    const feed = read("index.xml")
+
+    for (const slug of NOINDEX_SLUGS) {
+      // Anchored on the closing tag so a longer slug cannot hide the match, and
+      // checked on both fields, because link and guid are written separately.
+      assert.doesNotMatch(feed, new RegExp(`<link>https://dawid\\.dev/${slug}</link>`), slug)
+      assert.doesNotMatch(feed, new RegExp(`<guid>https://dawid\\.dev/${slug}</guid>`), slug)
+    }
+  })
+
+  test("the feed stays full, real and discoverable", () => {
+    const feed = read("index.xml")
+
+    // Guards the emitter against the failure that would pass the assertions
+    // above by emitting an empty feed, and pins the property the exclusion was
+    // for: ten slots, all of them spent on articles.
+    const items = (feed.match(/<item>/g) ?? []).length
+    assert.equal(items, 10, `feed lists ${items} item(s)`)
+    assert.match(feed, /<link>https:\/\/dawid\.dev\/dev\//)
+
+    // Owning the feed means owning the head link ContentIndex used to attach.
+    // With `enableRSS: false` upstream stops emitting one, and nothing else
+    // would notice every page had quietly lost RSS autodiscovery.
+    assert.match(
+      read("index.html"),
+      /<link rel="alternate" type="application\/rss\+xml" title="RSS Feed" href="https:\/\/dawid\.dev\/index\.xml"\/>/,
+    )
+  })
+
+  // Separate from the test above on purpose: the exclusion runs before the sort,
+  // so the item count stays at ten however the comparator behaves. A reversed
+  // sign or a lost sort would ship an upside down feed past every other
+  // assertion here, and nothing in the build would notice.
+  test("the feed is ordered newest first", () => {
+    const feed = read("index.xml")
+    const dates = [...feed.matchAll(/<pubDate>([^<]*)<\/pubDate>/g)].map((m) => Date.parse(m[1]))
+
+    assert.ok(dates.length > 1, `feed carries ${dates.length} dated item(s)`)
+    assert.ok(
+      dates.every((d) => Number.isFinite(d)),
+      "a pubDate did not parse as a date",
+    )
+    for (let i = 1; i < dates.length; i++) {
+      assert.ok(dates[i] <= dates[i - 1], `item ${i} is newer than the item before it`)
     }
   })
 
