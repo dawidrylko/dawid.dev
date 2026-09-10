@@ -82,6 +82,24 @@ describe("built output", { skip: missing ? "run `npx quartz build` first" : fals
     )
   })
 
+  // Separate from the test above on purpose: the exclusion runs before the sort,
+  // so the item count stays at ten however the comparator behaves. A reversed
+  // sign or a lost sort would ship an upside down feed past every other
+  // assertion here, and nothing in the build would notice.
+  test("the feed is ordered newest first", () => {
+    const feed = read("index.xml")
+    const dates = [...feed.matchAll(/<pubDate>([^<]*)<\/pubDate>/g)].map((m) => Date.parse(m[1]))
+
+    assert.ok(dates.length > 1, `feed carries ${dates.length} dated item(s)`)
+    assert.ok(
+      dates.every((d) => Number.isFinite(d)),
+      "a pubDate did not parse as a date",
+    )
+    for (let i = 1; i < dates.length; i++) {
+      assert.ok(dates[i] <= dates[i - 1], `item ${i} is newer than the item before it`)
+    }
+  })
+
   test("ordinary pages stay indexable and listed", () => {
     assert.doesNotMatch(read("index.html"), /<meta name="robots"/)
 

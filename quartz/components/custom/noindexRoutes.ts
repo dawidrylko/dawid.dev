@@ -3,8 +3,8 @@
  *
  * The legal documents are linked from every footer and stay fully reachable,
  * but they are not search landing pages: nobody should arrive at a privacy
- * policy from a result instead of the page it belongs to. Same rule, same two
- * rule as dawidrylko.com and silesiansolutions.com, which is why the list lives
+ * policy from a result instead of the page it belongs to. Same rule as
+ * dawidrylko.com and silesiansolutions.com, which is why the list lives
  * in one place: Head.tsx turns it into a robots directive, and the Sitemap and
  * RSS emitters use it to leave those URLs out of sitemap.xml and index.xml.
  * Applying one surface without the others hands a crawler two contradictory
