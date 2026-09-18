@@ -1,5 +1,6 @@
 ---
 date: 2025-02-27
+description: "Claude 3.7 Sonnet rejects the premise of the Triskel prompt: nothing stops a three-legged cat from playing the piano to some degree, given an adapted setup."
 tags:
   - dev
   - ai
@@ -21,4 +22,4 @@ But with the right setup and perhaps some creative accommodations, a determined 
 In the spirit of your story, perhaps Triskel could surprise the villagers with an unexpected musical talent, challenging their assumptions about limitations!
 ```
 
-![[Triskel Claude 3.7 Sonnet (Normal).png]]
+![[Triskel Claude 3.7 Sonnet (Normal).webp]]

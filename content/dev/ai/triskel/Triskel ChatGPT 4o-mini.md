@@ -1,5 +1,6 @@
 ---
 date: 2025-02-17
+description: "ChatGPT 4o-mini turns the Triskel prompt into a short story built around a pun, 'not purr-fectly possible', and never asks whether the cat really can't play."
 tags:
   - dev
   - ai
@@ -16,4 +17,4 @@ The joke spread like wildfire among the villagers, and while they all agreed tha
 Though Triskel's talents were celebrated in many other ways, the piano remained an unattainable goal, a reminder of the whimsical nature of life itself.
 ```
 
-![[Triskel ChatGPT 4o-mini.png]]
+![[Triskel ChatGPT 4o-mini.webp]]

@@ -1,5 +1,6 @@
 ---
 date: 2024-07-05
+description: "A Bash script run from cron that packs Zigbee2MQTT data into a timestamped tarball, logs success or failure, and reads its paths from a shared config file."
 tags:
   - dev
   - iot

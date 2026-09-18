@@ -1,4 +1,5 @@
 ---
+title: "Local HTTPS on macOS with a Trusted Certificate"
 date: 2025-04-14
 description: "Serve a local development site over HTTPS on macOS: trust the certificate in Keychain Access, point the server at the key and crt, or let mkcert handle it."
 tags:

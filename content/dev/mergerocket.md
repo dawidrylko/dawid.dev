@@ -1,6 +1,7 @@
 ---
 title: "Mergerocket: Directory-Aware File Merger"
 date: 2025-06-25
+description: "Mergerocket is a CLI that merges every text file in a directory tree into one file with start and end markers, skipping binaries, ready for an AI model."
 tags:
   - dev
 ---

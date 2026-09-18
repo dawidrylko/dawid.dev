@@ -1,5 +1,6 @@
 ---
 date: 2024-07-20
+description: "Deployment strategies compared: A/B testing, blue-green, canary, recreate, rolling, shadow, AI and federated, by complexity, downtime, risk and rollback."
 title: Deployment
 tags:
   - dev

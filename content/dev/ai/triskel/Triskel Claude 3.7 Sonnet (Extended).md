@@ -1,5 +1,6 @@
 ---
 date: 2025-02-27
+description: "Claude 3.7 Sonnet with extended thinking explains why cats of any leg count struggle at the piano, then continues the Triskel story with a musical debut."
 tags:
   - dev
   - ai
@@ -18,4 +19,4 @@ Triskel approached with dignified poise, his three-legged gait surprisingly grac
 What the villagers discovered that day wasn't that a three-legged cat couldn't play the piano—but that sometimes limitations give birth to entirely new forms of art.
 ```
 
-![[Triskel Claude 3.7 Sonnet (Extended).png]]
+![[Triskel Claude 3.7 Sonnet (Extended).webp]]

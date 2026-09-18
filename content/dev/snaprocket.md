@@ -1,6 +1,7 @@
 ---
 title: "Snaprocket: Headless Screenshot CLI"
 date: 2025-06-25
+description: "Snaprocket is a CLI that captures screenshots of a web page at several viewport widths with Puppeteer, for visual checks of responsive layouts."
 tags:
   - dev
 ---

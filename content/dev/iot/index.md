@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "Internet of Things notes: the Badger 2040 E Ink badge, ESPHome, and home automation with Home Assistant, Homebridge, Mosquitto and Zigbee2MQTT."
 title: Internet of Things
 tags:
   - dev

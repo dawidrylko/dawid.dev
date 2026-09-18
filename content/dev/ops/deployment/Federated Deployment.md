@@ -1,5 +1,6 @@
 ---
 date: 2025-03-12
+description: "Federated deployment coordinates releases across multiple clusters or regions under shared governance, with KubeFed-style declarative control in Kubernetes."
 tags:
   - dev
   - ops

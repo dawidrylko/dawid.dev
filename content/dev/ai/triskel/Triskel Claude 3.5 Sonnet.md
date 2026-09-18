@@ -1,5 +1,6 @@
 ---
 date: 2025-02-17
+description: "Claude 3.5 Sonnet treats the Triskel prompt as a possible riddle, notes that a three-legged cat could still reach the keys, and asks if it is missing a pun."
 tags:
   - dev
   - ai
@@ -20,4 +21,4 @@ The answer likely isn't that a three-legged cat is physically incapable of playi
 Given the whimsical nature of the story and the setup, I suspect this might be leading to a punchline or revelation. Is there perhaps a wordplay element I'm missing, or would you like me to expand on the actual physical and cognitive considerations of a three-legged cat attempting to play the piano?
 ```
 
-![[Triskel Claude 3.5 Sonnet.png]]
+![[Triskel Claude 3.5 Sonnet.webp]]

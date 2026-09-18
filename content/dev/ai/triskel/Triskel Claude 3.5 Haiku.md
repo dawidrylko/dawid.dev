@@ -1,5 +1,6 @@
 ---
 date: 2025-02-17
+description: "Claude 3.5 Haiku answers the Triskel prompt with a list of physical obstacles (balance, reach, pedals), then suggests the cat could still find a creative way."
 tags:
   - dev
   - ai
@@ -31,4 +32,4 @@ The villager's suggestion, while seemingly impossible, embodies the charming ble
 Would you like me to continue the story and explore how Triskel might approach this musical challenge?
 ```
 
-![[Triskel Claude 3.5 Haiku.png]]
+![[Triskel Claude 3.5 Haiku.webp]]

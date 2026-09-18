@@ -1,6 +1,7 @@
 ---
 title: A/B Testing Deployment
 date: 2024-05-24
+description: "A/B testing deployment serves two versions of an application to separate user groups and compares their metrics to decide which one stays in production."
 tags:
   - dev
   - ops

@@ -1,4 +1,5 @@
 ---
+title: "Homebridge, Mosquitto and Zigbee2MQTT on Docker Compose"
 created: 2024-04-22
 description: "A docker-compose setup running Homebridge, Mosquitto and Zigbee2MQTT together on a Raspberry Pi, with the volumes, devices and environment each service needs."
 modified: 2025-07-31

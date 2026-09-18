@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "A GitHub Actions workflow for continuous integration of a Gatsby site: check out, set up Node, install dependencies and run checks on every push to master."
 tags:
   - dev
   - ops

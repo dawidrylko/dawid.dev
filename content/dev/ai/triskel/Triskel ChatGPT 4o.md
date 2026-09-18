@@ -1,5 +1,6 @@
 ---
 date: 2024-05-24
+description: "ChatGPT 4o continues the Triskel story: the village sets up a piano in the square and weighs whether a three-legged cat has the dexterity to play it."
 tags:
   - dev
   - ai
@@ -20,4 +21,4 @@ Despite his best efforts, Triskel’s attempts resulted in only a few errant not
 Though Triskel could not play the piano, the event highlighted his resilience and the love the villagers had for him. They celebrated his efforts, and the festival continued with various other contests and performances. In the end, Triskel remained the heart of the village, a symbol of perseverance and the unique charm that every creature, regardless of their differences, brings to the world.
 ```
 
-![[Triskel ChatGPT 4o.png]]
+![[Triskel ChatGPT 4o.webp]]

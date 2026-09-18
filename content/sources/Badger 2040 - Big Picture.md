@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "Pimoroni's product overview of the Badger 2040: an RP2040 board with an E Ink display, user buttons, a lanyard slot, a battery connector and a Qw/ST port."
 ---
 
 <div id="description">
@@ -264,7 +265,7 @@ date: 2024-04-22
       by Andreas Känner<br />
     </li>
     <li>
-      <a href="https://kaenner.de/badger-2040-keypad">Badger 2040 keypad</a>
+      <a href="https://web.archive.org/web/20240111215417/https://kaenner.de/badger-2040-keypad">Badger 2040 keypad</a>
       by <span data-mce-fragment="1">Andreas Känner</span>
     </li>
   </ul>
