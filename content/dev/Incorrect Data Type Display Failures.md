@@ -1,5 +1,6 @@
 ---
 date: 2024-07-30
+description: "A real macOS Sonoma update prompt from July 30, 2024 asked for '(null)' battery: what it looks like when a missing value reaches the UI as text."
 tags:
   - dev
 ---

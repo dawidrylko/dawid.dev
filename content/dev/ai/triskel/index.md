@@ -1,5 +1,6 @@
 ---
 date: 2024-05-24
+description: "Triskel is a prompt built on a false premise: why can't a three-legged cat play the piano? Answers from ChatGPT, Claude, Perplexity and Sora, side by side."
 title: Triskel
 tags:
   - dev

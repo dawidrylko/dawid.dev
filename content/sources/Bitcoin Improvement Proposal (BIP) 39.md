@@ -147,7 +147,7 @@ http://github.com/trezor/python-mnemonic
 ==Other Implementations==
 
 Go:
-* https://github.com/tyler-smith/go-bip39
+* https://web.archive.org/web/20240419094720/https://github.com/tyler-smith/go-bip39
 
 Python:
 * https://github.com/meherett/python-hdwallet
@@ -183,7 +183,7 @@ Java:
 * https://github.com/bitcoinj/bitcoinj/blob/master/core/src/main/java/org/bitcoinj/crypto/MnemonicCode.java
 
 Ruby:
-* https://github.com/sreekanthgs/bip_mnemonic
+* https://web.archive.org/web/20220316041600/https://github.com/sreekanthgs/bip_mnemonic
 
 Rust:
 * https://github.com/maciejhirsz/tiny-bip39/
@@ -202,7 +202,7 @@ Swift:
 * https://github.com/anquii/BIP39
 
 C++:
-* https://github.com/libbitcoin/libbitcoin-system/blob/master/include/bitcoin/system/wallet/mnemonic.hpp
+* https://github.com/libbitcoin/libbitcoin-system/blob/master/include/bitcoin/system/wallet/mnemonics/mnemonic.hpp
 
 C (with Python/Java/Javascript bindings):
 * https://github.com/ElementsProject/libwally-core

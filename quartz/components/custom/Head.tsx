@@ -6,6 +6,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { unescapeHTML } from "../../util/escape"
 import { CustomOgImagesEmitterName } from "../../plugins/emitters/ogImage"
 import { isNoindexSlug } from "./noindexRoutes"
+import { tagPageDescription } from "./tagDescription"
 export default (() => {
   const Head: QuartzComponent = ({
     cfg,
@@ -19,7 +20,11 @@ export default (() => {
     const description =
       fileData.frontmatter?.socialDescription ??
       fileData.frontmatter?.description ??
-      unescapeHTML(fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description)
+      unescapeHTML(
+        fileData.description?.trim() ??
+          tagPageDescription(fileData.slug, cfg.baseUrl ?? "example.com") ??
+          i18n(cfg.locale).propertyDefaults.description,
+      )
 
     const { css, js, additionalHead } = externalResources
 

@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "A GitHub Actions workflow that builds a Gatsby site, deploys it to GitHub Pages on every push to master, then notifies Google and Bing about the new URLs."
 tags:
   - dev
   - ops

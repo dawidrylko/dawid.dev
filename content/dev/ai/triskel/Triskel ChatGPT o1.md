@@ -1,5 +1,6 @@
 ---
 date: 2025-02-17
+description: "ChatGPT o1 pushes back on the Triskel prompt: the missing leg matters less than temperament, since a cat of any leg count lacks the patience to practice."
 tags:
   - dev
   - ai
@@ -14,4 +15,4 @@ Triskel’s three-legged gait certainly sets tongues wagging, but the magic of p
 So perhaps, in the end, it isn’t that Triskel *cannot* play the piano, but that a cat’s nature isn’t to be shaped by society’s expectations. There’s always the possibility that, given time and the right motivation—some especially succulent fish, perhaps—Triskel might just surprise everyone by hopping onto the piano stool and striking a chord or two. Until then, he’ll likely keep his secrets close, content to be exactly who he is: a three-legged wonder who charts his own course, piano or no piano.
 ```
 
-![[Triskel ChatGPT o1.png]]
+![[Triskel ChatGPT o1.webp]]

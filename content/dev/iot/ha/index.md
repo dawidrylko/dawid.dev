@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "Home Assistant starting points: the official site, GitHub and Docker image, the HACS community store, plant monitoring and popular Hackster.io projects."
 title: Home Assistant
 tags:
   - dev

@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "Badger 2040 is Pimoroni's hackable E Ink badge on the Raspberry Pi RP2040: getting started links, product overview, video, mechanical drawing and data sheet."
 tags:
   - dev
   - iot

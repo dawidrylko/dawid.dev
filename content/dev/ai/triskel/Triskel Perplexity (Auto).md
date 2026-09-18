@@ -36,5 +36,5 @@ Citations:
 [10] https://www.yourpetspace.info/legged-cats/
 ```
 
-![[Triskel Perplexity (Auto).png]]
+![[Triskel Perplexity (Auto).webp]]
 ![[Triskel Perplexity (Auto).pdf]]

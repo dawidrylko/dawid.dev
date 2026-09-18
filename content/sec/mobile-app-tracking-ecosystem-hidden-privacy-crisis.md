@@ -1,6 +1,7 @@
 ---
 title: "Mobile App Tracking Ecosystem: The Hidden Privacy Crisis"
 date: 2025-02-27
+description: "Mobile apps leak ad IDs and location to ad networks and data brokers, enough to single out one person. How the tracking works and how developers can limit it."
 tags:
   - sec
 ---

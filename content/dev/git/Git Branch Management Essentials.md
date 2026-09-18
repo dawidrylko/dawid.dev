@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Git branch commands for daily work: rename the current branch, delete a remote branch, track a remote one, and list branches merged or not yet merged."
 tags:
   - dev
   - git

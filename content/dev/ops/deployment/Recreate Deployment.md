@@ -1,5 +1,6 @@
 ---
 date: 2024-05-24
+description: "Recreate deployment stops the running version completely before starting the new one: the simplest release strategy, paid for with a planned downtime window."
 tags:
   - dev
   - ops

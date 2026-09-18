@@ -1,5 +1,6 @@
 ---
 date: 2024-04-23
+description: "The full text of BIP-32, the Bitcoin standard for hierarchical deterministic wallets: key derivation, hardened keys, serialization format and test vectors."
 ---
 
 RECENT CHANGES:
@@ -86,7 +87,7 @@ The function CKDpriv((k<sub>par</sub>, c<sub>par</sub>), i) &rarr; (k<sub>i</sub
 * The returned chain code c<sub>i</sub> is I<sub>R</sub>.
 * In case parse<sub>256</sub>(I<sub>L</sub>) ≥ n or k<sub>i</sub> = 0, the resulting key is invalid, and one should proceed with the next value for i. (Note: this has probability lower than 1 in 2<sup>127</sup>.)
 
-The HMAC-SHA512 function is specified in [http://tools.ietf.org/html/rfc4231 RFC 4231].
+The HMAC-SHA512 function is specified in [https://www.rfc-editor.org/info/rfc4231 RFC 4231].
 
 ====Public parent key &rarr; public child key====
 

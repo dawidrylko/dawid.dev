@@ -1,5 +1,5 @@
 ---
-title: "Google Search Operators and Ranking Signals: Evolution From 1998 to 2025"
+title: "Google Search Operators and Ranking Signals, 1998-2025"
 date: 2025-03-07
 tags:
   - dev

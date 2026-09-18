@@ -1,5 +1,6 @@
 ---
 date: 2024-05-24
+description: "ChatGPT 3.5 on the Triskel prompt: it accepts the premise, blames balance and coordination, then says a three-legged cat might still learn with adaptations."
 tags:
   - dev
   - ai

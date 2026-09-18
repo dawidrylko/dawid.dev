@@ -1,6 +1,7 @@
 ---
 title: Digital Persona
 created: 2024-04-22
+description: "Dawid Ryłko's digital garden: working notes on software engineering, architecture, DevOps, IoT and security, written down while solving real problems."
 ---
 
 ```javascript

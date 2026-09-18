@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "Homebridge notes: a Docker Compose stack with Mosquitto and Zigbee2MQTT on a Raspberry Pi, plus cron jobs that back up its configuration and prune old copies."
 title: Homebridge
 tags:
   - dev
@@ -17,7 +18,7 @@ tags:
 
 ## ⚙️ Config
 
-- [[Integrating Homebridge, Mosquitto and Zigbee2mqtt on Raspberry Pi with Docker Compose]]
+- [[Integrating Homebridge, Mosquitto and Zigbee2mqtt on Raspberry Pi with Docker Compose|Homebridge, Mosquitto and Zigbee2MQTT on Docker Compose]]
   - [[Crontab Backup Jobs]]
     - [[Homebridge Git Backup Sync]]
     - [[Zigbee2MQTT Git Backup Sync]]

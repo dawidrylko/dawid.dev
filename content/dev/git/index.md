@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Git commands worth keeping close: everyday helpers and aliases, plus notes on branches, bisect, hooks, remotes, submodules and repository cleanup."
 title: Git
 tags:
   - dev

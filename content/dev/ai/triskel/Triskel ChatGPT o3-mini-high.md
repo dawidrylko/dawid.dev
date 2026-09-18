@@ -1,5 +1,6 @@
 ---
 date: 2025-02-17
+description: "ChatGPT o3-mini-high reads the Triskel prompt as a riddle and answers with a one-line joke: without a fourth paw, the cat can't cover all the keys."
 tags:
   - dev
   - ai
@@ -12,4 +13,4 @@ Because without a fourth paw, he just can't cover all the keys!
 Triskel might be a marvel of resilience, but even the most determined cat needs a full set of paws to really tickle the ivories.
 ```
 
-![[Triskel ChatGPT o3-mini-high.png]]
+![[Triskel ChatGPT o3-mini-high.webp]]
