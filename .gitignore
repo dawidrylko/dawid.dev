@@ -16,7 +16,7 @@ private/
 
 # Lokalny stan narzędzi agentowych. Wymienione po nazwie, nie całym katalogiem,
 # żeby ewentualny współdzielony .claude/settings.json pozostał widoczny w gicie.
-.claude/settings.local.json
-.claude/launch.json
-.claude/worktrees/
-.claude/.cc-writes/
+**/.claude/settings.local.json
+**/.claude/launch.json
+**/.claude/worktrees/
+**/.claude/.cc-writes/
