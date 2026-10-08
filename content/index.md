@@ -39,17 +39,17 @@ This collection reflects my professional interests and ongoing learning. Feel fr
 
 ## 📚 Knowledge Catalog
 
-| Category                          | Description                                          | [Tags](tags) |
-| --------------------------------- | ---------------------------------------------------- | ------------ |
-| [Development](dev/index)          | Software development principles and practices        | #dev         |
-| [AI](dev/ai/index)                | Artificial intelligence concepts and implementations | #ai          |
-| [Basics](dev/basics/index)        | Fundamental computer science concepts                | #basics      |
-| [Cryptography](dev/crypto/index)  | Cryptographic methods and applications               | #crypto      |
-| [Frontend](dev/frontend/index)    | Web frontend technologies and patterns               | #frontend    |
-| [Git](dev/git/index)              | Version control and collaborative development        | #git         |
-| [IoT](dev/iot/index)              | Internet of Things solutions and implementations     | #iot         |
-| [Operations](dev/ops/index)       | DevOps, deployment, and system operations            | #ops         |
-| [Security](sec/index)             | Cybersecurity practices and research                 | #sec         |
+| Category                          | Description                                          | [Tags](tags/index) |
+| --------------------------------- | ---------------------------------------------------- | ------------------ |
+| [Development](dev/index)          | Software development principles and practices        | #dev               |
+| [AI](dev/ai/index)                | Artificial intelligence concepts and implementations | #ai                |
+| [Basics](dev/basics/index)        | Fundamental computer science concepts                | #basics            |
+| [Cryptography](dev/crypto/index)  | Cryptographic methods and applications               | #crypto            |
+| [Frontend](dev/frontend/index)    | Web frontend technologies and patterns               | #frontend          |
+| [Git](dev/git/index)              | Version control and collaborative development        | #git               |
+| [IoT](dev/iot/index)              | Internet of Things solutions and implementations     | #iot               |
+| [Operations](dev/ops/index)       | DevOps, deployment, and system operations            | #ops               |
+| [Security](sec/index)             | Cybersecurity practices and research                 | #sec               |
 
 ## 🔄 Work in Progress
 
