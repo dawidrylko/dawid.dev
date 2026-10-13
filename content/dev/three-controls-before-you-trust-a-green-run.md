@@ -1,6 +1,9 @@
 ---
 title: "Three controls before you trust a green run"
 date: 2026-10-13
+description: "Three checks before trusting a passing CI run: can the measurement see a failure, can the tool produce one, and did the negative case actually happen."
+tags:
+  - dev
 ---
 
 > [!tldr]

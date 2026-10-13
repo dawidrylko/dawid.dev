@@ -1,6 +1,9 @@
 ---
 title: "Building a reusable SEO quality kit"
 date: 2026-10-13
+description: "Rules for a CI package that runs in other people's pipelines: what the kit owns, how to pin per surface, how to scope the audit gate, what green does not prove."
+tags:
+  - dev
 ---
 
 > [!tldr]
