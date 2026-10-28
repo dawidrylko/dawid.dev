@@ -1,5 +1,4 @@
 import type { Element, ElementContent, Root } from "hast"
-import { toString } from "hast-util-to-string"
 import { isNoindexSlug } from "./noindexRoutes"
 
 /**
@@ -11,8 +10,9 @@ import { isNoindexSlug } from "./noindexRoutes"
  * it. Keep the @id byte-identical to the one in dawidrylko.com's live markup.
  *
  * Notes are TechArticle rather than BlogPosting: they are reference material
- * (commands, configurations, fixes) kept current in place, not entries in a
- * dated stream. Google reads both as Article, so the choice costs nothing there.
+ * (commands, configurations, fixes) filed by topic, not entries in a dated
+ * stream. dateModified is whatever Quartz computed, which is the created date
+ * unless the note carries a `modified:` key. Google reads both as Article, so the choice costs nothing there.
  */
 export const PERSON_ID = "https://dawidrylko.com/#person"
 
@@ -72,18 +72,27 @@ function isElement(node: ElementContent | Root["children"][number], tag: string)
   return node.type === "element" && node.tagName === tag
 }
 
-function firstLink(node: Element): Element | undefined {
-  for (const child of node.children) {
-    if (child.type !== "element") continue
-    if (child.tagName === "a") return child
-    const nested = firstLink(child)
-    if (nested) return nested
-  }
-  return undefined
+function isAbsoluteLink(node: Element): boolean {
+  const href = node.properties?.href
+  return node.tagName === "a" && typeof href === "string" && /^https?:\/\//.test(href)
 }
 
-function text(node: Element): string {
-  return toString(node).replace(/\s+/g, " ").trim()
+// Text of the item in reading order, plus where the first absolute link ends.
+function linkedText(item: Element): { full: string; link?: Element; linkEnd: number } {
+  let full = ""
+  let link: Element | undefined
+  let linkEnd = -1
+  const walk = (node: ElementContent) => {
+    if (node.type === "text") full += node.value
+    if (node.type !== "element") return
+    node.children.forEach(walk)
+    if (!link && isAbsoluteLink(node)) {
+      link = node
+      linkEnd = full.length
+    }
+  }
+  item.children.forEach(walk)
+  return { full, link, linkEnd }
 }
 
 /**
@@ -102,13 +111,11 @@ export function sourcesCitations(tree: Root | undefined): Citation[] {
 
   return list.children.flatMap((item) => {
     if (!isElement(item, "li")) return []
-    const link = firstLink(item)
-    const href = link?.properties?.href
-    if (!link || typeof href !== "string" || !/^https?:\/\//.test(href)) return []
-    const full = text(item)
-    const label = text(link)
-    const colon = full.indexOf(":", full.indexOf(label) + label.length)
-    const name = (colon === -1 ? full : full.slice(0, colon)).trim()
+    const { full, link, linkEnd } = linkedText(item)
+    if (!link) return []
+    const colon = full.indexOf(":", linkEnd)
+    const name = (colon === -1 ? full : full.slice(0, colon)).replace(/\s+/g, " ").trim()
+    const href = link.properties.href as string
     return [{ "@type": "CreativeWork" as const, name, url: href }]
   })
 }

@@ -2,8 +2,7 @@ import test, { describe } from "node:test"
 import assert from "node:assert"
 import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { join, relative } from "node:path"
-import type { Root } from "hast"
-import { h } from "hastscript"
+import type { Element, ElementContent, Root } from "hast"
 import {
   PERSON_ID,
   pageKind,
@@ -42,8 +41,34 @@ function node(nodes: Node[], type: string): Node | undefined {
   return nodes.find((n) => n["@type"] === type)
 }
 
-function sources(...items: ReturnType<typeof h>[]): Root {
-  return h(null, [h("h2", { id: "sources" }, "Sources"), h("ol", items)]) as Root
+// A small stand-in for hastscript, which Quartz does not list as a dependency.
+type Child = string | Element
+type Props = Record<string, string>
+
+function h(tag: null, children: Element[]): Root
+function h(tag: string, props?: Props | Child | Child[], children?: Child | Child[]): Element
+function h(
+  tag: string | null,
+  props?: Props | Child | Child[],
+  children?: Child | Child[],
+): Root | Element {
+  const isProps = typeof props === "object" && !Array.isArray(props) && !("type" in props)
+  const raw = isProps ? children : props
+  const list = (raw === undefined ? [] : Array.isArray(raw) ? raw : [raw]).map(
+    (child): ElementContent =>
+      typeof child === "string" ? { type: "text", value: child } : (child as Element),
+  )
+  if (tag === null) return { type: "root", children: list }
+  return {
+    type: "element",
+    tagName: tag,
+    properties: isProps ? (props as Props) : {},
+    children: list,
+  }
+}
+
+function sources(...items: Element[]): Root {
+  return h(null, [h("h2", { id: "sources" }, "Sources"), h("ol", items)])
 }
 
 describe("page kind", () => {
@@ -103,12 +128,27 @@ describe("sources citations", () => {
     assert.deepEqual(sourcesCitations(tree), [])
   })
 
+  test("cites the first absolute link and cuts after it, not after its first mention", () => {
+    const tree = sources(
+      h("li", [
+        "Foo, see ",
+        h("a", { href: "./local" }, "Foo"),
+        " and ",
+        h("a", { href: "https://example.com/foo" }, "Foo"),
+        ": why.",
+      ]),
+    )
+    assert.deepEqual(sourcesCitations(tree), [
+      { "@type": "CreativeWork", name: "Foo, see Foo and Foo", url: "https://example.com/foo" },
+    ])
+  })
+
   test("reads only an ordered list right under the Sources heading", () => {
     const link = h("a", { href: "https://example.com/" }, "Example")
     const unordered = h(null, [h("h2", { id: "sources" }, "Sources"), h("ul", [h("li", [link])])])
     const otherHeading = h(null, [h("h2", { id: "further-reading" }), h("ol", [h("li", [link])])])
-    assert.deepEqual(sourcesCitations(unordered as Root), [])
-    assert.deepEqual(sourcesCitations(otherHeading as Root), [])
+    assert.deepEqual(sourcesCitations(unordered), [])
+    assert.deepEqual(sourcesCitations(otherHeading), [])
     assert.deepEqual(sourcesCitations(undefined), [])
   })
 })
@@ -177,6 +217,22 @@ describe("built output", { skip: missing ? "run `npx quartz build` first" : fals
       assert.ok(!isNaN(Date.parse(article.datePublished)), article.url)
       assert.ok(!isNaN(Date.parse(article.dateModified)), article.url)
       assert.ok(sitemap.includes(`<loc>${article.url}</loc>`), `${article.url} is not in sitemap`)
+    }
+  })
+
+  test("dates come from frontmatter, not from the build", () => {
+    const article = node(
+      graph("dev/three-controls-before-you-trust-a-green-run.html"),
+      "TechArticle",
+    )
+    // `date: 2026-10-13` is read as local midnight, so the instant moves with
+    // the build's time zone. A date taken from the file system or the clock
+    // would land far outside this window.
+    const frontmatter = Date.parse("2026-10-13T00:00:00Z")
+    const day = 24 * 60 * 60 * 1000
+    for (const key of ["datePublished", "dateModified"]) {
+      const offset = Math.abs(Date.parse(article?.[key]) - frontmatter)
+      assert.ok(offset < day, `${key} is ${article?.[key]}`)
     }
   })
 
