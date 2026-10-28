@@ -1,3 +1,4 @@
+import type { Root } from "hast"
 import { i18n } from "../../i18n"
 import { FullSlug, getFileExtension, joinSegments, pathToRoot } from "../../util/path"
 import { CSSResourceToStyleElement, JSResourceToScriptElement } from "../../util/resources"
@@ -7,12 +8,14 @@ import { unescapeHTML } from "../../util/escape"
 import { CustomOgImagesEmitterName } from "../../plugins/emitters/ogImage"
 import { isNoindexSlug } from "./noindexRoutes"
 import { tagPageDescription } from "./tagDescription"
+import { serializeJsonLd, structuredData } from "./structuredData"
 export default (() => {
   const Head: QuartzComponent = ({
     cfg,
     fileData,
     externalResources,
     ctx,
+    tree,
   }: QuartzComponentProps) => {
     const titleSuffix = cfg.pageTitleSuffix ?? ""
     const title =
@@ -41,6 +44,19 @@ export default (() => {
       (e) => e.name === CustomOgImagesEmitterName,
     )
     const ogImageDefaultPath = `https://${cfg.baseUrl}/static/og-image.png`
+
+    const jsonLd = serializeJsonLd(
+      structuredData({
+        slug: fileData.slug!,
+        baseUrl: cfg.baseUrl ?? "example.com",
+        locale: cfg.locale,
+        title: fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title,
+        description,
+        created: fileData.dates?.created,
+        modified: fileData.dates?.modified,
+        tree: tree as Root,
+      }),
+    )
 
     return (
       <head>
@@ -95,6 +111,7 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js
