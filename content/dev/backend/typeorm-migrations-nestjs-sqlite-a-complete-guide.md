@@ -178,19 +178,19 @@ This process works automatically, but be aware of potential performance implicat
 
 ## 📚 Complex Migration Example
 
-Here's an example of a migration handling the creation of a file storage system:
+Here's an example of a migration that creates a document table with an index:
 
 ```typescript
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateFileStorage1741268246117 implements MigrationInterface {
-  name = "CreateFileStorage1741268246117";
+export class CreateDocumentStorage1741268246117 implements MigrationInterface {
+  name = "CreateDocumentStorage1741268246117";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`CREATE TABLE "file" (
+    await queryRunner.query(`CREATE TABLE "document" (
       "id" varchar PRIMARY KEY NOT NULL,
-      "tenantName" varchar NOT NULL,
-      "type" varchar CHECK( "type" IN ('clientCertificate','configurationFile') ) NOT NULL,
+      "ownerId" varchar NOT NULL,
+      "type" varchar CHECK( "type" IN ('invoice','contract') ) NOT NULL,
       "filePath" varchar NOT NULL,
       "originalName" varchar NOT NULL,
       "size" integer NOT NULL,
@@ -198,13 +198,13 @@ export class CreateFileStorage1741268246117 implements MigrationInterface {
     )`);
 
     await queryRunner.query(
-      `CREATE INDEX "IDX_FILE_TENANT" ON "file" ("tenantName") `
+      `CREATE INDEX "IDX_DOCUMENT_OWNER" ON "document" ("ownerId") `
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "IDX_FILE_TENANT"`);
-    await queryRunner.query(`DROP TABLE "file"`);
+    await queryRunner.query(`DROP INDEX "IDX_DOCUMENT_OWNER"`);
+    await queryRunner.query(`DROP TABLE "document"`);
   }
 }
 ```
