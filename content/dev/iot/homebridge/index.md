@@ -15,7 +15,6 @@ tags:
 - [Homebridge GitHub](https://github.com/homebridge)
 - [Homebridge Docker](https://hub.docker.com/r/homebridge/homebridge)
 - [Homebridge Community Plugins](https://www.npmjs.com/search?q=homebridge-plugin)
-- [Moja historia z (nie)inteligentnym domem](https://dawidrylko.com/moja-historia-z-nie-inteligentnym-domem/) (in Polish): how my own smart home setup came about
 
 ## ⚙️ Config
 

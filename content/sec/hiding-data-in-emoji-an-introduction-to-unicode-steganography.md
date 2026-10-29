@@ -179,7 +179,7 @@ Potential applications of this technique are diverse:
 - Data exfiltration
 - Bypassing content monitoring
 
-The same invisible characters can carry instructions into text that a language model reads, which turns a hidden payload into [prompt injection](https://cyberkatalog.pl/slownik/prompt-injection) (glossary entry in Polish).
+The addendum to Paul Butler's post shows that tokenizers keep variation selectors, so a language model receives the hidden bytes. A payload that carries instructions rather than data is a form of [prompt injection](https://cyberkatalog.pl/slownik/prompt-injection) (in Polish).
 
 ## 💁🏼‍♀️ Summary
 

@@ -112,7 +112,7 @@ After completing setup:
 4. Verify the message appears to come from your custom domain
 5. Check the email headers to confirm proper authentication
 
-For the DNS side, the [SPF, DKIM and DMARC guide on cyberkatalog.pl](https://cyberkatalog.pl/narzedzia/bezpieczna-poczta) (in Polish) walks through CERT Polska's free checker for a domain.
+To check the SPF and DMARC records set above, [cyberkatalog.pl points to CERT Polska's free checker](https://cyberkatalog.pl/narzedzia/bezpieczna-poczta) for a domain (in Polish).
 
 ## 💁🏼‍♀️ Summary
 

@@ -139,7 +139,7 @@ Before implementing any third-party SDK, developers should:
 - Be transparent about data collection and sharing
 - Consider whether third-party SDKs are truly necessary
 
-In the EU, data protection by design is also a legal duty under the [GDPR](https://cyberkatalog.pl/slownik/gdpr) (glossary entry in Polish). Teams that need outside help can compare [data protection providers on CyberKatalog](https://cyberkatalog.pl/en/category/data-protection).
+In the EU, data protection by design is also a legal duty under the [GDPR](https://cyberkatalog.pl/slownik/gdpr) (in Polish). CyberKatalog, a directory of Polish security providers that I run, has a [data protection category](https://cyberkatalog.pl/en/category/data-protection) covering data classification, encryption and DLP.
 
 ## 💁🏼‍♀️ Summary
 
