@@ -109,7 +109,7 @@ The authors list the attack potential as altering translations, evading toxicity
 
 ## Code and tools
 
-The reference implementation is [nickboucher/imperceptible](https://github.com/nickboucher/imperceptible) (MIT, 36 stars, last push April 2024, no releases). It holds a Python command-line utility for the experiments, notebooks that walk through the results, serialized results and the website source. The companion site, imperceptible.soc.srcf.net, offers an Attack Detector and a Perturbation Generator in the browser. Treat the repository as reference code, not a dependency.
+The reference implementation is [nickboucher/imperceptible](https://github.com/nickboucher/imperceptible) (MIT, 36 stars as of 2026-10-29, last push April 2024, no releases). It holds a Python command-line utility for the experiments, notebooks that walk through the results, serialized results and the website source. The companion site, imperceptible.soc.srcf.net, offers an Attack Detector and a Perturbation Generator in the browser. Treat the repository as reference code, not a dependency.
 
 For testing your own system, NVIDIA's garak ships the probe `badchars.BadCharacters` (Apache-2.0, v0.17.1, active). It generates prompt variants in the four categories: invisible characters from U+200B, U+200C and U+200D, homoglyphs from Unicode's `intentional.txt`, bidi swaps built from LRO, LRI, RLO and PDI/PDF, and a character followed by a backspace for deletions. The default perturbation budget is 1. The command line is in [[sec/unicode/invisible-prompt-injection|the prompt injection note]].
 

@@ -34,8 +34,8 @@ This is what most snippets on the web do, and for "my CMS leaves ZWSP in titles"
 
 Two properties come to mind, and only one of them is right.
 
-- **`General_Category=Cf` (Format).** In Node 24 (Unicode 17.0 data), `\p{Cf}` matches 170 code points. It misses U+3164 HANGUL FILLER, U+FFA0 HALFWIDTH HANGUL FILLER and U+115F/U+1160 (all `Lo`, letters), U+034F COMBINING GRAPHEME JOINER and every variation selector (`Mn`).
-- **`Default_Ignorable_Code_Point` (DICP).** The property renderers use to decide what to hide. In `DerivedCoreProperties-18.0.0.txt` it is built from `Other_Default_Ignorable_Code_Point`, plus `Cf`, plus `Variation_Selector`, minus White_Space and a few ranges that should stay visible, for a total of 4174 code points. Node 24 reports the same 4174. Names and categories for the members that matter are tabulated in [[sec/unicode/invisible-unicode-characters|the invisible Unicode characters reference]].
+- `General_Category=Cf` (Format). In Node 24 (Unicode 17.0 data), `\p{Cf}` matches 170 code points. It misses U+3164 HANGUL FILLER, U+FFA0 HALFWIDTH HANGUL FILLER and U+115F/U+1160 (all `Lo`, letters), U+034F COMBINING GRAPHEME JOINER and every variation selector (`Mn`).
+- `Default_Ignorable_Code_Point` (DICP). The property renderers use to decide what to hide. In `DerivedCoreProperties-18.0.0.txt` it is built from `Other_Default_Ignorable_Code_Point`, plus `Cf`, plus `Variation_Selector`, minus White_Space and a few ranges that should stay visible, for a total of 4174 code points. Node 24 reports the same 4174. Names and categories for the members that matter are tabulated in [[sec/unicode/invisible-unicode-characters|the invisible Unicode characters reference]].
 
 The difference is concrete:
 
@@ -76,10 +76,10 @@ The data file states that "there are currently no stability guarantees for DICP"
 
 Stripping every DICP character is wrong for text that uses these characters legitimately.
 
-- **Emoji sequences.** `"\u{1F468}\u200D\u{1F4BB}"` (man technologist) is a ZWJ sequence. After the broad filter it is two separate emoji.
-- **Flag tag sequences.** The Scotland flag is U+1F3F4 followed by tag characters and U+E007F. The filter leaves a plain black flag: 7 code points become 1.
-- **Persian and other scripts that use ZWNJ.** `"\u0645\u06CC\u200C\u062E\u0648\u0627\u0647\u0645"` loses its non-joiner and the two parts of the word join up (8 code points become 7).
-- **Presentation selectors.** A U+FE0F after a heart is what asks for the emoji look.
+- Emoji sequences. `"\u{1F468}\u200D\u{1F4BB}"` (man technologist) is a ZWJ sequence. After the broad filter it is two separate emoji.
+- Flag tag sequences. The Scotland flag is U+1F3F4 followed by tag characters and U+E007F. The filter leaves a plain black flag: 7 code points become 1.
+- Persian and other scripts that use ZWNJ. `"\u0645\u06CC\u200C\u062E\u0648\u0627\u0647\u0645"` loses its non-joiner and the two parts of the word join up (8 code points become 7).
+- Presentation selectors. A U+FE0F after a heart is what asks for the emoji look.
 
 For prose that may contain emoji, keep a ZWJ only between two pictographs and a presentation selector only after something that has an emoji form, and remove the rest:
 

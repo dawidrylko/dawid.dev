@@ -11,7 +11,7 @@ draft: true
 > [!tldr]
 > A mixed-script check catches most homoglyph spoofs: in JavaScript with `\p{Script_Extensions=...}` regexes, in Python by reading script names from `unicodedata.name`. It misses strings written entirely in Cyrillic or Greek, which need a UTS #39 skeleton comparison. Of the GitHub libraries, the active ones are codebox/homoglyph, decancer, ICU's SpoofChecker and the Rust and Ruby libraries; the best-known Python package is archived.
 
-Detection comes in two layers. The first asks which scripts a string uses, and it is cheap, local and good at the common case. The second asks whether two strings look alike, which is the skeleton comparison from [[sec/unicode/unicode-confusables-skeleton|the confusables skeleton note]], and it catches what the first layer cannot. The attack surface both layers defend is described in the [[sec/hiding-data-with-homoglyphs-exploiting-unicode-lookalikes|homoglyph reference note]], and the rest of the series is indexed in [[sec/unicode/index|the Unicode security hub]].
+Detection comes in two layers. The first asks which scripts a string uses, and it is cheap, local and good at the common case. The second asks whether two strings look alike, which is the skeleton comparison from [[sec/unicode/unicode-confusables-skeleton|the confusables skeleton note]], and it catches what the first layer cannot. The attack surface both layers defend is described in the [[sec/hiding-data-with-homoglyphs-exploiting-unicode-lookalikes|homoglyph reference note]], and the carriers that need no lookalike at all, such as zero-width characters, are compared in [[sec/unicode/index|the Unicode steganography and spoofing guide]].
 
 ## Mixed-script detection in JavaScript
 

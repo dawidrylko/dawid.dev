@@ -40,7 +40,7 @@ console.log(domainToASCII("ex\u{200b}ample.com"), domainToASCII("\u{ff45}\u{ff58
 // example.com example.com
 ```
 
-The last two lines matter for security. A zero-width space inside a name and a fullwidth spelling of the same name both come out as plain `example.com`. Any check that looked at the raw string before conversion saw something different from what the resolver will use, which is the class of bug described in [[sec/unicode/unicode-normalization-security|Unicode normalization security]].
+A zero-width space inside a name and a fullwidth spelling of the same name both come out as plain `example.com`. Any check that looked at the raw string before conversion saw something different from what the resolver will use, which is the class of bug described in [[sec/unicode/unicode-normalization-security|Unicode normalization security]].
 
 Node also ships a `punycode` module, but requiring it prints a deprecation warning (`DEP0040`, which recommends a userland alternative). If you need the raw encoder, [punycode.js](https://github.com/mathiasbynens/punycode.js) is that alternative; for domain handling, `domainToASCII` is the better entry point.
 

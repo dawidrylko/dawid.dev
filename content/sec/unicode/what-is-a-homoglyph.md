@@ -11,7 +11,7 @@ draft: true
 > [!tldr]
 > A homoglyph is a character that looks like another character but has a different code point, such as Cyrillic а (U+0430) and Latin a (U+0061). A homograph is a whole string that looks like another string. The Unicode Consortium's own term, defined in UTS #39, is confusable: two strings whose skeletons are equal.
 
-To a human reader the Cyrillic letter `а` and the Latin letter `a` are one shape. To a program they are two unrelated numbers, U+0430 and U+0061. They compare as unequal, sort in different places and take a different number of bytes. That gap between what is drawn and what is stored is the whole subject. The pairs themselves are tabulated in the [[sec/hiding-data-with-homoglyphs-exploiting-unicode-lookalikes|homoglyph reference table]]. More of the series is indexed in [[sec/unicode/index|the Unicode security notes]].
+To a human reader the Cyrillic letter `а` and the Latin letter `a` are one shape. To a program they are two unrelated numbers, U+0430 and U+0061. They compare as unequal, sort in different places and take a different number of bytes. That gap between what is drawn and what is stored is the whole subject. The pairs themselves are tabulated in the [[sec/hiding-data-with-homoglyphs-exploiting-unicode-lookalikes|homoglyph reference table]]. Homoglyphs are one of the six data carriers compared in [[sec/unicode/index|the Unicode steganography techniques table]].
 
 ## Homoglyph, homograph, confusable
 

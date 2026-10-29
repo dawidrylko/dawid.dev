@@ -17,7 +17,7 @@ A letter followed by a handful of accents is normal text. A letter followed by t
 
 A combining character has no position of its own. It attaches to the base character before it, and a renderer places it relative to that base, above or below depending on the mark. U+0300 COMBINING GRAVE ACCENT, for instance, has general category Mn and canonical combining class 230, the "above" class. Nothing in the encoding limits how many marks may follow one base, so a run of fifty is valid text.
 
-Zalgo generators exploit that. They take each letter, append marks drawn at random from the Combining Diacritical Marks block (U+0300 to U+036F) and sometimes from the extended blocks near U+1AB0, U+1DC0, U+20D0 and U+FE20, and print the result. The example later in this note turns three letters with six marks each into 21 code points and 39 UTF-8 bytes, each mark costing two bytes.
+Zalgo generators exploit that. They take each letter, append marks drawn at random from the Combining Diacritical Marks block (U+0300 to U+036F) and sometimes from the extended blocks near U+1AB0, U+1DC0, U+20D0 and U+FE20, and print the result. Three letters with six marks each come to 21 code points and 39 UTF-8 bytes, each mark costing two bytes.
 
 ## What it breaks
 

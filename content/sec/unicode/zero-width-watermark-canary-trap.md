@@ -54,12 +54,12 @@ NFKC leaves U+200B and U+200C alone, and `\s` does not match them, so the mark o
 
 A watermark has to survive an adversary who knows it exists, and this one does not.
 
-- **Stripping.** Removing format characters, or the Default_Ignorable set, deletes it without touching a visible character. The filters are in [[sec/unicode/remove-zero-width-characters|the how-to on removing zero-width characters]], and UTS #39's confusable skeleton includes the same removal as a step.
-- **Retyping, OCR, screenshots.** Anything that goes through the visible form of the text drops invisible characters.
-- **Collusion.** Two recipients who compare their copies see that they differ in characters nobody can read, which tells them where the mark is.
-- **Detection by density.** The StegCloak README says plainly that unusual character density betrays hidden communication when someone analyses the Unicode, and a 16-character run in a 48-character sentence stands out.
+- Stripping. Removing format characters, or the Default_Ignorable set, deletes it without touching a visible character. The filters are in [[sec/unicode/remove-zero-width-characters|the how-to on removing zero-width characters]], and UTS #39's confusable skeleton includes the same removal as a step.
+- Retyping, OCR, screenshots. Anything that goes through the visible form of the text drops invisible characters.
+- Collusion. Two recipients who compare their copies see that they differ in characters nobody can read, which tells them where the mark is.
+- Detection by density. The StegCloak README says plainly that unusual character density betrays hidden communication when someone analyses the Unicode, and a 16-character run in a 48-character sentence stands out.
 
-The counterpart already exists as a tool. [DavidJacobson/SafeText](https://github.com/DavidJacobson/SafeText) is a Python script (135 stars, MIT, last push 2019-07-04) meant for people who leak documents: you run `python safetext.py inputfile`, it writes a cleaned `inputfile.safe` and reports every issue with a line number. It looks for homoglyphs, zero-width characters, other near-invisible changes such as stray spaces, and spelling variants that could identify a country. It is stale, so treat it as reference code. What it shows is that the stripping side is public knowledge and takes a handful of lines.
+The counterpart already exists as a tool. [DavidJacobson/SafeText](https://github.com/DavidJacobson/SafeText) is a Python script (135 stars as of 2026-10-29, MIT, last push 2019-07-04) meant for people who leak documents: you run `python safetext.py inputfile`, it writes a cleaned `inputfile.safe` and reports every issue with a line number. It looks for homoglyphs, zero-width characters, other near-invisible changes such as stray spaces, and spelling variants that could identify a country. It is stale, so treat it as reference code. What it shows is that the stripping side is public knowledge and takes a handful of lines.
 
 ## What holds up: content variation
 
@@ -93,7 +93,7 @@ Four binary slots identify 16 recipients; `n` slots identify `2^n`. Normalizatio
 
 ## An ethical and legal note
 
-Both sides of this are legitimate uses. Organisations trace leaks of confidential drafts, and sources protect themselves from being traced, which is the case SafeText was written for. A per-recipient mark is, in effect, a way of identifying a person from a document, so decide who is told, what is logged and how long the mapping is kept before you deploy it, and ask whoever handles legal for you; the answers depend on jurisdiction and context. This note is engineering, not legal advice. The cheapest way to stay on the right side is to say in the distribution policy that copies are individually marked.
+Both sides of this are legitimate uses. Organisations trace leaks of confidential drafts, and sources protect themselves from being traced, which is the case SafeText was written for. A per-recipient mark is, in effect, a way of identifying a person from a document, so decide who is told, what is logged and how long the mapping is kept before you deploy it, and ask whoever handles legal for you; the answers depend on jurisdiction and context. The cheapest way to stay on the right side is to say in the distribution policy that copies are individually marked.
 
 Two sibling notes cover the neighbouring carriers: [[sec/unicode/whitespace-steganography|whitespace steganography]] for marks hidden in spacing, and the character list in [[sec/unicode/invisible-unicode-characters|invisible Unicode characters]] if you need other alphabets than ZWSP and ZWNJ.
 

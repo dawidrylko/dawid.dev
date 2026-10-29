@@ -11,7 +11,7 @@ draft: true
 > [!tldr]
 > A homoglyph generator is a lookup table and a loop: one function, in JavaScript and Python, swaps Latin letters for Cyrillic or Greek lookalikes at a chosen density. NFKC does not undo any of the swaps. A mixed-script check catches most of the output, and a UTS #39 skeleton comparison catches the rest.
 
-There is no server behind this page and nothing to paste a string into. What you get is code that produces test strings for username filters, domain checks and review tooling. The pairs come from the reference table in the [[sec/hiding-data-with-homoglyphs-exploiting-unicode-lookalikes|unicode lookalikes table]], and the detection side lives in [[sec/unicode/detect-homoglyphs-python-javascript|detecting homoglyphs in Python and JavaScript]]. If the term is new, [[sec/unicode/what-is-a-homoglyph|what a homoglyph is]] fixes the vocabulary. The rest of the series is indexed in [[sec/unicode/index|the Unicode security notes]].
+The code produces test strings for username filters, domain checks and review tooling. The pairs come from the reference table in the [[sec/hiding-data-with-homoglyphs-exploiting-unicode-lookalikes|unicode lookalikes table]], and the detection side lives in [[sec/unicode/detect-homoglyphs-python-javascript|detecting homoglyphs in Python and JavaScript]]. If the term is new, [[sec/unicode/what-is-a-homoglyph|what a homoglyph is]] fixes the vocabulary. Lookalikes are one of the six data carriers compared in [[sec/unicode/index|the Unicode steganography techniques table]].
 
 ## The generator in JavaScript
 
