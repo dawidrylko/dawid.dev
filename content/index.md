@@ -4,40 +4,17 @@ created: 2024-04-22
 description: "Dawid Ryłko's digital garden: working notes on software engineering, architecture, DevOps, IoT and security, written down while solving real problems."
 ---
 
-```javascript
-// My approach to software engineering knowledge
-function createKnowledgeSystem() {
-  return {
-    engineeringPrinciples: true,
-    architecturalPatterns: true,
-    systemsThinking: true,
-    communitySharing: true,
-  };
-}
-```
+This is my digital garden. Every note started as a problem I had to solve: a bug, a design decision, a tool that behaved differently from its documentation. I write the answer down while it is fresh, so I do not have to work it out again, and so the next person with the same problem has a place to start.
 
-## 🌍 Welcome to My Knowledge Repository
+The notes are in English and take a few forms: field notes from a fix or an experiment, descriptions of processes I use, case studies, and reference pages such as the comparison of deployment strategies. They are working notes, not finished articles, so their depth varies with how much the problem needed.
 
-This collection represents a curated repository of my experience and insights as a software engineer and IT architect. I've created this Digital Persona as both a personal knowledge system and an extension of my professional identity in the digital space.
+I am Dawid Ryłko, a software engineer and IT architect with more than ten years of experience, based in Bielsko-Biała, Poland. My work spans software architecture and engineering practice, DevOps, IoT and security, and lately the practical use of AI in software systems.
 
-Each markdown note captures concepts, solutions, and ideas that have shaped my journey. Whether you're exploring similar technical domains or seeking practical insights, I hope these notes prove valuable to your own work and learning path.
+## What it covers
 
-## 👨‍💻 About Me
+The largest part is operations: deployment strategies, CI/CD pipelines on GitHub Actions, health checks, mail routing and a homelab. Next to it sit Git, frontend and backend notes on Angular, TypeScript and TypeORM, and a few computer science basics. The IoT notes follow my home automation setup with Homebridge, Zigbee2MQTT and Home Assistant. The security notes take apart real techniques and vulnerabilities, such as hiding data in Unicode or a PDF.js CVE, and the AI notes record what language models do with a prompt.
 
-I'm a software engineer and IT architect specializing in software architecture, engineering practices, DevOps, IoT solutions, and cybersecurity. My approach to technology combines deep technical expertise with strategic thinking to address complex challenges.
-
-This collection reflects my professional interests and ongoing learning. Feel free to explore, adapt, and incorporate these ideas into your own projects and knowledge base.
-
-## 🔍 Core Areas of Expertise
-
-- **Software Engineering** - Design patterns, engineering principles, code quality, testing strategies
-- **Software Architecture** - Scalable systems, domain-driven design, technology selection
-- **DevOps & Automation** - CI/CD pipelines, Infrastructure as Code, development workflows
-- **IoT & Smart City** - Connected devices, sensing technologies, urban applications
-- **Cybersecurity** - Threat modeling, secure development, privacy protection
-- **AI Integration** - Practical applications of artificial intelligence in software systems
-
-## 📚 Knowledge Catalog
+## Knowledge catalog
 
 | Category                          | Description                                          | [Tags](tags/index) |
 | --------------------------------- | ---------------------------------------------------- | ------------------ |
@@ -51,26 +28,11 @@ This collection reflects my professional interests and ongoing learning. Feel fr
 | [Operations](dev/ops/index)       | DevOps, deployment, and system operations            | #ops               |
 | [Security](sec/index)             | Cybersecurity practices and research                 | #sec               |
 
-## 🔄 Work in Progress
+## Contact
 
-This knowledge base is constantly growing. Areas I'm currently exploring include:
-
-- Advanced software design patterns and their implementation
-- Architectural approaches for complex distributed systems
-- Security implications of AI integration in enterprise applications
-- Privacy-respecting IoT architectures for smart city implementations
-- Zero-trust approaches to infrastructure security
-- Effective methods for engineering knowledge management
-
-## 🔗 Connect with Me
-
-I'm open to discussions, collaborations, or consulting opportunities. Feel free to reach out:
+I am open to discussions, collaboration and consulting. You can reach me here:
 
 - [Personal website](https://dawidrylko.com)
 - [GitHub](https://github.com/dawidrylko)
-- [Twitter](https://twitter.com/dawidrylko)
+- [X](https://x.com/dawidrylko)
 - [LinkedIn](https://linkedin.com/in/dawidrylko)
-
----
-
-_This collection is maintained with care. While I strive for accuracy, these notes represent my personal understanding and experiences. I welcome feedback that helps improve this growing knowledge base._

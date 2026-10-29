@@ -76,7 +76,7 @@ head -n 10
 ```bash
 git format-patch -5 # Create patches for the last 5 commits
 git format-patch -n HEAD~5..HEAD -o /path/to/output # Create patches for the last 5 commits and save them to a specific directory
-git format-patch -n <commit_hash> # Create a patch for a specific commit
+git format-patch -1 <commit_hash> # Create a patch for a specific commit
 git am *.patch # Apply patches
 git send-email *.patch # Send patches via email
 ```

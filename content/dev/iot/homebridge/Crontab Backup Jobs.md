@@ -1,5 +1,6 @@
 ---
 date: 2024-07-05
+description: "Cron jobs for a Homebridge and Zigbee2MQTT server: daily backups pushed to Git, cleanup of old archives, and a setup script that adds them once."
 tags:
   - dev
   - iot
@@ -129,8 +130,8 @@ echo "$(date) - Cron jobs updated" >> "$backup_log"
 
 This setup integrates with the following automated backup and maintenance scripts:
 
-- [[Homebridge Git Backup Sync]] – Handles daily Zigbee2MQTT data backup, ensuring data security and consistency.
-- [[Zigbee2MQTT Git Backup Sync]] – Automates backup and version control of Homebridge and Zigbee2MQTT configurations using Git.
-- [[Automatic Cleanup of Old Zigbee2MQTT Backups]] – Automatically removes outdated Zigbee2MQTT backups older than 7 days to optimize storage.
+- [[Homebridge Git Backup Sync]] - Automates backup and version control of Homebridge and Zigbee2MQTT configurations using Git.
+- [[Zigbee2MQTT Git Backup Sync]] - Packs Zigbee2MQTT data into a daily timestamped archive.
+- [[Automatic Cleanup of Old Zigbee2MQTT Backups]] - Automatically removes outdated Zigbee2MQTT backups older than 7 days to optimize storage.
 
 These scripts collectively ensure a **robust, automated, and version-controlled backup strategy** for your **Homebridge** and **Zigbee2MQTT** environments.

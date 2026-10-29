@@ -18,8 +18,7 @@ description: "The full text of BIP-39, the Bitcoin standard for mnemonic codes t
   Created: 2013-09-10
 </pre>
 
-==Abstract==
-
+## Abstract
 This BIP describes the implementation of a mnemonic code or mnemonic sentence --
 a group of easy to remember words -- for the generation of deterministic wallets.
 
@@ -27,8 +26,7 @@ It consists of two parts: generating the mnemonic and converting it into a
 binary seed. This seed can be later used to generate deterministic wallets using
 BIP-0032 or similar methods.
 
-==Motivation==
-
+## Motivation
 A mnemonic code or sentence is superior for human interaction compared to the
 handling of raw binary or hexadecimal representations of a wallet seed. The
 sentence could be written on paper or spoken over the telephone.
@@ -37,8 +35,7 @@ This guide is meant to be a way to transport computer-generated randomness with
 a human-readable transcription. It's not a way to process user-created
 sentences (also known as brainwallets) into a wallet seed.
 
-==Generating the mnemonic==
-
+## Generating the mnemonic
 The mnemonic must encode entropy in a multiple of 32 bits. With more entropy
 security is improved but the sentence length increases. We refer to the
 initial entropy length as ENT. The allowed size of ENT is 128-256 bits.
@@ -67,8 +64,7 @@ MS = (ENT + CS) / 11
 |  256  |  8 |   264  |  24  |
 </pre>
 
-==Wordlist==
-
+## Wordlist
 An ideal wordlist has the following characteristics:
 
 a) smart selection of words
@@ -88,8 +84,7 @@ c) sorted wordlists
 The wordlist can contain native characters, but they must be encoded in UTF-8
 using Normalization Form Compatibility Decomposition (NFKD).
 
-==From mnemonic to seed==
-
+## From mnemonic to seed
 A user may decide to protect their mnemonic with a passphrase. If a passphrase is not
 present, an empty string "" is used instead.
 
@@ -116,8 +111,7 @@ The described method also provides plausible deniability, because every passphra
 generates a valid seed (and thus a deterministic wallet) but only the correct one
 will make the desired wallet available.
 
-==Wordlists==
-
+## Wordlists
 Since the vast majority of BIP39 wallets supports only the English wordlist,
 it is '''strongly discouraged''' to use non-English wordlists for generating
 the mnemonic sentences.
@@ -127,8 +121,7 @@ use one of the following instead of inventing your own.
 
 * [Wordlists](https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md)
 
-==Test vectors==
-
+## Test vectors
 The test vectors include input entropy, mnemonic and seed. The
 passphrase "TREZOR" is used for all vectors.
 
@@ -138,14 +131,12 @@ Also see https://github.com/bip32JP/bip32JP.github.io/blob/master/test_JP_BIP39.
 
 (Japanese wordlist test with heavily normalized symbols as passphrase)
 
-==Reference Implementation==
-
+## Reference Implementation
 Reference implementation including wordlists is available from
 
 http://github.com/trezor/python-mnemonic
 
-==Other Implementations==
-
+## Other Implementations
 Go:
 * https://web.archive.org/web/20240419094720/https://github.com/tyler-smith/go-bip39
 
@@ -172,7 +163,7 @@ Haskell:
 
 JavaScript:
 * https://github.com/bitpay/bitcore/tree/master/packages/bitcore-mnemonic
-* https://github.com/bitcoinjs/bip39 (used by [[https://github.com/blockchain/My-Wallet-V3/blob/v3.8.0/src/hd-wallet.js#L121-L146|blockchain.info]])
+* https://github.com/bitcoinjs/bip39 (used by [blockchain.info](https://github.com/blockchain/My-Wallet-V3/blob/v3.8.0/src/hd-wallet.js#L121-L146))
 * https://github.com/dashhive/DashPhrase.js
 * https://github.com/hujiulong/web-bip39
 

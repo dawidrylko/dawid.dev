@@ -15,7 +15,7 @@ tags:
 
 ## 🌐 Overview
 
-The mobile app ecosystem has created a vast surveillance infrastructure that most users—and even many developers—don't fully comprehend. Based on detailed research by Tim Libert, this note explores the technical mechanisms of in-app tracking, how identifiers flow between systems, and what developers should consider when building privacy-conscious applications.
+The mobile app ecosystem has created a vast surveillance infrastructure that most users - and even many developers - don't fully comprehend. Based on the write-up "Tracking myself down through in-app ads" on timsh.org, this note explores the technical mechanisms of in-app tracking, how identifiers flow between systems, and what developers should consider when building privacy-conscious applications.
 
 ## 📱 The Mobile Tracking Architecture
 
@@ -47,7 +47,7 @@ Despite Apple's App Tracking Transparency framework, many apps bypass location r
 - Mobile network operator information adds to the location profile
 - Device-specific parameters create a unique fingerprint
 
-A typical data payload sent to ad networks contained:
+Fields from two requests the app sent to Unity Ads, trimmed and with some keys renamed for readability:
 
 ```json
 {
@@ -62,7 +62,7 @@ A typical data payload sent to ad networks contained:
 }
 ```
 
-The research found this data enabled behavioral predictions - such as battery level correlating with higher acceptance of surge pricing in ride-hailing apps.
+Fields like these invite behavioral guesses. The author mentions the often repeated claim that ride-hailing prices react to a low battery, and says plainly that he cannot verify it.
 
 ### 3️⃣ The Data Supply Chain
 

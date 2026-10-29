@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Git remote commands for daily work: add an upstream remote, fetch from all remotes, prune stale remote branches and list configured URLs."
 tags:
   - dev
   - git

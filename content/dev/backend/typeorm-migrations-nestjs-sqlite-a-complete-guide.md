@@ -31,9 +31,9 @@ First, let's configure TypeORM to work with SQLite and enable migrations:
 ```typescript
 // src/config/typeorm-config.ts
 import { join } from "path";
-import { DataSource } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
 
-export const TypeormConfig = {
+export const TypeormConfig: DataSourceOptions = {
   type: "sqlite",
   database: join(process.cwd(), "data", "db.sqlite"),
   entities: ["dist/**/*.entity{.js,.ts}"],
@@ -118,6 +118,8 @@ export class InitialMigration1741268246116 implements MigrationInterface {
 
 ### 3️⃣ Running Migrations
 
+The data source loads migrations from `dist/migrations`, so build the project after generating a migration and before running it. Otherwise the CLI does not see the new file.
+
 Apply the migrations to update your database schema:
 
 ```bash
@@ -148,7 +150,7 @@ The first is the connection block:
 
 ```typescript
 // PostgreSQL
-export const TypeormConfig = {
+export const TypeormConfig: DataSourceOptions = {
   type: "postgres",
   host: process.env.DB_HOST,
   port: 5432,
@@ -165,7 +167,7 @@ The second is the SQL that `migration:generate` writes for you. A generated migr
 
 ## 🔍 SQLite Specific Considerations
 
-SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite cannot directly alter tables by adding or removing columns. Instead, TypeORM handles this by:
+SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite supports only a narrow `ALTER TABLE` (`ADD COLUMN`, and `DROP COLUMN` since SQLite 3.35), so for most schema changes TypeORM rebuilds the table:
 
 1. Creating a new table with the updated schema
 2. Copying data from the old table to the new one

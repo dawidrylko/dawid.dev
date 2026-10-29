@@ -1,5 +1,6 @@
 ---
 date: 2024-04-23
+description: "Meta Llama 3 notes: the 8B and 70B models, links to the code and model card, the special tokens and the chat prompt format with examples."
 tags:
   - dev
   - ai
@@ -17,7 +18,7 @@ tags:
 
 - [Meta Llama 3 GitHub site](https://github.com/meta-llama/llama3)
 - [Meta Llama 3 website](https://llama.meta.com/llama3/)
-- [Meta Llama recipes](https://github.com/meta-llama/llama-recipes)
+- [Meta Llama cookbook](https://github.com/meta-llama/llama-cookbook)
 - [Meta Llama 3 blog post](https://ai.meta.com/blog/meta-llama-3/)
 
 ## 🌐 Overview
@@ -59,15 +60,15 @@ Single message example
 
 > [!example]
 >
-> <|begin_of_text|>[^1]<|start_header_id|>user<|end_header_id|>[^2]
+> <|begin_of_text|> (1) <|start_header_id|>user<|end_header_id|> (2) 
 >
-> {{ user_message }}[^3]<|eot_id|>[^4]<|start_header_id|>assistant<|end_header_id|>[^5]
+> {{ user_message }} (3) <|eot_id|> (4) <|start_header_id|>assistant<|end_header_id|> (5) 
 
 1. Specifies the start of the prompt
-2. Specifies the role for the following message i.e. “user”
-3. The input message (from “user”)
+2. Specifies the role for the following message i.e. "user"
+3. The input message (from "user")
 4. Specifies the end of the input message
-5. Specifies the role for the following message i.e. “assistant”
+5. Specifies the role for the following message i.e. "assistant"
 
 Following this prompt, Llama 3 will complete it by adding the `{{assistant_message}}` It will cease generation on generating the `<|eot_id|>`.
 

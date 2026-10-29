@@ -121,7 +121,7 @@ console.log(userMap.get(sameAsUser1)); // undefined (different object reference)
 | ----------- | ------------------------------------------ | ------------------------------------------ | --------------------------------------------------------- |
 | Purpose     | Collection of unique values                | Collection of key-value pairs              | Collection of key-value pairs                             |
 | Keys        | N/A                                        | Any value (object, function, primitive)    | Strings, Symbols, or convertible to strings               |
-| Key Order   | Insertion order                            | Insertion order                            | Not guaranteed (except for string keys in recent engines) |
+| Key Order   | Insertion order                            | Insertion order                            | Integer-like keys ascending, then string keys in insertion order |
 | Size        | Available via `size` property              | Available via `size` property              | Requires `Object.keys(obj).length`                        |
 | Iteration   | Directly iterable                          | Directly iterable                          | Requires `Object.keys/values/entries`                     |
 | Performance | Optimized for frequent additions/deletions | Optimized for frequent additions/deletions | Generally slower for frequent mutations                   |
@@ -173,8 +173,8 @@ class LRUCache<K, V> {
     }
     // If we're at capacity, remove the oldest entry (first item)
     else if (this.cache.size >= this.capacity) {
-      const oldestKey = this.cache.keys().next().value;
-      this.cache.delete(oldestKey);
+      const oldest = this.cache.keys().next();
+      if (!oldest.done) this.cache.delete(oldest.value);
     }
 
     // Add the new entry (at the end)
@@ -236,6 +236,8 @@ console.log(SetUtils.intersection(fruitsA, fruitsB));
 console.log(SetUtils.difference(fruitsA, fruitsB));
 // Set(1) { 'apple' }
 ```
+
+Since ES2025 `Set` has these operations built in: `union`, `intersection`, `difference`, `symmetricDifference`, `isSubsetOf`, `isSupersetOf` and `isDisjointFrom`. The helper class above is only needed for older runtimes.
 
 ## 🧠 Performance Considerations
 

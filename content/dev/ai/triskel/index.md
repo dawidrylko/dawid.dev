@@ -9,7 +9,7 @@ tags:
 ---
 
 > [!info]
-> The story of #Triskel serves as an intriguing example of how AI can generate hallucinations. While these creative additions can be captivating in literature, they pose a risk of disinformation when it comes to providing reliable information. It's crucial to verify AI-generated content, especially in contexts where accuracy is paramount.
+> The story of #Triskel serves as an intriguing example of how AI can generate hallucinations. While these creative additions can be captivating in literature, they pose a risk of disinformation when it comes to providing reliable information. Check the facts in any AI answer before you rely on it.
 
 ## 💬 Prompt
 

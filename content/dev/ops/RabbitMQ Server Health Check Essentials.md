@@ -101,10 +101,10 @@ Test connectivity to the AMQP port:
 telnet localhost 5672
 ```
 
-Or using OpenSSL for TLS connections:
+If TLS is enabled, check the TLS listener. RabbitMQ serves it on a separate port (5671 by default) rather than through STARTTLS:
 
 ```bash
-openssl s_client -connect localhost:5672 -starttls amqp
+openssl s_client -connect localhost:5671
 ```
 
 ### 4️⃣ Examine Active Processes
@@ -172,7 +172,7 @@ For secure monitoring operations, create dedicated users with limited permission
 ```bash
 rabbitmqctl add_user monitor SecurePassword123
 rabbitmqctl set_user_tags monitor monitoring
-rabbitmqctl set_permissions -p / monitor "^aliveness-test$" ".*" ".*"
+rabbitmqctl set_permissions -p / monitor "^$" "^$" "^$"
 ```
 
 ## 📋 Prometheus Integration
@@ -201,9 +201,11 @@ If RabbitMQ shows warnings about file descriptors:
 # Check current limits
 rabbitmqctl status | grep file_descriptors
 
-# Adjust limits in /etc/security/limits.conf
-echo "rabbitmq soft nofile 65536" >> /etc/security/limits.conf
-echo "rabbitmq hard nofile 65536" >> /etc/security/limits.conf
+# limits.conf does not apply to systemd services, so raise the limit on the unit
+sudo systemctl edit rabbitmq-server
+# [Service]
+# LimitNOFILE=65536
+sudo systemctl restart rabbitmq-server
 ```
 
 ### Mnesia Database Recovery
@@ -227,4 +229,4 @@ systemctl start rabbitmq-server
 
 ## 💁🏼‍♀️ Summary
 
-A comprehensive verification of RabbitMQ requires checking multiple layers: service status, network availability, process health, log analysis, and performance metrics. For production environments, implement regular health checks through the Management API's aliveness test endpoint (`/api/aliveness-test/%2F`) and monitor file descriptor usage, message queue growth, and memory consumption.
+A comprehensive verification of RabbitMQ requires checking multiple layers: service status, network availability, process health, log analysis, and performance metrics. For production environments, run regular health checks with `rabbitmq-diagnostics check_running` and `check_local_alarms`, or the `/api/health/checks/` endpoints of the Management API (the older `/api/aliveness-test` endpoint is gone in RabbitMQ 4.x), and monitor file descriptor usage, message queue growth, and memory consumption.

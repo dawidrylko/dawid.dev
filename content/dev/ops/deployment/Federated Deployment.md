@@ -1,99 +1,65 @@
 ---
+title: Federated Deployment
 date: 2025-03-12
-description: "Federated deployment coordinates releases across multiple clusters or regions under shared governance, with KubeFed-style declarative control in Kubernetes."
+description: "Federated deployment coordinates releases across clusters under shared policy: KubeFed (retired) as the model, Karmada and Open Cluster Management today."
 tags:
   - dev
   - ops
   - deployment
 ---
 
-## 🌐 Overview
+## Overview
 
-Federated Deployment is an advanced deployment pattern designed for distributed or multi-cluster environments, where multiple autonomous components or clusters cooperate under a shared governance model. By enabling decentralized control with centralized coordination, Federated Deployment accommodates geographically distributed data centers, hybrid and multi-cloud strategies, and complex IoT or edge scenarios. It aims to balance scalability, fault tolerance, compliance, and local autonomy, all while maintaining global consistency.
+Federated deployment coordinates releases across several clusters or regions that stay autonomous but follow a shared governance model. It fits geographically distributed data centers, hybrid and multi-cloud setups, and edge or IoT scenarios, where one cluster is not enough or not allowed. Control is decentralized and coordination is central: each cluster decides locally, and shared policies keep them consistent.
 
-In platforms such as Kubernetes, “federation” is enabled through frameworks like [KubeFed](https://github.com/kubernetes-sigs/kubefed), which allow teams to treat multiple clusters as a single logical unit. This article explores the core principles, technical details, security considerations, and evolving trends of Federated Deployment.
+The best-known implementation of this idea for Kubernetes was [KubeFed](https://github.com/kubernetes-retired/kubefed). The project is retired. The repository was archived in 2023 and now sits under `kubernetes-retired`. The model it defined, a `FederatedDeployment` resource that wraps a `Deployment` together with placement rules and per-cluster overrides, is still the clearest way to explain the concept, so this note uses it as the reference. For a new setup, use Karmada or Open Cluster Management.
 
-## 🔑 Key Concepts
+## Key concepts
 
-- **Decentralized Control, Central Coordination**: Each cluster or node in a federated system retains autonomy over local decisions, while globally shared policies ensure coherence across clusters. A central control plane (or host cluster) manages placement, overrides, and synchronization, but day-to-day operations remain distributed.
-- **Shared APIs and Protocols**: Consistency in API design (e.g., standardizing on Kubernetes CRDs) ensures that multi-cluster or multi-domain deployments can be managed through a uniform interface. Operators and controllers communicate over well-defined boundaries, enabling reliable replication and failover.
-- **Declarative Management**: Federated resources are often specified declaratively. Teams define the desired state (e.g., the number of replicas per region) in a FederatedDeployment resource, and the system automatically synchronizes those parameters across participating clusters.
-- **Multi-Cluster Topologies**: Federated systems can span edge nodes, on-prem data centers, and multiple public clouds. Each environment contributes to a shared resource pool under central governance, offering elasticity and geo-distribution.
+Each cluster keeps authority over local decisions, while globally shared policies keep the clusters coherent. A central control plane, often a dedicated host cluster, manages placement, overrides and synchronization, and day-to-day operation stays distributed. Consistent APIs, such as Kubernetes CRDs, give clusters in different clouds and data centers one interface. The desired state is declared once, for example the number of replicas per region, and the system propagates it to the member clusters. The topology can span edge nodes, on-prem data centers and several public clouds that contribute to one shared pool of resources.
 
-## 🚀 Implementation Steps
+## The KubeFed reference model
 
-### 1. KubeFed Operational Model
+The host cluster runs the control plane and stores metadata about all member clusters. Member clusters are the runtime clusters, possibly in different regions or clouds, that receive resources such as Deployments, ConfigMaps or Secrets. Coordination is CRD-based: you define policies and overrides at the federated level, in resources such as `FederatedDeployment` or `FederatedNamespace`, and the controllers replicate them as ordinary objects into each member.
 
-- **Host Cluster**: A dedicated cluster hosting the KubeFed control plane. It stores metadata about all member clusters and orchestrates updates via CRDs (e.g., FederatedDeployment, FederatedNamespace).
-- **Member Clusters**: The actual runtime clusters (possibly in different regions or clouds) that synchronize resources (like Deployments, ConfigMaps, or Secrets) according to a federated specification.
-- **CRD-Based Coordination**: KubeFed extends Kubernetes with custom resources—such as `FederatedDeployment`—to unify multi-cluster workloads. Developers define policies and overrides at the federated level, and KubeFed’s controllers replicate these into each member cluster.
+Placement policies decide where the workload lands:
 
-### 2. Placement and Scheduling
-
-Federated Deployment introduces policies that govern how workloads are placed:
-
-| Strategy              | Description                                              | Use Case                            |
+| Strategy              | Description                                              | Use case                            |
 | --------------------- | -------------------------------------------------------- | ----------------------------------- |
-| Weighted Distribution | Assign a specific percentage of replicas to each cluster | Hybrid cloud or tiered environments |
-| Geo-Affinity          | Route traffic or place pods closer to users (by region)  | Global low-latency applications     |
-| Resource-Based        | Distribute workloads based on cluster resources          | Heterogeneous node pools            |
-| Cost-Optimized        | Place replicas in lower-cost regions or clouds           | Multi-cloud cost controls           |
+| Weighted distribution | Assign a specific percentage of replicas to each cluster | Hybrid cloud or tiered environments |
+| Geo-affinity          | Route traffic or place pods closer to users (by region)  | Global low-latency applications     |
+| Resource-based        | Distribute workloads based on cluster resources          | Heterogeneous node pools            |
+| Cost-optimized        | Place replicas in lower-cost regions or clouds           | Multi-cloud cost controls           |
 
-### 3. Synchronization Flow
+The synchronization flow has four steps:
 
-1. **Definition**: An operator creates or updates the `FederatedDeployment` in the host cluster.
-2. **Scheduling**: KubeFed reads the resource specification, along with overrides and placement rules.
-3. **Propagation**: The control plane issues matching `Deployment` objects into each target cluster.
-4. **Ongoing Reconciliation**: KubeFed periodically checks for drift, ensuring local states match the declared global specification.
+1. An operator creates or updates the `FederatedDeployment` in the host cluster.
+2. The controller reads the specification together with the overrides and placement rules.
+3. The control plane creates matching `Deployment` objects in each target cluster.
+4. A reconciliation loop checks for drift and restores the declared state in any cluster that diverges.
 
-## ✅ Advantages
+## Current alternatives
 
-- **Resilience & High Availability**: Distributed workloads can survive data center or regional outages by shifting traffic or workloads among healthy clusters.
-- **Operational Consistency**: Teams apply uniform policies across all clusters, simplifying compliance, monitoring, and scaling processes.
-- **Localized Autonomy**: Each cluster can tailor its configuration (e.g., resource quotas, security contexts) to local requirements while maintaining global governance.
-- **Scalable Rollouts**: Rolling updates, canary releases, or blue-green patterns can extend across multiple clusters for global or regional rollout strategies.
+Karmada and Open Cluster Management cover the same ground with maintained control planes. Karmada propagates resources to member clusters through `PropagationPolicy` objects. Open Cluster Management distributes them from a hub cluster with `ManifestWork`, and picks target clusters with `Placement`.
 
-## ⚠️ Challenges
+## Advantages
 
-### Security and Compliance
+Workloads survive the loss of a data center or a region, because traffic and replicas shift to healthy clusters. One policy set applied everywhere makes compliance, monitoring and scaling uniform. Each cluster can still adjust resource quotas or security contexts to local requirements. Rolling, canary and blue-green releases can run across clusters, so a rollout can go region by region.
 
-- **Attack Surface Expansion**: Multiple clusters widen the perimeter. Federated frameworks must secure every link, from control-plane APIs to cross-cluster communication channels.
-- **Multi-Tenancy**: Large enterprises may federate clusters for distinct business units or tenants. Attribute-Based Access Control (ABAC) or Role-Based Access Control (RBAC) must align with organizational boundaries.
-- **Zero-Trust Networking**: Encrypted communications (TLS, mTLS) between clusters are paramount, alongside strict inbound/outbound network policies to compartmentalize cluster traffic.
-- **Regulatory Requirements**: Data sovereignty or residency mandates might require that certain data or services remain in specific regions. Federated policies ensure workloads only run in approved clusters.
+## Challenges
 
-### Warnings and Limitations
+More clusters mean a wider attack surface, so every link has to be secured, from control-plane APIs to cross-cluster traffic. Encrypt that traffic with TLS or mTLS, restrict inbound and outbound network policies in line with zero trust, and align RBAC or ABAC with the organizational boundaries when clusters serve different business units. Data residency rules may pin some workloads to given regions, and placement policies enforce that by keeping workloads out of unapproved clusters.
 
-- **Stateful Workloads**: While stateless microservices federate easily, stateful components (databases, message queues) require specialized replication strategies to maintain consistency.
-- **Complexity Overhead**: Federation adds layers of abstraction, requiring skilled DevOps teams and robust processes.
-- **Network Latency**: Global replication or synchronization across clusters can introduce overhead for chatty or synchronous applications.
+Stateless services federate easily. Databases and message queues need their own replication strategy to stay consistent. The extra layer of abstraction calls for an experienced DevOps team and mature processes, and cross-cluster synchronization adds latency, which hurts chatty or synchronous applications.
 
-## 💼 Example Use Cases
+## Use cases
 
-- **Smart Cities & IoT**: Integrates edge clusters (traffic lights, sensors, IoT gateways) with cloud-based analytics. Local nodes make real-time decisions, while the central layer coordinates updates and data aggregation.
-- **Retail and E-commerce**: Globally distributed clusters handle seasonal spikes, localizing user data or caches for performance. Weighted distribution can direct workloads to cost-effective or low-latency regions.
-- **Telecommunications**: Telcos can run microservices across multiple edges and central data centers, ensuring each location meets custom SLAs while a global coordinator manages releases or security policies.
-- **Finance / Banking**: Federation can integrate multiple on-prem or cloud clusters for trading or compliance. Placement rules keep sensitive workloads within specific regions while less sensitive components scale outward.
+Smart-city and IoT systems pair edge clusters (traffic lights, sensors, gateways) that decide in real time with a cloud layer that coordinates updates and aggregates data. Retail and e-commerce run regional clusters for seasonal peaks, with weighted distribution steering load to cheap or low-latency regions. Telecoms operate microservices across edges and central data centers, each location meeting its own SLA while a global coordinator manages releases and security policy. Banks use placement rules to keep sensitive workloads in given regions while less sensitive components scale outward.
 
-## 🔧 Advanced Implementation Techniques
+## Advanced techniques
 
-- **GitOps for Federation**
+GitOps keeps the whole multi-cluster state, overrides included, in Git, and a controller reconciles differences and can roll back when something fails. Federated machine learning trains models on sensitive data inside each cluster and merges only the updates in a central aggregator. For observability, Jaeger or OpenTelemetry unify traces across cluster boundaries, and central dashboards show performance and anomalies in one place.
 
-  - Store the entire multi-cluster state (including overrides) in Git.
-  - A specialized controller monitors for differences and can automate rollbacks if issues arise.
+## Best practices
 
-- **Federated Machine Learning**
-
-  - Localized models train on sensitive data within each cluster.
-  - A central aggregator merges updates without direct data sharing.
-
-- **Observability in a Federated Context**
-  - Tools like Jaeger or OpenTelemetry unify distributed traces across cluster boundaries.
-  - Central dashboards provide a holistic view of performance and anomalies.
-
-## 💁🏼‍♀️ Best Practices
-
-- **Infrastructure as Code**: Keep all federated resource definitions versioned in source control for traceability and reproducibility.
-- **Security by Design**: Implement TLS/mTLS across clusters, strict RBAC/ABAC, and continuous vulnerability scanning.
-- **Progressive Adoption**: Start with a small subset of clusters, expanding as you refine federation policies and metrics.
-- **AI-Driven Optimization**: Machine learning can optimize workload distribution and cost management, especially in multi-cloud scenarios.
+Keep all federated resource definitions in version control for traceability and reproducibility. Apply TLS or mTLS across clusters, strict RBAC or ABAC and continuous vulnerability scanning from the start. Begin with a few clusters and widen the federation as the policies and metrics mature.

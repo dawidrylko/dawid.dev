@@ -37,8 +37,8 @@ Google requires 2FA to be enabled before you can create app passwords:
 Create a dedicated password for your email client:
 
 1. Navigate to [App Passwords](https://security.google.com/settings/security/apppasswords)
-2. Select "Mail" as the app and your device type
-3. Click "Generate"
+2. Type a name for the password, for example your domain
+3. Click "Create"
 4. **Important:** Copy the 16-character password that appears (you won't be able to see it again)
 
 ## 📧 Configuring Gmail
@@ -101,6 +101,8 @@ Add a DMARC record to monitor email authentication:
 | TXT  | \_dmarc | `v=DMARC1; p=none; rua=mailto:your-monitoring-email@example.com` | Auto |
 
 Set the policy to `p=none` initially to monitor without affecting delivery, allowing you to collect data before implementing stricter policies.
+
+Read those reports before you tighten the policy. A message sent through `smtp.gmail.com` carries a Gmail envelope sender and a DKIM signature for `gmail.com`, so neither SPF nor DKIM aligns with your domain and DMARC fails for it. With `p=none` the mail is still delivered. With `quarantine` or `reject` your own messages would be filtered, and the fix is a sending service that signs with DKIM for your domain.
 
 ## 📝 Testing Your Configuration
 

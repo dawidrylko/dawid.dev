@@ -1,5 +1,6 @@
 ---
 date: 2025-02-13
+description: "Make a script executable on Linux or macOS: check permissions, chmod +x, run it, move it onto the PATH, and fix quarantine or noexec mounts."
 tags:
   - dev
   - ops

@@ -157,7 +157,7 @@ mergerocket --ignore-gitignore
 
 #### 8️⃣ Add Summary Report (--attach-summary)
 
-Add a comprehensive summary at the beginning of the output file:
+Add a summary at the end of the output file:
 
 ```bash
 mergerocket --attach-summary
@@ -199,7 +199,7 @@ At the end (if `--attach-summary` is enabled):
 
 ## 📜 License
 
-This project is licensed under the MIT License – see the [LICENSE](https://github.com/dawidrylko/mergerocket/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/dawidrylko/mergerocket/blob/master/LICENSE) file for details.
 
 ## 👨‍💻 Author
 

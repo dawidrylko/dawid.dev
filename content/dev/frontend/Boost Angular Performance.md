@@ -1,5 +1,6 @@
 ---
 date: 2024-07-20
+description: "Angular performance techniques with code: OnPush, @for tracking, lazy loading, virtual scrolling, zones, preloading, pure pipes and signals."
 tags:
   - dev
   - frontend
@@ -31,21 +32,17 @@ export class ExampleComponent {
 
 **Documentation:** [Using OnPush](https://angular.dev/best-practices/skipping-subtrees#using-onpush)
 
-### 2️⃣ Using `trackBy` in `*ngFor`
+### 2️⃣ Tracking items in `@for`
 
-When Angular renders lists with `*ngFor`, it compares all items to detect changes by default. You can improve performance by providing a `trackBy` function that identifies items based on unique identifiers.
+The built-in `@for` block requires a `track` expression, which lets Angular reuse the DOM nodes of items whose identity did not change. Before Angular 17 the same job was done by `*ngFor` with a `trackBy` function, and `*ngFor` is deprecated since Angular 20.
 
 ```html
-<div *ngFor="let item of items; trackBy: trackByFn">{{ item.name }}</div>
-```
-
-```typescript
-trackByFn(index: number, item: any): number {
-  return item.id; // Unique identifier for the items
+@for (item of items; track item.id) {
+  <div>{{ item.name }}</div>
 }
 ```
 
-**Documentation:** [Tracking items with \*ngFor trackBy](https://angular.dev/guide/directives#tracking-items-with-ngfor-trackby)
+**Documentation:** [Control flow](https://angular.dev/guide/templates/control-flow)
 
 ### 3️⃣ Lazy Loading Modules
 
@@ -73,7 +70,7 @@ Virtual scrolling renders only the visible items in a list, which is particularl
 </cdk-virtual-scroll-viewport>
 ```
 
-**Documentation:** [Virtual Scrolling](https://material.angular.io/cdk/scrolling/overview)
+**Documentation:** [Virtual Scrolling](https://material.angular.dev/cdk/scrolling/overview)
 
 ### 5️⃣ Asynchronous Operations with `async` Pipe
 
@@ -118,13 +115,9 @@ export class ExampleComponent implements AfterViewInit {
 
 Ahead-of-Time (AOT) compilation is a powerful feature that can reduce the size of your application and improve its performance by compiling your Angular components and templates during the build process, rather than at runtime.
 
-To enable AOT compilation, add the following flag to your Angular build command:
+AOT has been the default for `ng build` since Angular 9, so no flag is needed. Check only that `aot` is not set to `false` in `angular.json`.
 
-```bash
-ng build --aot
-```
-
-**Documentation:** [Angular AOT Compilation](https://angular.io/guide/aot-compiler)
+**Documentation:** [Ahead-of-time compilation](https://angular.dev/tools/cli/aot-compiler)
 
 ### 8️⃣ Preloading Modules
 
@@ -229,16 +222,21 @@ const fullName = computed(() => `${firstName()} ${lastName()}`);
 
 #### Watching Signals
 
-Use the `effect` function to react to changes in signals:
+Use the `effect` function to react to changes in signals. It needs an injection context, so it goes in a constructor or a field initializer; called anywhere else it throws NG0203.
 
 ```typescript
-import { effect, signal } from "@angular/core";
+import { Component, effect, signal } from "@angular/core";
 
-const count = signal(0);
+@Component({ selector: "app-counter-log", template: "" })
+export class CounterLogComponent {
+  count = signal(0);
 
-effect(() => {
-  console.log(`Count changed: ${count()}`);
-});
+  constructor() {
+    effect(() => {
+      console.log(`Count changed: ${this.count()}`);
+    });
+  }
+}
 ```
 
 **Documentation:** [Angular Signals](https://angular.dev/guide/signals)

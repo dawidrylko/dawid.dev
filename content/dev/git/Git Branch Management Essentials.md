@@ -44,7 +44,7 @@ git branch --merged
 
 ### 🚫 Show Branches Not Merged into the Current Branch
 
-Lists branches that haven’t been merged into the current branch yet, useful for tracking pending work.
+Lists branches that haven't been merged into the current branch yet, useful for tracking pending work.
 
 ```bash
 git branch --no-merged

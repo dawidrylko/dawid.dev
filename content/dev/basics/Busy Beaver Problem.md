@@ -1,40 +1,38 @@
 ---
 date: 2025-02-18
+description: "The Busy Beaver problem: the score Σ(n) and step count S(n) of halting Turing machines, the known values, BB(5) settled in 2024, and why they are uncomputable."
 tags:
   - dev
   - basics
 ---
 
-In the realm of theoretical computer science, the **Busy Beaver** problem stands out as a fascinating challenge. Introduced by Tibor Radó in 1962, it explores the limits of computation by examining Turing machines that produce the maximum number of steps before halting
+The **Busy Beaver** problem, introduced by Tibor Radó in 1962, asks how much a halting Turing machine with a given number of states can do before it stops. It is one of the cleanest ways to see where computation ends.
 
-## 🦫 What is the Busy Beaver Problem?
+## 🦫 What is the Busy Beaver problem?
 
-For a given number of states **n**, the Busy Beaver problem seeks the Turing machine that, starting with a blank tape, performs the highest number of steps before reaching a hal. This machine is termed the "Busy Beaver" for that state coun. The function Σ(n) represents the maximum number of steps such a machine can execut
+Take every Turing machine with **n** states and two symbols, start each one on a blank tape, and keep only those that eventually halt. Two functions measure the winners. The score **Σ(n)** is the largest number of 1s any of them leaves on the tape, and **S(n)** is the largest number of steps any of them takes before halting. A machine that reaches the maximum is called a busy beaver for that number of states.
 
-## 🚀 Why is it Significant
+## 🚀 Why is it significant
 
-The Busy Beaver problem is more than a theoretical curiosity; it delves deep into the boundaries of computability and decidabiliy. The rapid growth of Σ(n) as **n** increases showcases functions that outpace any computable function, highlighting the existence of problems beyond the reach of algorithmic solutio.
+Both functions grow faster than any computable function. If S(n) were computable, you could decide the halting problem: run a machine with n states for S(n) steps, and if it has not halted by then, it never will. Since the halting problem is undecidable, no algorithm can compute S(n) for every n.
 
-## 🔍 Examples and Growh
+## 🔍 Known values
 
-While exact values of Σ(n) are known for small **n**, they escalate quicy:
+| n   | Σ(n) | S(n)       |
+| --- | ---- | ---------- |
+| 1   | 1    | 1          |
+| 2   | 4    | 6          |
+| 3   | 6    | 21         |
+| 4   | 13   | 107        |
+| 5   | 4098 | 47,176,870 |
 
-- Σ(1) = 1
-- Σ(2) = 6
-- Σ(3) = 21
-- Σ(4) = 17
+The value for five states was open for decades. In 2024 the bbchallenge collaboration settled it with a proof checked in Coq, confirming the machine Heiner Marxen and Jürgen Buntrock found in 1989. For six states only lower bounds are known, and they are already far too large to write out in decimal.
 
-For **n ≥ 5**, determining Σ(n) becomes exceedingly complex, with values growing faster than any computable functn.
+## 🛠️ Implications for computability
 
-## 🛠️ Implications in Computabilty
+The problem turns undecidability into a number. For each n, Σ(n) and S(n) are well-defined integers, yet no single algorithm produces all of them. Beyond a few hundred states, even the exact values cannot be proved within ZFC, the usual axioms of mathematics.
 
-The Busy Beaver problem exemplifies the concept of undecidabiiy. It demonstrates that there are well-defined mathematical questions that no algorithm can resolve, emphasizing the inherent limitations within computational sysms.
-
-## 📚 Further Reading
-
-For those intrigued by the depths of the Busy Beaver problem, consider exploring:
+## 📚 Further reading
 
 - [Busy Beaver on Wikipedia](https://en.wikipedia.org/wiki/Busy_beaver)
-- [Scott Aaronson's Lecture Notes on Busy Beaver](https://www.scottaaronson.com/papers/bb.pdf)
-
-Understanding the Busy Beaver problem offers profound insights into the capabilities and constraints of computation, serving as a cornerstone in theoretical computer science.
+- [Scott Aaronson, "The Busy Beaver Frontier"](https://www.scottaaronson.com/papers/bb.pdf)

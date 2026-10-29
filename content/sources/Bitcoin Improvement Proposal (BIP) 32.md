@@ -24,30 +24,25 @@ RECENT CHANGES:
   License: BSD-2-Clause
 </pre>
 
-==Abstract==
-
+## Abstract
 This document describes hierarchical deterministic wallets (or "HD Wallets"): wallets which can be shared partially or entirely with different systems, each with or without the ability to spend coins.
 
 The specification is intended to set a standard for deterministic wallets that can be interchanged between different clients. Although the wallets described here have many features, not all are required by supporting clients.
 
 The specification consists of two parts. In a first part, a system for deriving a tree of keypairs from a single seed is presented. The second part demonstrates how to build a wallet structure on top of such a tree.
 
-==Copyright==
-
+## Copyright
 This BIP is licensed under the 2-clause BSD license.
 
-==Motivation==
-
+## Motivation
 The Bitcoin reference client uses randomly generated keys. In order to avoid the necessity for a backup after every transaction, (by default) 100 keys are cached in a pool of reserve keys. Still, these wallets are not intended to be shared and used on several systems simultaneously. They support hiding their private keys by using the wallet encrypt feature and not sharing the password, but such "neutered" wallets lose the power to generate public keys as well.
 
 Deterministic wallets do not require such frequent backups, and elliptic curve mathematics permit schemes where one can calculate the public keys without revealing the private keys. This permits for example a webshop business to let its webserver generate fresh addresses (public key hashes) for each order or for each customer, without giving the webserver access to the corresponding private keys (which are required for spending the received funds).
 
 However, deterministic wallets typically consist of a single "chain" of keypairs. The fact that there is only one chain means that sharing a wallet happens on an all-or-nothing basis. However, in some cases one only wants some (public) keys to be shared and recoverable. In the example of a webshop, the webserver does not need access to all public keys of the merchant's wallet; only to those addresses which are used to receive customer's payments, and not for example the change addresses that are generated when the merchant spends money. Hierarchical deterministic wallets allow such selective sharing by supporting multiple keypair chains, derived from a single root.
 
-==Specification: Key derivation==
-
-===Conventions===
-
+## Specification: Key derivation
+### Conventions
 In the rest of this text we will assume the public key cryptography used in Bitcoin, namely elliptic curve cryptography using the field and curve parameters defined by secp256k1 (http://www.secg.org/sec2-v2.pdf). Variables below are either:
 * Integers modulo the order of the curve (referred to as n).
 * Coordinates of points on the curve.
@@ -64,20 +59,17 @@ As standard conversion functions, we assume:
 * parse<sub>256</sub>(p): interprets a 32-byte sequence as a 256-bit number, most significant byte first.
 
 
-===Extended keys===
-
+### Extended keys
 In what follows, we will define a function that derives a number of child keys from a parent key. In order to prevent these from depending solely on the key itself, we extend both private and public keys first with an extra 256 bits of entropy. This extension, called the chain code, is identical for corresponding private and public keys, and consists of 32 bytes.
 
 We represent an extended private key as (k, c), with k the normal private key, and c the chain code. An extended public key is represented as (K, c), with K = point(k) and c the chain code.
 
 Each extended key has 2<sup>31</sup> normal child keys, and 2<sup>31</sup> hardened child keys. Each of these child keys has an index. The normal child keys use indices 0 through 2<sup>31</sup>-1. The hardened child keys use indices 2<sup>31</sup> through 2<sup>32</sup>-1. To ease notation for hardened key indices, a number i<sub>H</sub> represents i+2<sup>31</sup>.
 
-===Child key derivation (CKD) functions===
-
+### Child key derivation (CKD) functions
 Given a parent extended key and an index i, it is possible to compute the corresponding child extended key. The algorithm to do so depends on whether the child is a hardened key or not (or, equivalently, whether i ≥ 2<sup>31</sup>), and whether we're talking about private or public keys.
 
-====Private parent key &rarr; private child key====
-
+#### Private parent key &rarr; private child key
 The function CKDpriv((k<sub>par</sub>, c<sub>par</sub>), i) &rarr; (k<sub>i</sub>, c<sub>i</sub>) computes a child extended private key from the parent extended private key:
 * Check whether i ≥ 2<sup>31</sup> (whether the child is a hardened key).
 ** If so (hardened child): let I = HMAC-SHA512(Key = c<sub>par</sub>, Data = 0x00 || ser<sub>256</sub>(k<sub>par</sub>) || ser<sub>32</sub>(i)). (Note: The 0x00 pads the private key to make it 33 bytes long.)
@@ -89,8 +81,7 @@ The function CKDpriv((k<sub>par</sub>, c<sub>par</sub>), i) &rarr; (k<sub>i</sub
 
 The HMAC-SHA512 function is specified in [https://www.rfc-editor.org/info/rfc4231 RFC 4231].
 
-====Public parent key &rarr; public child key====
-
+#### Public parent key &rarr; public child key
 The function CKDpub((K<sub>par</sub>, c<sub>par</sub>), i) &rarr; (K<sub>i</sub>, c<sub>i</sub>) computes a child extended public key from the parent extended public key. It is only defined for non-hardened child keys.
 * Check whether i ≥ 2<sup>31</sup> (whether the child is a hardened key).
 ** If so (hardened child): return failure
@@ -100,8 +91,7 @@ The function CKDpub((K<sub>par</sub>, c<sub>par</sub>), i) &rarr; (K<sub>i</sub>
 * The returned chain code c<sub>i</sub> is I<sub>R</sub>.
 * In case parse<sub>256</sub>(I<sub>L</sub>) ≥ n or K<sub>i</sub> is the point at infinity, the resulting key is invalid, and one should proceed with the next value for i.
 
-====Private parent key &rarr; public child key====
-
+#### Private parent key &rarr; public child key
 The function N((k, c)) &rarr; (K, c) computes the extended public key corresponding to an extended private key (the "neutered" version, as it removes the ability to sign transactions).
 * The returned key K is point(k).
 * The returned chain code c is just the passed chain code.
@@ -111,12 +101,10 @@ To compute the public child key of a parent private key:
 * CKDpub(N(k<sub>par</sub>, c<sub>par</sub>), i) (works only for non-hardened child keys).
 The fact that they are equivalent is what makes non-hardened keys useful (one can derive child public keys of a given parent key without knowing any private key), and also what distinguishes them from hardened keys. The reason for not always using non-hardened keys (which are more useful) is security; see further for more information.
 
-====Public parent key &rarr; private child key====
-
+#### Public parent key &rarr; private child key
 This is not possible.
 
-===The key tree===
-
+### The key tree
 The next step is cascading several CKD constructions to build a tree. We start with one root, the master extended key m. By evaluating CKDpriv(m,i) for several values of i, we get a number of level-1 derived nodes. As each of these is again an extended key, CKDpriv can be applied to those as well.
 
 To shorten notation, we will write CKDpriv(CKDpriv(CKDpriv(m,3<sub>H</sub>),2),5) as m/3<sub>H</sub>/2/5. Equivalently for public keys, we write CKDpub(CKDpub(CKDpub(M,3),2),5) as M/3/2/5. This results in the following identities:
@@ -126,14 +114,12 @@ However, N(m/a<sub>H</sub>) cannot be rewritten as N(m)/a<sub>H</sub>, as the la
 
 Each leaf node in the tree corresponds to an actual key, while the internal nodes correspond to the collections of keys that descend from them. The chain codes of the leaf nodes are ignored, and only their embedded private or public key is relevant. Because of this construction, knowing an extended private key allows reconstruction of all descendant private keys and public keys, and knowing an extended public key allows reconstruction of all descendant non-hardened public keys.
 
-===Key identifiers===
-
+### Key identifiers
 Extended keys can be identified by the Hash160 (RIPEMD160 after SHA256) of the serialized ECDSA public key K, ignoring the chain code. This corresponds exactly to the data used in traditional Bitcoin addresses. It is not advised to represent this data in base58 format though, as it may be interpreted as an address that way (and wallet software is not required to accept payment to the chain key itself).
 
 The first 32 bits of the identifier are called the key fingerprint.
 
-===Serialization format===
-
+### Serialization format
 Extended public and private keys are serialized as follows:
 * 4 byte: version bytes (mainnet: 0x0488B21E public, 0x0488ADE4 private; testnet: 0x043587CF public, 0x04358394 private)
 * 1 byte: depth: 0x00 for master nodes, 0x01 for level-1 derived keys, ....
@@ -148,8 +134,7 @@ Note that the fingerprint of the parent only serves as a fast way to detect pare
 
 When importing a serialized extended public key, implementations must verify whether the X coordinate in the public key data corresponds to a point on the curve. If not, the extended public key is invalid.
 
-===Master key generation===
-
+### Master key generation
 The total number of possible extended keypairs is almost 2<sup>512</sup>, but the produced keys are only 256 bits long, and offer about half of that in terms of security. Therefore, master keys are not generated directly, but instead from a potentially short seed value.
 
 * Generate a seed byte sequence S of a chosen length (between 128 and 512 bits; 256 bits is advised) from a (P)RNG.
@@ -160,47 +145,37 @@ In case parse<sub>256</sub>(I<sub>L</sub>) is 0 or parse<sub>256</sub>(I<sub>L</
 
 <img src=bip-0032/derivation.png></img>
 
-==Specification: Wallet structure==
-
+## Specification: Wallet structure
 The previous sections specified key trees and their nodes. The next step is imposing a wallet structure on this tree. The layout defined in this section is a default only, though clients are encouraged to mimic it for compatibility, even if not all features are supported.
 
-===The default wallet layout===
-
+### The default wallet layout
 An HDW is organized as several 'accounts'. Accounts are numbered, the default account ("") being number 0. Clients are not required to support more than one account - if not, they only use the default account.
 
 Each account is composed of two keypair chains: an internal and an external one. The external keychain is used to generate new public addresses, while the internal keychain is used for all other operations (change addresses, generation addresses, ..., anything that doesn't need to be communicated). Clients that do not support separate keychains for these should use the external one for everything.
 * m/i<sub>H</sub>/0/k corresponds to the k'th keypair of the external chain of account number i of the HDW derived from master m.
 * m/i<sub>H</sub>/1/k corresponds to the k'th keypair of the internal chain of account number i of the HDW derived from master m.
 
-===Use cases===
-
-====Full wallet sharing: m====
-
+### Use cases
+#### Full wallet sharing: m
 In cases where two systems need to access a single shared wallet, and both need to be able to perform spendings, one needs to share the master private extended key. Nodes can keep a pool of N look-ahead keys cached for external chains, to watch for incoming payments. The look-ahead for internal chains can be very small, as no gaps are to be expected here. An extra look-ahead could be active for the first unused account's chains - triggering the creation of a new account when used. Note that the name of the account will still need to be entered manually and cannot be synchronized via the block chain.
 
-====Audits: N(m/*)====
-
+#### Audits: N(m/*)
 In case an auditor needs full access to the list of incoming and outgoing payments, one can share all account public extended keys. This will allow the auditor to see all transactions from and to the wallet, in all accounts, but not a single secret key.
 
-====Per-office balances: m/i<sub>H</sub>====
-
+#### Per-office balances: m/i<sub>H</sub>
 When a business has several independent offices, they can all use wallets derived from a single master. This will allow the headquarters to maintain a super-wallet that sees all incoming and outgoing transactions of all offices, and even permit moving money between the offices.
 
-====Recurrent business-to-business transactions: N(m/i<sub>H</sub>/0)====
-
+#### Recurrent business-to-business transactions: N(m/i<sub>H</sub>/0)
 In case two business partners often transfer money, one can use the extended public key for the external chain of a specific account (M/i h/0) as a sort of "super address", allowing frequent transactions that cannot (easily) be associated, but without needing to request a new address for each payment.
 Such a mechanism could also be used by mining pool operators as variable payout address.
 
-====Unsecure money receiver: N(m/i<sub>H</sub>/0)====
-
+#### Unsecure money receiver: N(m/i<sub>H</sub>/0)
 When an unsecure webserver is used to run an e-commerce site, it needs to know public addresses that are used to receive payments. The webserver only needs to know the public extended key of the external chain of a single account. This means someone illegally obtaining access to the webserver can at most see all incoming payments but will not be able to steal the money, will not (trivially) be able to distinguish outgoing transactions, nor be able to see payments received by other webservers if there are several.
 
-==Compatibility==
-
+## Compatibility
 To comply with this standard, a client must at least be able to import an extended public or private key, to give access to its direct descendants as wallet keys. The wallet structure (master/account/chain/subchain) presented in the second part of the specification is advisory only, but is suggested as a minimal structure for easy compatibility - even when no separate accounts or distinction between internal and external chains is made. However, implementations may deviate from it for specific needs; more complex applications may call for a more complex tree structure.
 
-==Security==
-
+## Security
 In addition to the expectations from the EC public-key cryptography itself:
 * Given a public key K, an attacker cannot find the corresponding private key more efficiently than by solving the EC discrete logarithm problem (assumed to require 2<sup>128</sup> group operations).
 the intended security properties of this standard are:
@@ -210,8 +185,7 @@ Note however that the following properties do not exist:
 * Given a parent extended public key (K<sub>par</sub>,c<sub>par</sub>) and a child public key (K<sub>i</sub>), it is hard to find i.
 * Given a parent extended public key (K<sub>par</sub>,c<sub>par</sub>) and a non-hardened child private key (k<sub>i</sub>), it is hard to find k<sub>par</sub>.
 
-===Implications===
-
+### Implications
 Private and public keys must be kept safe as usual. Leaking a private key means access to coins - leaking a public key can mean loss of privacy.
 
 Somewhat more care must be taken regarding extended keys, as these correspond to an entire (sub)tree of keys.
@@ -220,10 +194,8 @@ One weakness that may not be immediately obvious, is that knowledge of a parent 
 It is also the reason for the existence of hardened keys, and why they are used for the account level in the tree. This way, a leak of account-specific (or below) private key never risks compromising the master or other accounts.
 
 
-==Test Vectors==
-
-===Test vector 1===
-
+## Test Vectors
+### Test vector 1
 Seed (hex): 000102030405060708090a0b0c0d0e0f
 * Chain m
 ** ext pub: xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8
@@ -244,8 +216,7 @@ Seed (hex): 000102030405060708090a0b0c0d0e0f
 ** ext pub: xpub6H1LXWLaKsWFhvm6RVpEL9P4KfRZSW7abD2ttkWP3SSQvnyA8FSVqNTEcYFgJS2UaFcxupHiYkro49S8yGasTvXEYBVPamhGW6cFJodrTHy
 ** ext prv: xprvA41z7zogVVwxVSgdKUHDy1SKmdb533PjDz7J6N6mV6uS3ze1ai8FHa8kmHScGpWmj4WggLyQjgPie1rFSruoUihUZREPSL39UNdE3BBDu76
 
-===Test vector 2===
-
+### Test vector 2
 Seed (hex): fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542
 * Chain m
 ** ext pub: xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB
@@ -266,8 +237,7 @@ Seed (hex): fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c
 ** ext pub: xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt
 ** ext prv: xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j
 
-===Test vector 3===
-
+### Test vector 3
 These vectors test for the retention of leading zeros. See [https://github.com/bitpay/bitcore-lib/issues/47 bitpay/bitcore-lib#47] and [https://github.com/iancoleman/bip39/issues/58 iancoleman/bip39#58] for more information.
 
 Seed (hex): 4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be
@@ -278,8 +248,7 @@ Seed (hex): 4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45
 ** ext pub: xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y
 ** ext prv: xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L
 
-===Test vector 4===
-
+### Test vector 4
 These vectors test for the retention of leading zeros. See [https://github.com/btcsuite/btcutil/issues/172 btcsuite/btcutil#172] for more information.
 
 Seed (hex): 3ddd5602285899a946114506157c7997e5444528f3003f6134712147db19b678
@@ -293,8 +262,7 @@ Seed (hex): 3ddd5602285899a946114506157c7997e5444528f3003f6134712147db19b678
 ** ext pub: xpub6BJA1jSqiukeaesWfxe6sNK9CCGaujFFSJLomWHprUL9DePQ4JDkM5d88n49sMGJxrhpjazuXYWdMf17C9T5XnxkopaeS7jGk1GyyVziaMt
 ** ext prv: xprv9xJocDuwtYCMNAo3Zw76WENQeAS6WGXQ55RCy7tDJ8oALr4FWkuVoHJeHVAcAqiZLE7Je3vZJHxspZdFHfnBEjHqU5hG1Jaj32dVoS6XLT1
 
-===Test vector 5===
-
+### Test vector 5
 These vectors test that invalid extended keys are recognized as invalid.
 
 * xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6LBpB85b3D2yc8sfvZU521AAwdZafEz7mnzBBsz4wKY5fTtTQBm (pubkey version / prvkey mismatch)
@@ -314,8 +282,7 @@ These vectors test that invalid extended keys are recognized as invalid.
 * xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6Q5JXayek4PRsn35jii4veMimro1xefsM58PgBMrvdYre8QyULY (invalid pubkey 020000000000000000000000000000000000000000000000000000000000000007)
 * xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHL (invalid checksum)
 
-==Acknowledgements==
-
+## Acknowledgements
 * Gregory Maxwell for the original idea of type-2 deterministic wallets, and many discussions about it.
 * Alan Reiner for the implementation of this scheme in Armory, and the suggestions that followed from that.
 * Eric Lombrozo for reviewing and revising this BIP.

@@ -12,7 +12,7 @@ tags:
 > |---|---|
 > | Access container shell | `docker exec -it <CONTAINER_ID> /bin/sh` |
 > | List processes | `ps aux` |
-> | List only Node.js | `ps aux \| grep node` |
+> | List only Node.js | `pgrep -af node` |
 > | Stop a process | `kill <PID>` |
 > | Force stop a process | `kill -9 <PID>` |
 
@@ -44,10 +44,10 @@ Once inside the container, list all running processes:
 ps aux
 ```
 
-To filter only Node.js processes, use:
+To list only Node.js processes with their command lines, use `pgrep` (part of `procps`, which slim images may lack):
 
 ```sh
-ps aux | grep node
+pgrep -af node
 ```
 
 This command will return a list of processes related to Node.js, including their **Process ID (PID)**.
@@ -60,22 +60,12 @@ To stop the identified process gracefully, use:
 kill <PID>
 ```
 
-For Node.js processes specifically:
-
-```sh
-kill $(ps aux | grep node | awk '{print $2}')
-```
+Avoid one-liners such as `kill $(ps aux | grep node | awk '{print $2}')`. They also match the `grep` itself, they kill the main process if it is Node (PID 1, which stops the container), and on BusyBox images the second column of `ps` is the user, not the PID.
 
 If the process does not terminate, you can forcefully stop it with:
 
 ```sh
 kill -9 <PID>
-```
-
-or for Node.js:
-
-```sh
-kill -9 $(ps aux | grep node | awk '{print $2}')
 ```
 
 🚨 **Warning**: Using `kill -9` should be a last resort, as it forcefully terminates the process without allowing it to perform any cleanup operations.

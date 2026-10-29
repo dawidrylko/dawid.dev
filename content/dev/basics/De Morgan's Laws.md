@@ -1,5 +1,6 @@
 ---
 date: 2024-05-16
+description: "De Morgan's laws for negating AND and OR, written as formulas and checked in JavaScript on every combination of two boolean values."
 tags:
   - dev
   - basics
@@ -78,9 +79,7 @@ console.log(example2(false, false)); // Output: Original: true, DeMorgan: true -
 2. **Negation of a Disjunction**:
    - In the `example2` function, we check if the negation of the disjunction of two boolean values is equivalent to the conjunction of their negations.
    - `(a || b)` returns `true` if at least one of `a` or `b` is `true`. The negation of this expression will be `true` only if both `a` and `b` are `false`.
-   - `(!a && !b)` is `true
-
-`true` if both `a` and `b` are `false`.
+   - `(!a && !b)` is `true` if both `a` and `b` are `false`.
 
 In both cases, the functions return `true` if De Morgan's Laws hold, demonstrating the equivalence of the expressions as described by the laws.
 

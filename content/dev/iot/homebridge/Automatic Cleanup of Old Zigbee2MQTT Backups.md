@@ -1,5 +1,6 @@
 ---
 date: 2025-02-17
+description: "A Bash script run from cron that deletes Zigbee2MQTT backup archives older than seven days and logs every deletion, with paths from a shared config."
 tags:
   - dev
   - iot
