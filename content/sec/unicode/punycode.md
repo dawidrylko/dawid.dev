@@ -5,7 +5,6 @@ description: "Punycode turns Unicode domain labels into xn-- ASCII. Convert both
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

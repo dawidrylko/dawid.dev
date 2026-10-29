@@ -5,7 +5,6 @@ description: "Unicode normalization security: what NFC, NFD, NFKC and NFKD chang
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

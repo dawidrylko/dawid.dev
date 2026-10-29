@@ -5,7 +5,6 @@ description: "What is a homoglyph? A character that looks like another but has a
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

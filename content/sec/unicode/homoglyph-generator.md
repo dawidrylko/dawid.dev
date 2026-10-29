@@ -5,7 +5,6 @@ description: "Homoglyph generator code: swap Latin letters for Cyrillic or Greek
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

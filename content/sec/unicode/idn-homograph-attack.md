@@ -5,7 +5,6 @@ description: "IDN homograph attack explained: how Cyrillic lookalike domains wor
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

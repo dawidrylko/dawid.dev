@@ -5,7 +5,6 @@ description: "Bad Characters (IEEE S&P 2022) breaks NLP models with invisible ch
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

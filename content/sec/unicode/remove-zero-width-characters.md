@@ -5,7 +5,6 @@ description: "Remove zero-width characters with a JavaScript or Python regex, pe
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

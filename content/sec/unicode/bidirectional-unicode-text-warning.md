@@ -5,7 +5,6 @@ description: "GitHub says this file contains bidirectional Unicode text. Is it d
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

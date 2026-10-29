@@ -5,7 +5,6 @@ description: "Trojan Source attack explained: bidi controls (CVE-2021-42574), ho
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

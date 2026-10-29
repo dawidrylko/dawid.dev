@@ -5,7 +5,6 @@ description: "Detect homoglyphs in Python and JavaScript: mixed-script checks wi
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

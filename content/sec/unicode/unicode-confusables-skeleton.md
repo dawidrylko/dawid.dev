@@ -5,7 +5,6 @@ description: "Unicode confusables explained: the confusables.txt format, the UTS
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

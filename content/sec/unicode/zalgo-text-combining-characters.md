@@ -5,7 +5,6 @@ description: "Zalgo text stacks dozens of combining marks on one letter. How it 
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]

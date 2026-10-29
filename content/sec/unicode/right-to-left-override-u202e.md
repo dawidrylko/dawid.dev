@@ -5,7 +5,6 @@ description: "Right-to-left override (U+202E) makes a file named ...exe display 
 tags:
   - sec
   - unicode
-draft: true
 ---
 
 > [!tldr]
