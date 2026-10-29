@@ -136,3 +136,5 @@ ls -la .git/modules
 If a corresponding directory exists but is corrupt, remove and reinitialize it.
 
 These steps should restore the correct submodule linkage in your Git repository.
+
+Why a project splits into submodules in the first place is the subject of [Git - Submodules - rozdzielenie repozytoriów](https://dawidrylko.com/git-submodules-rozdzielenie-repozytoriow/) on my blog (in Polish).

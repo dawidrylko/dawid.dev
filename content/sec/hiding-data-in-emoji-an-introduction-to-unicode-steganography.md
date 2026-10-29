@@ -179,6 +179,8 @@ Potential applications of this technique are diverse:
 - Data exfiltration
 - Bypassing content monitoring
 
+The same invisible characters can carry instructions into text that a language model reads, which turns a hidden payload into [prompt injection](https://cyberkatalog.pl/slownik/prompt-injection) (glossary entry in Polish).
+
 ## 💁🏼‍♀️ Summary
 
 The emoji data smuggling technique demonstrates the unexpected flexibility of Unicode, particularly how a standard designed for visual representation can be repurposed for covert data transfer. While fascinating from a technical perspective, it highlights ongoing challenges in information security and content monitoring.

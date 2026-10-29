@@ -14,6 +14,7 @@ tags:
 - [Home Assistant GitHub](https://github.com/home-assistant)
 - [Home Assistant Docker](https://hub.docker.com/r/homeassistant/home-assistant)
 - [Home Assistant Community Store (HACS)](https://hacs.xyz)
+- [Moja historia z (nie)inteligentnym domem](https://dawidrylko.com/moja-historia-z-nie-inteligentnym-domem/) (in Polish): how my own smart home setup came about
 
 ## 📋 Projects
 
