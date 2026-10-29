@@ -243,6 +243,6 @@ export class CounterLogComponent {
 
 ## 💁🏼‍♀️ Summary
 
-Optimizing Angular components involves applying various strategies and tools depending on the application's context. Implementing `OnPush` change detection, using `trackBy`, lazy loading, virtual scrolling, asynchronous operations, managing zones with `NgZone`, and utilizing Angular Signals can significantly enhance performance. Additionally, leveraging AOT compilation, preloading modules, and minimizing component re-renders further boosts the application's efficiency.
+Optimizing Angular components involves applying various strategies and tools depending on the application's context. Implementing `OnPush` change detection, tracking items in `@for`, lazy loading, virtual scrolling, asynchronous operations, managing zones with `NgZone`, and utilizing Angular Signals can significantly enhance performance. Additionally, leveraging AOT compilation, preloading modules, and minimizing component re-renders further boosts the application's efficiency.
 
 Applying these techniques will not only improve performance but also make your application more responsive and user-friendly.

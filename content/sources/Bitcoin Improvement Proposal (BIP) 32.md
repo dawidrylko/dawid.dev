@@ -79,7 +79,7 @@ The function CKDpriv((k<sub>par</sub>, c<sub>par</sub>), i) &rarr; (k<sub>i</sub
 * The returned chain code c<sub>i</sub> is I<sub>R</sub>.
 * In case parse<sub>256</sub>(I<sub>L</sub>) ≥ n or k<sub>i</sub> = 0, the resulting key is invalid, and one should proceed with the next value for i. (Note: this has probability lower than 1 in 2<sup>127</sup>.)
 
-The HMAC-SHA512 function is specified in [https://www.rfc-editor.org/info/rfc4231 RFC 4231].
+The HMAC-SHA512 function is specified in [RFC 4231](https://www.rfc-editor.org/info/rfc4231).
 
 #### Public parent key &rarr; public child key
 The function CKDpub((K<sub>par</sub>, c<sub>par</sub>), i) &rarr; (K<sub>i</sub>, c<sub>i</sub>) computes a child extended public key from the parent extended public key. It is only defined for non-hardened child keys.
@@ -238,7 +238,7 @@ Seed (hex): fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c
 ** ext prv: xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j
 
 ### Test vector 3
-These vectors test for the retention of leading zeros. See [https://github.com/bitpay/bitcore-lib/issues/47 bitpay/bitcore-lib#47] and [https://github.com/iancoleman/bip39/issues/58 iancoleman/bip39#58] for more information.
+These vectors test for the retention of leading zeros. See [bitpay/bitcore-lib#47](https://github.com/bitpay/bitcore-lib/issues/47) and [iancoleman/bip39#58](https://github.com/iancoleman/bip39/issues/58) for more information.
 
 Seed (hex): 4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be
 * Chain m
@@ -249,7 +249,7 @@ Seed (hex): 4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45
 ** ext prv: xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L
 
 ### Test vector 4
-These vectors test for the retention of leading zeros. See [https://github.com/btcsuite/btcutil/issues/172 btcsuite/btcutil#172] for more information.
+These vectors test for the retention of leading zeros. See [btcsuite/btcutil#172](https://github.com/btcsuite/btcutil/issues/172) for more information.
 
 Seed (hex): 3ddd5602285899a946114506157c7997e5444528f3003f6134712147db19b678
 * Chain m

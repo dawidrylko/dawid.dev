@@ -113,7 +113,7 @@ will make the desired wallet available.
 
 ## Wordlists
 Since the vast majority of BIP39 wallets supports only the English wordlist,
-it is '''strongly discouraged''' to use non-English wordlists for generating
+it is **strongly discouraged** to use non-English wordlists for generating
 the mnemonic sentences.
 
 If you still feel your application really needs to use a localized wordlist,

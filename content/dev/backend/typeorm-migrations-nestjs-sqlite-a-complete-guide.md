@@ -118,7 +118,7 @@ export class InitialMigration1741268246116 implements MigrationInterface {
 
 ### 3️⃣ Running Migrations
 
-The data source loads migrations from `dist/migrations`, so build the project after generating a migration and before running it. Otherwise the CLI does not see the new file.
+The data source loads both entities and migrations from `dist/`, so build the project before generating a migration (the generator compares the compiled entities with the database) and again before running it. Otherwise the CLI does not see the change.
 
 Apply the migrations to update your database schema:
 
@@ -167,7 +167,7 @@ The second is the SQL that `migration:generate` writes for you. A generated migr
 
 ## 🔍 SQLite Specific Considerations
 
-SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite supports only a narrow `ALTER TABLE` (`ADD COLUMN`, and `DROP COLUMN` since SQLite 3.35), so for most schema changes TypeORM rebuilds the table:
+SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite supports only a narrow `ALTER TABLE` (`RENAME`, `ADD COLUMN`, and `DROP COLUMN` since SQLite 3.35), so for most schema changes TypeORM rebuilds the table:
 
 1. Creating a new table with the updated schema
 2. Copying data from the old table to the new one

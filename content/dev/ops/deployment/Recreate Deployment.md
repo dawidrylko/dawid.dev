@@ -27,7 +27,7 @@ The current version serves traffic until the window opens. The new version repla
 
 ## Advantages
 
-There is one environment and one version at any time, so the scripts are short and the infrastructure cost is the lowest of all strategies. Nothing from the old version survives, which removes a whole class of compatibility problems. The same holds for the database: a migration does not have to keep the old schema working, because the old code is gone before it runs. The cutover is a single, definite point.
+There is one environment and one version at any time, so the scripts are short and the infrastructure cost is the lowest of the strategies compared here. Nothing from the old version survives, which removes a whole class of compatibility problems. The same holds for the database: a migration does not have to keep the old schema working, because the old code is gone before it runs. The cutover is a single, definite point.
 
 ## Challenges
 

@@ -60,7 +60,7 @@ To stop the identified process gracefully, use:
 kill <PID>
 ```
 
-Avoid one-liners such as `kill $(ps aux | grep node | awk '{print $2}')`. They also match the `grep` itself, they kill the main process if it is Node (PID 1, which stops the container), and on BusyBox images the second column of `ps` is the user, not the PID.
+Avoid one-liners such as `kill $(ps aux | grep node | awk '{print $2}')`. They also match the `grep` itself, they also hit the main process if it is Node, and on BusyBox images the second column of `ps` is the user, not the PID.
 
 If the process does not terminate, you can forcefully stop it with:
 
@@ -74,7 +74,7 @@ kill -9 <PID>
 
 ### 📌 **Main Process (PID 1)**
 
-In Docker containers, the primary process runs with **PID 1**. Terminating this process will stop the entire container. Ensure you are not inadvertently targeting the main process unless you intend to stop the container.
+In Docker containers, the primary process runs with **PID 1**. When it exits, the container stops. A signal sent to it from inside the container, for example from a `docker exec` shell, is ignored unless the process installs a handler for that signal, and this includes `kill -9`. To stop the main process, use `docker stop` or `docker kill` from the host. Ensure you are not inadvertently targeting the main process unless you intend to stop the container.
 
 ### 📌 **Graceful Shutdown**
 

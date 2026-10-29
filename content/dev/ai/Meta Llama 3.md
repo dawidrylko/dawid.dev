@@ -60,9 +60,11 @@ Single message example
 
 > [!example]
 >
-> <|begin_of_text|> (1) <|start_header_id|>user<|end_header_id|> (2) 
+> <|begin_of_text|><|start_header_id|>user<|end_header_id|>
 >
-> {{ user_message }} (3) <|eot_id|> (4) <|start_header_id|>assistant<|end_header_id|> (5) 
+> {{ user_message }}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+The parts of the prompt, in order:
 
 1. Specifies the start of the prompt
 2. Specifies the role for the following message i.e. "user"

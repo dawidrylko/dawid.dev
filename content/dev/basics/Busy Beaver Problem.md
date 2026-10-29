@@ -30,7 +30,7 @@ The value for five states was open for decades. In 2024 the bbchallenge collabor
 
 ## 🛠️ Implications for computability
 
-The problem turns undecidability into a number. For each n, Σ(n) and S(n) are well-defined integers, yet no single algorithm produces all of them. Beyond a few hundred states, even the exact values cannot be proved within ZFC, the usual axioms of mathematics.
+The problem turns undecidability into a number. For each n, Σ(n) and S(n) are well-defined integers, yet no single algorithm produces all of them. From 745 states up, the exact value cannot be proved within ZFC, the usual axioms of mathematics (assuming ZFC is consistent).
 
 ## 📚 Further reading
 

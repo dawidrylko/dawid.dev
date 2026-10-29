@@ -18,9 +18,9 @@ _Additionally, you can achieve similar functionality using the [[dev/mergerocket
 #!/bin/bash
 
 echo "Exporting text file contents..."
-output_file="$HOME/merged_output.txt"
+output_file="merged_output.txt"
 : > "$output_file"
-find . -type f -print0 | while IFS= read -r -d '' file; do
+find . -type f ! -name "$output_file" -print0 | while IFS= read -r -d '' file; do
     echo -e "\n========== START: $file ==========" >> "$output_file"
     if file "$file" | grep -q text; then
         cat "$file" >> "$output_file"

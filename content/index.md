@@ -4,15 +4,15 @@ created: 2024-04-22
 description: "Dawid Ryłko's digital garden: working notes on software engineering, architecture, DevOps, IoT and security, written down while solving real problems."
 ---
 
-This is my digital garden. Every note started as a problem I had to solve: a bug, a design decision, a tool that behaved differently from its documentation. I write the answer down while it is fresh, so I do not have to work it out again, and so the next person with the same problem has a place to start.
+This is my digital garden. Many of these notes started as a problem I had to solve: a bug, a design decision, a tool that behaved differently from its documentation. Others are reference pages and copies of the source documents they quote.
 
-The notes are in English and take a few forms: field notes from a fix or an experiment, descriptions of processes I use, case studies, and reference pages such as the comparison of deployment strategies. They are working notes, not finished articles, so their depth varies with how much the problem needed.
+The notes are in English and take a few forms: field notes from a fix or an experiment, descriptions of processes I use, case studies, and reference pages such as the comparison of deployment strategies. They are working notes, so their depth varies with how much the problem needed.
 
 I am Dawid Ryłko, a software engineer and IT architect with more than ten years of experience, based in Bielsko-Biała, Poland. My work spans software architecture and engineering practice, DevOps, IoT and security, and lately the practical use of AI in software systems.
 
 ## What it covers
 
-The largest part is operations: deployment strategies, CI/CD pipelines on GitHub Actions, health checks, mail routing and a homelab. Next to it sit Git, frontend and backend notes on Angular, TypeScript and TypeORM, and a few computer science basics. The IoT notes follow my home automation setup with Homebridge, Zigbee2MQTT and Home Assistant. The security notes take apart real techniques and vulnerabilities, such as hiding data in Unicode or a PDF.js CVE, and the AI notes record what language models do with a prompt.
+The largest part is operations: deployment strategies, CI/CD pipelines on GitHub Actions, health checks, mail routing and a homelab. Next to it sit Git, frontend and backend notes on Angular, TypeScript and TypeORM, and a few computer science basics. The IoT notes follow my home automation setup with Homebridge, Mosquitto and Zigbee2MQTT, plus starting points for Home Assistant. The security notes take apart real techniques and vulnerabilities, such as hiding data in Unicode or a PDF.js CVE, and the AI notes record what language models do with a prompt.
 
 ## Knowledge catalog
 

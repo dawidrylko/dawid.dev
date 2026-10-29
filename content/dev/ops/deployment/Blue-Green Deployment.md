@@ -26,7 +26,7 @@ Blue is the production environment that runs the stable version. Green is its tw
 
 ## Advantages
 
-Users see no downtime, because the switch is a routing change and not a restart. Rollback is the same switch in the other direction, which makes it the fastest among the common strategies. Green is tested in a production-like environment before it sees a single user, and the idle environment can double as a disaster recovery target.
+Users see no downtime, because the switch is a routing change and not a restart. Rollback is the same switch in the other direction, so it takes seconds rather than a redeployment. Green is tested in a production-like environment before it sees a single user, and the idle environment can double as a disaster recovery target.
 
 ## Challenges
 
