@@ -15,6 +15,13 @@ tags:
 - [Paul Butler - Smuggling arbitrary data through an emoji](https://paulbutler.org/2025/smuggling-arbitrary-data-through-an-emoji/)
 - [UTS #51: Unicode Emoji](https://www.unicode.org/reports/tr51/)
 - [Zero-width joiner - Wikipedia](https://en.wikipedia.org/wiki/Zero-width_joiner)
+- [[sec/unicode/index|Unicode steganography techniques compared]]
+- [[sec/unicode/variation-selectors|Unicode variation selectors]]
+- [[sec/unicode/unicode-steganography-decoder|Unicode steganography decoder]]
+- [[sec/unicode/zero-width-steganography|Zero-width steganography]]
+- [[sec/unicode/ascii-smuggling-unicode-tag-characters|ASCII smuggling with Unicode tag characters]]
+- [[sec/unicode/remove-zero-width-characters|Removing zero-width and other invisible characters]]
+- [[sec/unicode/invisible-unicode-characters|Invisible Unicode characters, listed]]
 
 ## 🌐 Introduction
 
@@ -170,7 +177,7 @@ Potential applications of this technique are diverse:
 - Data exfiltration
 - Bypassing content monitoring
 
-The addendum to Paul Butler's post shows that tokenizers keep variation selectors, so a language model receives the hidden bytes. A payload that carries instructions rather than data is a form of [prompt injection](https://cyberkatalog.pl/slownik/prompt-injection) (in Polish).
+The addendum to Paul Butler's post shows that tokenizers keep variation selectors, so a language model receives the hidden bytes. A payload that carries instructions rather than data is a form of [prompt injection](https://cyberkatalog.pl/slownik/prompt-injection) (in Polish); the defenses are in [[sec/unicode/invisible-prompt-injection|invisible prompt injection]]. The digital watermarking use has a weak point of its own, covered in [[sec/unicode/zero-width-watermark-canary-trap|zero-width watermarks and canary traps]].
 
 ## 💁🏼‍♀️ Summary
 
