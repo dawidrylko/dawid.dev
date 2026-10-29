@@ -17,6 +17,8 @@ This `docker-compose.yml` file outlines a multi-container configuration for a ho
 
 This setup serves to seamlessly integrate diverse smart home devices, encompassing lights, sensors, and switches, into the home automation framework. Inter-service communication occurs over the local network through #MQTT and #Zigbee protocols. The host machine for container execution is a #RaspberryPi. [Conbee II](https://phoscon.de/en/conbee2) is the Zigbee USB dongle used for Zigbee device communication.
 
+How this setup grew, trial and error included, is told in [Moja historia z (nie)inteligentnym domem](https://dawidrylko.com/moja-historia-z-nie-inteligentnym-domem/) (in Polish).
+
 ## 📝 Configuration
 
 ```yaml title="docker-compose.yml"

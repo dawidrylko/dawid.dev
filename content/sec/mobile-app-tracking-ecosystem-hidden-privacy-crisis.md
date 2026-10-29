@@ -139,6 +139,8 @@ Before implementing any third-party SDK, developers should:
 - Be transparent about data collection and sharing
 - Consider whether third-party SDKs are truly necessary
 
+In the EU, data protection by design is also a legal duty under the [GDPR](https://cyberkatalog.pl/slownik/gdpr) (in Polish). CyberKatalog, a directory of Polish security providers that I run, has a [data protection category](https://cyberkatalog.pl/en/category/data-protection) covering data classification, encryption and DLP.
+
 ## 💁🏼‍♀️ Summary
 
 As developers, we're at the frontline of defining how technology interacts with privacy. The research shows that even seemingly innocuous implementation decisions can have profound privacy implications. By adopting privacy-focused engineering approaches, we can build applications that respect user autonomy while still achieving business objectives.

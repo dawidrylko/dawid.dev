@@ -112,6 +112,8 @@ After completing setup:
 4. Verify the message appears to come from your custom domain
 5. Check the email headers to confirm proper authentication
 
+To check the SPF and DMARC records set above, [cyberkatalog.pl points to CERT Polska's free checker](https://cyberkatalog.pl/narzedzia/bezpieczna-poczta) for a domain (in Polish).
+
 ## 💁🏼‍♀️ Summary
 
 This configuration leverages Gmail's reliable SMTP infrastructure while maintaining your professional domain identity. The setup provides several advantages:

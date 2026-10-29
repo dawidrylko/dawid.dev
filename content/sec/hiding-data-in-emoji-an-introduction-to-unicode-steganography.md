@@ -179,6 +179,8 @@ Potential applications of this technique are diverse:
 - Data exfiltration
 - Bypassing content monitoring
 
+The addendum to Paul Butler's post shows that tokenizers keep variation selectors, so a language model receives the hidden bytes. A payload that carries instructions rather than data is a form of [prompt injection](https://cyberkatalog.pl/slownik/prompt-injection) (in Polish).
+
 ## 💁🏼‍♀️ Summary
 
 The emoji data smuggling technique demonstrates the unexpected flexibility of Unicode, particularly how a standard designed for visual representation can be repurposed for covert data transfer. While fascinating from a technical perspective, it highlights ongoing challenges in information security and content monitoring.

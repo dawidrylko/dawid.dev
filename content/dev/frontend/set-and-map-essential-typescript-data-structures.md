@@ -257,3 +257,5 @@ For large datasets, these performance differences become significant.
 - TypeScript provides strong typing support for both structures via generics
 
 The key to choosing between them is understanding your data's nature: if you only care about uniqueness and membership, choose `Set`; if you need to associate values with keys, choose `Map`.
+
+When it pays to turn an array into a `Map`, with the cost of the conversion and benchmarks, is covered in [Od tablicy do mapy ⚡️ Harry Potter i Transmutacja](https://dawidrylko.com/od-tablicy-do-mapy-harry-potter-i-transmutacja/) (in Polish).
