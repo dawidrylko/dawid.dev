@@ -71,7 +71,15 @@ describe("built output", { skip: missing ? "run `npx quartz build` first" : fals
     // for: ten slots, all of them spent on articles.
     const items = (feed.match(/<item>/g) ?? []).length
     assert.equal(items, 10, `feed lists ${items} item(s)`)
-    assert.match(feed, /<link>https:\/\/dawid\.dev\/dev\//)
+    const links = [...feed.matchAll(/<item>\s*<title>[^<]*<\/title>\s*<link>https:\/\/dawid\.dev\/([^<]*)<\/link>/g)].map(
+      (m) => m[1],
+    )
+    assert.equal(links.length, 10, `feed links ${links.length} item(s)`)
+    for (const slug of links) {
+      assert.doesNotMatch(slug, /^tags\//, slug)
+      const page = slug === "" || slug.endsWith("/") ? `${slug}index.html` : `${slug}.html`
+      assert.ok(existsSync(join(output, page)), `${slug} has no built page`)
+    }
 
     // Owning the feed means owning the head link ContentIndex used to attach.
     // With `enableRSS: false` upstream stops emitting one, and nothing else
