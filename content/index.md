@@ -1,7 +1,7 @@
 ---
 title: Digital Persona
 created: 2024-04-22
-description: "Dawid Ryłko's digital garden: working notes on software engineering, architecture, DevOps, IoT and security, written down while solving real problems."
+description: "Dawid Ryłko's digital garden: working notes on software engineering, architecture, DevOps, IoT and security, many written down while solving real problems."
 ---
 
 This is my digital garden. Many of these notes started as a problem I had to solve: a bug, a design decision, a tool that behaved differently from its documentation. Others are reference pages and copies of the source documents they quote.

@@ -60,7 +60,7 @@ To stop the identified process gracefully, use:
 kill <PID>
 ```
 
-Avoid one-liners such as `kill $(ps aux | grep node | awk '{print $2}')`. They also match the `grep` itself, they also hit the main process if it is Node, and on BusyBox images the second column of `ps` is the user, not the PID.
+Avoid one-liners such as `kill $(ps aux | grep node | awk '{print $2}')`. They also match the `grep` itself, they hit the main process if it is Node, and on BusyBox images the second column of `ps` is the user, not the PID.
 
 If the process does not terminate, you can forcefully stop it with:
 
