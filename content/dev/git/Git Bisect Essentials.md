@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Find the commit that introduced a bug with git bisect: start a session, mark good and bad commits, narrow the range and reset when done."
 tags:
   - dev
   - git

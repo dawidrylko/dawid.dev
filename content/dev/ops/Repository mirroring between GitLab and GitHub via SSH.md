@@ -1,13 +1,13 @@
 ---
 date: 2024-04-24
-description: "Mirror a repository between GitLab and GitHub over SSH so pushes stay in sync automatically: deploy keys on both sides, the remote setup and a status check."
+description: "Mirror a repository between GitLab and GitHub over SSH so pushes stay in sync automatically: a GitLab push mirror, a GitHub deploy key and a status check."
 tags:
   - dev
   - ops
 ---
 
 > [!tldr]
-> Set up automatic synchronization between your project and another repository using #SSH for #GitLab and #GitHub, enabling seamless pushing and pulling of changes.
+> Set up automatic synchronization between your project and another repository using #SSH for #GitLab and #GitHub, so every push to GitLab reaches GitHub.
 
 ## 🔗 Quick links
 
@@ -48,7 +48,7 @@ tags:
    When mirroring the repository, GitLab confirms at least one of the stored host keys matches before connecting. This check can protect your mirror from malicious code injections, or your password from being stolen.
 
 8. Select an `SSH public key` in **Authentication method**.
-9. Optionally: provide a username and select options for **Mirror triggers**.
+9. Enter `git` as the username (GitHub accepts SSH only as the `git` user) and optionally select options for **Mirror triggers**.
 10. Submit by clicking on **Mirror repository**.
 11. Copy the **SSH public key** and add it to the repository you want to mirror. This key is used to authenticate the connection between the two repositories. ^1
 

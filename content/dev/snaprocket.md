@@ -79,13 +79,13 @@ snaprocket -h <baseURL> -p <paths> [-t <timeout>] [-o <output_directory>] [-H <h
 
 ### Command-line Arguments
 
-- `-h`: **Base URL** (required) – The starting URL for capturing screenshots
-- `-p`: **Paths** (required) – One or more URL paths to capture. Provide each path as a space-separated list
-- `-t`: **Timeout** – Delay (in milliseconds) after the page loads before capturing a screenshot (default: `1000`)
-- `-o`: **Output Directory** – Directory where screenshots will be saved. Defaults to the current working directory. Screenshots are organized into sub-folders by domain and viewport
-- `-H`: **Height Limit** – If provided, only captures up to the specified height (in pixels). If omitted, the entire page is captured
-- `-c` or `--custom`: **Custom Resolution(s)** – Specify custom resolution(s) in the format `WIDTHxHEIGHT`. This flag can be repeated to add multiple resolutions
-- `-v`: **Viewports** – Define which viewports to generate. Acceptable values are `s`, `m`, `l`, `xl`, and `custom` (to include all custom resolutions defined with `-c`). If omitted, screenshots are generated for all default viewports and any custom resolutions
+- `-h`: **Base URL** (required) - The starting URL for capturing screenshots
+- `-p`: **Paths** (required) - One or more URL paths to capture. Provide each path as a space-separated list
+- `-t`: **Timeout** - Delay (in milliseconds) after the page loads before capturing a screenshot (default: `1000`)
+- `-o`: **Output Directory** - Directory where screenshots will be saved. Defaults to the current working directory. Screenshots are organized into sub-folders by domain and viewport
+- `-H`: **Height Limit** - If provided, only captures up to the specified height (in pixels). If omitted, the entire page is captured
+- `-c` or `--custom`: **Custom Resolution(s)** - Specify custom resolution(s) in the format `WIDTHxHEIGHT`. This flag can be repeated to add multiple resolutions
+- `-v`: **Viewports** - Define which viewports to generate. Acceptable values are `s`, `m`, `l`, `xl`, and `custom` (to include all custom resolutions defined with `-c`). If omitted, screenshots are generated for all default viewports and any custom resolutions
 
 ### Examples
 
@@ -130,7 +130,7 @@ After execution, screenshots will be organized in the output directory as shown 
 
 ## 📜 License
 
-This project is licensed under the MIT License – see the [LICENSE](https://github.com/dawidrylko/snaprocket/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/dawidrylko/snaprocket/blob/master/LICENSE) file for details.
 
 ## 👨‍💻 Author
 

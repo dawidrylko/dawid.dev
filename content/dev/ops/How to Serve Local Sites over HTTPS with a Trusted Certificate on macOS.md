@@ -8,11 +8,11 @@ tags:
 ---
 
 > [!tldr]
-> Serving a local site over HTTPS on macOS is straightforward if you (1) add and trust your certificate in Keychain Access, (2) set it to “Always Trust,” and (3) point your local web server to the correct `.key` and `.crt` files. Tools like `mkcert` make this even simpler by generating certificates your system automatically trusts.
+> Serving a local site over HTTPS on macOS is straightforward if you (1) add and trust your certificate in Keychain Access, (2) set it to "Always Trust," and (3) point your local web server to the correct `.key` and `.crt` files. Tools like `mkcert` make this even simpler by generating certificates your system automatically trusts.
 
 ## 🌐 Introduction
 
-Sometimes you need a local development site to run securely over HTTPS—whether for OAuth callbacks, PWA testing, or newer browser features that demand HTTPS. If your certificate isn’t trusted by macOS, browsers will display security warnings. Let’s fix that by importing and trusting a certificate in Keychain Access, then configuring your local server.
+Sometimes you need a local development site to run securely over HTTPS - whether for OAuth callbacks, PWA testing, or newer browser features that demand HTTPS. If your certificate isn't trusted by macOS, browsers will display security warnings. Let's fix that by importing and trusting a certificate in Keychain Access, then configuring your local server.
 
 ## 🔧 Step 1: Add the Certificate to Your Keychain
 
@@ -38,22 +38,22 @@ Sometimes you need a local development site to run securely over HTTPS—whether
 2. **Double-Click the Certificate**  
    This opens a detail pane.
 
-3. **Set “Always Trust”**  
+3. **Set "Always Trust"**  
    Expand the **Trust** dropdown. Under **When using this certificate**, choose **Always Trust**.
 
 4. **Confirm**  
    Close the window and enter your admin password if asked.
 
-Once it’s set to “Always Trust,” macOS will treat this certificate as valid for secure connections.
+Once it's set to "Always Trust," macOS will treat this certificate as valid for secure connections.
 
 ## 🚨 Common Gotchas
 
 - **Browser Caching**  
   If your browser still complains, try restarting it or clearing cache/cookies.
 - **Domain Mismatch**  
-  Make sure the certificate’s domain (`localhost`, `app.test`, etc.) exactly matches your dev URL.
+  Make sure the certificate's domain (`localhost`, `app.test`, etc.) exactly matches your dev URL.
 - **Missing Intermediate Certs**  
-  If you use a private CA with multiple certificates in the chain, you may also need to trust the intermediate certificates.
+  If you use a private CA, trust its root certificate and make sure the server sends the intermediate certificates along with the leaf.
 
 ## 🧪 Bonus: Use mkcert
 
@@ -62,20 +62,20 @@ Once it’s set to “Always Trust,” macOS will treat this certificate as vali
 ```bash
 brew install mkcert
 mkcert -install
-mkcert local.dev
+mkcert localhost app.test
 ```
 
 It will produce `.pem` files for your chosen domain, automatically trusted by macOS. Then you simply point your local web server to the `.pem` files for the certificate and key.
 
 ## 🙌 Final Thoughts
 
-Enabling HTTPS locally spares you production headaches. Many security features—like secure cookies, service workers, or certain OAuth flows—require HTTPS. By configuring it now, you’ll ensure your local dev environment behaves closer to real-world conditions.
+Enabling HTTPS locally spares you production headaches. Many security features - like secure cookies, service workers, or certain OAuth flows - require HTTPS. By configuring it now, you'll ensure your local dev environment behaves closer to real-world conditions.
 
 ## 💁🏼‍♀️ Summary
 
-- **Keychain**: Import your `.crt` (or similar) and set it to “Always Trust.”
+- **Keychain**: Import your `.crt` (or similar) and set it to "Always Trust."
 - **Local Domain**: The certificate domain must match your local site URL.
 - **mkcert**: A quick, automated route to generating trusted certificates.
 - **Production Parity**: Local HTTPS mirrors real deployments, saving time down the road.
 
-With these steps, you can confidently develop and test sites over HTTPS on macOS—no more browser warnings or blocked features!
+With these steps, you can confidently develop and test sites over HTTPS on macOS - no more browser warnings or blocked features!

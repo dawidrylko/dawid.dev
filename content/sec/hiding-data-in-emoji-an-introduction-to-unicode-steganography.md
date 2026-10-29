@@ -1,27 +1,24 @@
 ---
 title: "Emoji Steganography: How to Hide Text in Emoji"
 date: 2025-02-27
-description: "How to hide text inside a single emoji using Unicode variation selectors and zero-width joiners, what the encoding costs in bytes, and how to decode it again."
+description: "How to hide text inside a single emoji using Unicode variation selectors, what the encoding costs in bytes, and how to decode it again."
 tags:
   - sec
   - steganography
 ---
 
 > [!tldr]
-> Emoji can be used to hide arbitrary data in plain sight by leveraging their unique characteristics in Unicode. Through a combination of emoji selection, variation selectors, and zero-width joiners, it's possible to create a covert data channel capable of encoding significant amounts of information with minimal visible footprint.
+> Emoji can carry arbitrary data in plain sight. Appending Unicode variation selectors, one per byte, after a single emoji creates a covert channel that renders as the emoji alone.
 
 ## 🔗 Quick Links
 
-- [Paul Butler – Smuggling arbitrary data through an emoji](https://paulbutler.org/2025/smuggling-arbitrary-data-through-an-emoji/)
+- [Paul Butler - Smuggling arbitrary data through an emoji](https://paulbutler.org/2025/smuggling-arbitrary-data-through-an-emoji/)
 - [UTS #51: Unicode Emoji](https://www.unicode.org/reports/tr51/)
 - [Zero-width joiner - Wikipedia](https://en.wikipedia.org/wiki/Zero-width_joiner)
 
 ## 🌐 Introduction
 
-Steganography—the art of hiding data within other data—traditionally focused on media files like images or audio. Paul Butler's research demonstrates an innovative approach: encoding arbitrary data within seemingly innocent emoji, creating an undetectable communication channel that works across most modern platforms.
-
-> [!tldr]
-> Emoji can be used to hide arbitrary data in plain sight by leveraging their unique characteristics in Unicode. Through a combination of emoji selection, variation selectors, and zero-width joiners, it's possible to create a covert data channel capable of encoding significant amounts of information with minimal visible footprint.
+Steganography (hiding data within other data) has traditionally focused on media files like images or audio. Paul Butler showed how to encode arbitrary data inside a single emoji, in a form that most platforms carry intact and no reader sees.
 
 ## 💡 Technical Foundations
 
@@ -151,15 +148,9 @@ console.log(bytesToString(decode(encoded))); // "hello"
 This technique is difficult to detect because:
 
 - The encoded emoji appears normal to humans
-- Character counting won't reveal anomalies
+- The string still looks like one character, although its `length` grows with every hidden byte
 - Standard text processing preserves the encoding
 - Most platforms transmit Unicode characters faithfully
-
-Detection challenges include:
-
-- 78% of IDEs don't render variation selectors
-- 92% of code review tools ignore non-printing Unicode characters
-- Almost no malware scanners check for variation selector patterns
 
 ### 2️⃣ Potential Applications and Concerns
 
@@ -186,5 +177,3 @@ The addendum to Paul Butler's post shows that tokenizers keep variation selector
 The emoji data smuggling technique demonstrates the unexpected flexibility of Unicode, particularly how a standard designed for visual representation can be repurposed for covert data transfer. While fascinating from a technical perspective, it highlights ongoing challenges in information security and content monitoring.
 
 For developers, this research emphasizes the importance of understanding the full implications of the technologies we use. Unicode's complexity creates both opportunities and challenges that extend far beyond simple text representation.
-
-As communication platforms continue to normalize rich text features like emoji, we can expect to see more creative applications—both benign and potentially problematic—of these underlying technical capabilities.

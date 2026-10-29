@@ -31,9 +31,9 @@ First, let's configure TypeORM to work with SQLite and enable migrations:
 ```typescript
 // src/config/typeorm-config.ts
 import { join } from "path";
-import { DataSource } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
 
-export const TypeormConfig = {
+export const TypeormConfig: DataSourceOptions = {
   type: "sqlite",
   database: join(process.cwd(), "data", "db.sqlite"),
   entities: ["dist/**/*.entity{.js,.ts}"],
@@ -118,6 +118,8 @@ export class InitialMigration1741268246116 implements MigrationInterface {
 
 ### 3️⃣ Running Migrations
 
+The data source loads both entities and migrations from `dist/`, so build the project before generating a migration (the generator compares the compiled entities with the database) and again before running it. Otherwise the CLI does not see the change.
+
 Apply the migrations to update your database schema:
 
 ```bash
@@ -148,7 +150,7 @@ The first is the connection block:
 
 ```typescript
 // PostgreSQL
-export const TypeormConfig = {
+export const TypeormConfig: DataSourceOptions = {
   type: "postgres",
   host: process.env.DB_HOST,
   port: 5432,
@@ -165,7 +167,7 @@ The second is the SQL that `migration:generate` writes for you. A generated migr
 
 ## 🔍 SQLite Specific Considerations
 
-SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite cannot directly alter tables by adding or removing columns. Instead, TypeORM handles this by:
+SQLite handles schema modifications differently than PostgreSQL or MySQL. SQLite supports only a narrow `ALTER TABLE` (`RENAME`, `ADD COLUMN`, and `DROP COLUMN` since SQLite 3.35), so for most schema changes TypeORM rebuilds the table:
 
 1. Creating a new table with the updated schema
 2. Copying data from the old table to the new one
@@ -176,19 +178,19 @@ This process works automatically, but be aware of potential performance implicat
 
 ## 📚 Complex Migration Example
 
-Here's an example of a migration handling the creation of a file storage system:
+Here's an example of a migration that creates a document table with an index:
 
 ```typescript
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateFileStorage1741268246117 implements MigrationInterface {
-  name = "CreateFileStorage1741268246117";
+export class CreateDocumentStorage1741268246117 implements MigrationInterface {
+  name = "CreateDocumentStorage1741268246117";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`CREATE TABLE "file" (
+    await queryRunner.query(`CREATE TABLE "document" (
       "id" varchar PRIMARY KEY NOT NULL,
-      "tenantName" varchar NOT NULL,
-      "type" varchar CHECK( "type" IN ('clientCertificate','configurationFile') ) NOT NULL,
+      "ownerId" varchar NOT NULL,
+      "type" varchar CHECK( "type" IN ('invoice','contract') ) NOT NULL,
       "filePath" varchar NOT NULL,
       "originalName" varchar NOT NULL,
       "size" integer NOT NULL,
@@ -196,13 +198,13 @@ export class CreateFileStorage1741268246117 implements MigrationInterface {
     )`);
 
     await queryRunner.query(
-      `CREATE INDEX "IDX_FILE_TENANT" ON "file" ("tenantName") `
+      `CREATE INDEX "IDX_DOCUMENT_OWNER" ON "document" ("ownerId") `
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "IDX_FILE_TENANT"`);
-    await queryRunner.query(`DROP TABLE "file"`);
+    await queryRunner.query(`DROP INDEX "IDX_DOCUMENT_OWNER"`);
+    await queryRunner.query(`DROP TABLE "document"`);
   }
 }
 ```

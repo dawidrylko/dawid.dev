@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Git commands for stashing, rebasing, cherry-picking and handling merge conflicts, each with the one command you need and what it does."
 tags:
   - dev
   - git

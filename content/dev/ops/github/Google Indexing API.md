@@ -1,5 +1,6 @@
 ---
 date: 2024-04-22
+description: "A Bash script that submits site URLs to the Google Indexing API from GitHub Actions, and why Google limits that API to job and livestream pages."
 tags:
   - dev
   - ops
@@ -8,6 +9,9 @@ tags:
 
 > [!tldr]
 > Script to automate the notification process for submitting URLs to the Google search engine using the Google Indexing API and GitHub Actions.
+
+> [!warning]
+> Google supports the Indexing API only for pages with `JobPosting` or `BroadcastEvent` (embedded in a `VideoObject`) structured data. Submitting ordinary blog posts this way falls outside that scope, so rely on the sitemap for those pages instead.
 
 ## 🌐 Overview
 

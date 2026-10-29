@@ -1,5 +1,6 @@
 ---
 date: 2021-12-03
+description: "Production push notifications sent by mistake: a test message from PGNiG in December 2021 and three from mBank in August 2020, with screenshots."
 tags:
   - dev
 ---

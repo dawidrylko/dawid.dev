@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Git hooks in practice: where they live, how to make one executable, and a pre-commit hook that runs the test suite and aborts on failure."
 tags:
   - dev
   - git

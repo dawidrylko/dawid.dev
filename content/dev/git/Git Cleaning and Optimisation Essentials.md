@@ -1,5 +1,6 @@
 ---
 date: 2024-12-18
+description: "Keep a Git repository small and tidy: aggressive garbage collection, finding the largest objects, and git clean for ignored or untracked files."
 tags:
   - dev
   - git
@@ -45,9 +46,9 @@ Deletes all untracked files and directories. Useful for resetting your working d
 git clean -fd
 ```
 
-### 📂 Remove Only Untracked Directories
+### 📂 Remove Untracked Files Except a Pattern
 
-Removes all untracked directories, excluding files matching the specified pattern (e.g., `*.txt`).
+Removes untracked files and directories, keeping files that match the specified pattern (e.g., `*.txt`).
 
 ```bash
 git clean -fd --exclude="*.txt"

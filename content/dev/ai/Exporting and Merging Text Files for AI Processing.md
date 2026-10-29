@@ -1,5 +1,6 @@
 ---
 date: 2025-02-19
+description: "A Bash script that merges every text file in a directory into one file with start and end markers and skips binaries, ready to hand to an AI model."
 tags:
   - dev
   - ai
@@ -9,7 +10,7 @@ tags:
 
 This script recursively scans all files in a specified directory and saves their contents to an output file. Binary files are skipped, and a note `[SKIP] Binary file: <path>` is added instead. This allows for easy merging of multiple text files into a single document that can be uploaded to AI tools like ChatGPT, Claude, DeepSeek, etc.
 
-_Additionally, you can achieve similar functionality using the [[dev/mergerocket|mergerocket]] npm package—a fast CLI tool that recursively merges text files (while skipping binaries), adds customizable start/end markers, and even supports `.gitignore`, summaries, and hidden-file options._
+_Additionally, you can achieve similar functionality using the [[dev/mergerocket|mergerocket]] npm package - a fast CLI tool that recursively merges text files (while skipping binaries), adds customizable start/end markers, and even supports `.gitignore`, summaries, and hidden-file options._
 
 ## 🖥️ Example Script
 
@@ -18,7 +19,8 @@ _Additionally, you can achieve similar functionality using the [[dev/mergerocket
 
 echo "Exporting text file contents..."
 output_file="merged_output.txt"
-find . -type f -print0 | while IFS= read -r -d '' file; do
+: > "$output_file"
+find . -type f ! -name "$output_file" -print0 | while IFS= read -r -d '' file; do
     echo -e "\n========== START: $file ==========" >> "$output_file"
     if file "$file" | grep -q text; then
         cat "$file" >> "$output_file"
@@ -59,7 +61,7 @@ echo "Export completed: $output_file"
      mergerocket --dir . --out merged_output.txt --attach-summary
      ```
 
-   - It handles recursive scanning, binary skipping, dynamic start/end markers, `.gitignore` compliance, hidden files, and an optional summary report—all out of the box.
+   - It handles recursive scanning, binary skipping, dynamic start/end markers, `.gitignore` compliance, hidden files, and an optional summary report - all out of the box.
 
 ## 📂 Example Output Format
 
@@ -79,10 +81,10 @@ Log file content here.
 
 ## 📊 Use Cases
 
-- **Merging Files for AI Processing** – Preparing large text datasets to be uploaded into AI tools such as ChatGPT, Claude, DeepSeek, and others.
-- **Project Archiving** – Capturing the full content of text files in a single file.
-- **Source Code Analysis** – Reviewing and searching through all files at once.
-- **Identifying Binary Files** – Detecting non-text files for alternative processing methods.
+- **Merging Files for AI Processing** - Preparing large text datasets to be uploaded into AI tools such as ChatGPT, Claude, DeepSeek, and others.
+- **Project Archiving** - Capturing the full content of text files in a single file.
+- **Source Code Analysis** - Reviewing and searching through all files at once.
+- **Identifying Binary Files** - Detecting non-text files for alternative processing methods.
 
 ## 🔗 Quick Links
 

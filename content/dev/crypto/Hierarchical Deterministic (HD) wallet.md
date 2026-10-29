@@ -1,5 +1,6 @@
 ---
 date: 2024-04-23
+description: "Hierarchical deterministic wallets: how BIP-32 derives a tree of keys from one seed and how a BIP-39 mnemonic produces that seed."
 tags:
   - dev
   - crypto
@@ -11,7 +12,6 @@ tags:
 > [!cite]
 >
 > - Hierarchical Deterministic (HD) wallets allow you to manage a near infinite number of accounts with just one secret recovery phrase
-> - HD wallets were introduced with the BIP-39 standard, and today they are the most popular type of wallet due to their convenience.
 > - HD wallets let you back up your entire wallet in ease, plus, they also allow you to recover your original wallet on whichever HD wallet interface you choose.
 
 ## 🔗 Quick Links
@@ -24,7 +24,7 @@ tags:
 
 Hierarchical Deterministic (HD) wallets are a type of cryptocurrency wallets that allow for the generation of multiple private and public keys from a single master key (seed). They are based on the BIP-32 (Bitcoin Improvement Proposal 32) standard, which introduces a hierarchical structure of keys.
 
-The functioning principle of Hierarchical Deterministic wallets relies on using deterministic algorithms to generate keys based on the master key. The master key, typically generated as a sequence of random words (e.g., 12 or 24 words), is used to generate a tree-like structure of keys.
+The functioning principle of Hierarchical Deterministic wallets relies on using deterministic algorithms to generate keys based on the master key. The master key is derived from a seed, and the seed usually comes from a 12 or 24 word mnemonic defined in BIP-39. From the master key, BIP-32 derives a tree-like structure of keys.
 
 The hierarchical structure of keys allows for organizing keys in a hierarchical manner, which is useful for creating structures such as multi-user wallets, multi-device wallets, and creating backups. Keys are generated at different levels in the tree, allowing for easy management.
 

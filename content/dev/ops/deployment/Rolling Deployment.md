@@ -1,56 +1,45 @@
 ---
+title: Rolling Deployment
 date: 2024-05-24
+description: "Rolling deployment replaces application instances in batches so the service stays up: how a rollout runs, what it costs, and when to halt it."
 tags:
   - dev
   - ops
   - deployment
 ---
 
-## 🌐 Overview
+## Overview
 
-Rolling Deployment gradually updates application instances to a new version, ensuring there is no downtime. The application remains fully operational throughout the process, allowing end users to continue interacting with the software without interruption.
+Rolling deployment replaces application instances with the new version in batches, so the service stays available all the way through. Users keep working while old and new instances run side by side.
 
-## 🔑 Key Concepts
+## Key concepts
 
-- **Current Version**: The currently running application release in production.
-- **New Version**: The updated release slated to replace the current version.
-- **Instances**: Independent units of the application (e.g., containers, servers) that run concurrently.
+Instances are the independent units of the application, such as containers or servers. During the rollout the fleet holds both the current and the new version at once, so the two must be compatible with each other and with any shared data.
 
-## 🚀 Implementation Steps
+## Implementation steps
 
-- **Prepare New Version**: Ensure the new release is thoroughly developed, tested, and ready for deployment.
-- **Update Instances in Batches**: Replace a small subset of instances at a time with the new version, monitoring each batch before moving on.
-- **Monitor and Validate**: Assess the performance and stability of the newly updated instances, ensuring they meet success criteria.
-- **Repeat the Process**: Continue the replacement cycle for all remaining instances, incrementally introducing the new version throughout the environment.
-- **Rollback if Necessary**: If errors or performance issues emerge, halt further updates and revert to the previous stable release.
+1. Test the new release until it is ready for deployment.
+2. Replace a small batch of instances and monitor it before moving on.
+3. Validate the performance and stability of the updated instances against the success criteria.
+4. Repeat for the remaining batches until the whole fleet runs the new version.
+5. If errors or slowdowns appear, halt the rollout and return to the previous stable release.
 
-## ✅ Advantages
+## Advantages
 
-- **No Downtime**: Users remain continuously connected, greatly enhancing user experience.
-- **Reduced Risk**: Problems often surface in small, controlled batches, enabling quicker detection and resolution.
-- **Incremental Updates**: Changes roll out in manageable steps, simplifying troubleshooting and monitoring.
+There is no downtime, because capacity is never taken away all at once. Problems tend to surface in the first batches, where they touch few instances, so detection and fixes come sooner. Small steps also simplify troubleshooting, since the set of changed instances is small and known.
 
-## ⚠️ Challenges
+## Challenges
 
-- **Complex Coordination**: Requires robust orchestration and monitoring tools to manage multiple instances cohesively.
-- **Resource Requirements**: Temporarily runs both old and new versions in parallel, consuming additional resources.
-- **Slower Deployment Cycle**: Updating in batches generally takes longer compared to immediate switchover methods.
+Coordination needs orchestration and monitoring that treat many instances consistently. Old and new versions run in parallel for a while, which uses extra resources and demands backward compatibility. Batches take longer than a switchover. On a large fleet the rollout can last a long time.
 
-## 💼 Example Use Cases
+## Use cases
 
-- **High-Availability Systems**: Where downtime is unacceptable, such as e-commerce platforms or real-time communication services.
-- **Large-Scale Environments**: Ideal for deployments with numerous instances that must remain operational.
-- **Microservices Architecture**: Particularly beneficial when multiple loosely coupled components are deployed frequently.
+Rolling deployment suits high-availability systems such as online stores and real-time communication, and large fleets that cannot be taken down together. It works well for microservices, where loosely coupled components ship often. It is also the default strategy of a Kubernetes Deployment.
 
-## 🔧 Advanced Implementation Techniques
+## Advanced techniques
 
-- **Automated Rollout**: Integrating CI/CD pipelines to orchestrate and automate the Rolling Deployment process.
-- **Progressive Traffic Shaping**: Gradually routing an increasing percentage of live traffic to updated instances.
-- **Automated Testing & Monitoring**: Leveraging health checks, canary checks, and real-time metrics to confirm successful deployment.
+A CI/CD pipeline can drive the whole rollout. Traffic can be shifted progressively toward the updated instances, which makes a rolling update behave much like a canary. Health checks and real-time metrics confirm each batch before the next one starts.
 
-## 💁🏼‍♀️ Best Practices
+## Best practices
 
-- **Use Health Checks**: Continuously validate the health of updated instances with automated checks.
-- **Clearly Define Rollback Criteria**: Specify metrics or errors that trigger an immediate rollback to the previous version.
-- **Adopt Feature Flags**: Isolate new features behind flags, allowing safer activation or rollback without redeploying code.
-- **Ensure Observability**: Collect logs, metrics, and traces to provide full visibility into the deployment’s progress and performance.
+Gate every batch on a health check. Define the rollback criteria in advance, as the metrics or error counts that stop the rollout. Put new features behind flags, so activation and rollback do not need a redeploy. Collect logs, metrics and traces to see the progress of the rollout, not only its end state.

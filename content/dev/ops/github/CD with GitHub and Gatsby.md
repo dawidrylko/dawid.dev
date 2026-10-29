@@ -118,9 +118,6 @@ jobs:
 
 The `setup-node` action is used to set up the Node.js environment for the workflow. It reads the `.nvmrc` file in the repository to determine the Node.js version to use.
 
-> [!caution]
-> The `node-version-file` is available since `v4` of the `setup-node` action.
-
 > [!info]
 > File containing the version Spec of the version to use. Examples: `package.json`, `.nvmrc`, `.node-version`, `.tool-versions`.
 >

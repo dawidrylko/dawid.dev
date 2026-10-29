@@ -10,6 +10,9 @@ tags:
 > [!tldr]
 > Step-by-step guide to installing #Proxmox on a #RaspberryPi, including updating packages, adding Proxmox repository, and installing necessary components.
 
+> [!warning]
+> Proxmox VE has no official ARM build. The key and repository below come from a community ARM port hosted on a third-party mirror, so installing from them means trusting that mirror with root on the device.
+
 ## 🔗 Quick links
 
 - [Proxmox VE Documentation](https://pve.proxmox.com/wiki/Main_Page)

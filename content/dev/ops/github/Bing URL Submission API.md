@@ -14,6 +14,8 @@ tags:
 
 This script automates the process of notifying #Bing about new and updated pages on your website using the [Microsoft Bing URL Submission API](https://www.bing.com/webmasters/url-submission-api). It constructs a JSON payload containing the site URL, a list of static pages, and a list of post URLs. The script then submits this payload to the Bing API using a provided API key.
 
+Bing now redirects the documentation of this API to [IndexNow](https://www.bing.com/indexnow), which accepts the same list of URLs authenticated with a key file instead of an API key.
+
 I use this script in my [CD](./CD%20with%20GitHub%20and%20Gatsby.md) pipeline to notify Bing about new or updated content on my website.
 
 ## 🚀 Script

@@ -138,6 +138,9 @@ advanced:
   log_level: info
 ```
 
+> [!warning]
+> HomeKit finds Homebridge over mDNS, which does not cross a Docker bridge network, and the documentation of the official Homebridge image runs it with `network_mode: host`. If pairing with the Home app fails with this file, that is the first thing to change. The broker above also accepts anonymous clients on port 1883 of every interface, which is acceptable only on a trusted home network.
+
 ## 💁🏼‍♀️ Services
 
 ### 🏠 Homebridge

@@ -1,6 +1,7 @@
 ---
 title: "TypeScript Native Port: A 10x Speed Boost Coming in 2025"
 date: 2025-03-12
+description: "Microsoft's March 2025 announcement of a native TypeScript compiler written in Go: the benchmarks, editor load times and the TypeScript 7 plan."
 tags:
   - dev
   - frontend
@@ -9,6 +10,9 @@ tags:
 
 > [!tldr]
 > Microsoft is developing a native port of TypeScript compiler and tools that will deliver a staggering 10x performance improvement. Command-line typechecking preview is expected by mid-2025, with full project builds and language service support by late 2025. The native implementation drastically reduces startup time, build times, and memory usage while maintaining compatibility with existing TypeScript code.
+
+> [!note]
+> Written in March 2025 from Microsoft's announcement. The dates and the version plan below are the ones given then, so check the TypeScript blog for the current release state.
 
 ## 🔗 Quick Links
 
