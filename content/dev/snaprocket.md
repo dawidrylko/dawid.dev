@@ -91,7 +91,7 @@ snaprocket -h <baseURL> -p <paths> [-t <timeout>] [-o <output_directory>] [-H <h
 
 #### 1️⃣ Full-page Screenshots for Default Viewports
 
-Capture screenshots for the homepage, blog, bio, and contact pages:
+Capture screenshots for the homepage, blog, about, and contact pages:
 
 ```bash
 snaprocket -h https://dawidrylko.com -p / /blog /about /contact
