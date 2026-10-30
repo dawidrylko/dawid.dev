@@ -94,7 +94,7 @@ snaprocket -h <baseURL> -p <paths> [-t <timeout>] [-o <output_directory>] [-H <h
 Capture screenshots for the homepage, blog, bio, and contact pages:
 
 ```bash
-snaprocket -h https://dawidrylko.com -p / /blog /bio /contact
+snaprocket -h https://dawidrylko.com -p / /blog /about /contact
 ```
 
 #### 2️⃣ Screenshots with Height Limit for Selected Viewports
