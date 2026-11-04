@@ -126,3 +126,6 @@ The `setup-node` action is used to set up the Node.js environment for the workfl
 ## 🔔 Notifications
 
 The `notify` job in the workflow file is responsible for sending notifications to the [[Google Indexing API]] and [[Bing URL Submission API]].
+
+> [!warning]
+> The Google step is outside the Indexing API's scope for ordinary pages and was removed from my pipeline on 7 July 2026. The [[Google Indexing API]] note explains why and what to use instead. The Bing step still runs.
