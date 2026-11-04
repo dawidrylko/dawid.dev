@@ -22,7 +22,7 @@ The Gorilla toolkit is in better shape than that. Its organisation announced a n
 
 ## From mgo to the official driver
 
-The driver maintained by MongoDB is on its second major version. the current release at the time of writing is v2.9.3, its README asks for Go 1.25 or newer and MongoDB 4.4 or newer, and the major version is part of the import path: `go.mongodb.org/mongo-driver/v2/mongo`. The v1 line still gets releases (v1.17.10 in September 2026), but there is no reason to start new code on it.
+The driver maintained by MongoDB is on its second major version. The current release at the time of writing is v2.9.3, its README asks for Go 1.25 or newer and MongoDB 4.4 or newer, and the major version is part of the import path: `go.mongodb.org/mongo-driver/v2/mongo`. The v1 line still gets releases (v1.17.10 in September 2026), but there is no reason to start new code on it.
 
 Most of the change is a rename, and a table shows it faster than prose:
 
@@ -39,7 +39,7 @@ Most of the change is a rename, and a table shows it faster than prose:
 | Update | `UpdateId(oid, p)` | `ReplaceOne(ctx, filter, p)` |
 | Delete | `RemoveId(oid)` | `DeleteOne(ctx, filter)` |
 
-Two differences matter more than the renames. The first is the connection model: in 2017 every request fetched a session and had to release it, a step that my first two parts forgot and the third one added as `FinishSession`. The driver's `Client` is a pool of connections and is safe for concurrent use by multiple goroutines, so a process creates **exactly one `Client` at startup** and passes it around. The second is the context: every operation takes a `context.Context`, and the handlers below hand it the request's own, which is where a per-request deadline would attach.
+Two differences matter more than the renames. The first is the connection model: with mgo every request fetched a session and had to release it with `FinishSession`. The driver's `Client` is a pool of connections and is safe for concurrent use by multiple goroutines, so a process creates **exactly one `Client` at startup** and passes it around. The second is the context: every operation takes a `context.Context`, and the handlers below hand it the request's own, which is where a per-request deadline would attach.
 
 If you are coming from driver v1 and not from mgo, the visible change is that `mongo.Connect` no longer takes a context, and that `ObjectID` moved from `bson/primitive` into `bson`.
 
@@ -95,7 +95,7 @@ That is enough for a CRUD API. `gorilla/mux` still offers regular-expression con
 
 ## Handlers
 
-The original handlers were a three-part series: [part 1 (POST)](https://dawidrylko.com/http-methods-z-go-i-mongodb-czesc-1-post/) (in Polish) for creating a product, [part 2 (GET)](https://dawidrylko.com/http-methods-z-go-i-mongodb-czesc-2-get/) (in Polish) for the list and a single product, and [part 3 (PUT and DELETE)](https://dawidrylko.com/http-methods-z-go-i-mongodb-czesc-3-put-i-delete/) (in Polish). Their weak spots decided what changed here. The 2017 code ignored the error from `Decode`, answered 404 for every database error (which also hides a dead database), and in part 2 passed the path parameter straight to `bson.ObjectIdHex`. The doc comment of that function says that an invalid hex string causes a runtime panic, and part 3 later added the `IsObjectIdHex` guard to update and remove, but not to the GET handler.
+The original handlers were a three-part series: [part 1 (POST)](https://dawidrylko.com/http-methods-z-go-i-mongodb-czesc-1-post/) (in Polish) for creating a product, [part 2 (GET)](https://dawidrylko.com/http-methods-z-go-i-mongodb-czesc-2-get/) (in Polish) for the list and a single product, and [part 3 (PUT and DELETE)](https://dawidrylko.com/http-methods-z-go-i-mongodb-czesc-3-put-i-delete/) (in Polish). The versions below keep the same five operations and tighten error handling: a body that fails to decode is rejected, and the status code says which of three things went wrong.
 
 In the new version an invalid ID is a `400`, **a missing document is the only `404`**, and anything else is a logged `500`:
 

@@ -115,14 +115,14 @@ What the backup does not cover:
 
 ## What to buy and what to skip
 
-**Buy**
+### Buy
 
 - A coordinator from a family Zigbee2MQTT recommends. Its adapter page lists three: zStack (Texas Instruments), EmberZNet (Silicon Labs) and deCONZ (Dresden Elektronik). My ConBee II is in the third. It was not cheap, and it moved from the Pi 3 to a Pi 5 without a complaint.
 - A Raspberry Pi 5 with active cooling, the official power supply and an NVMe drive. The first kit had the official 27 W supply, the official active cooler and an NVMe adapter board. The second is an Argon ONE V3 case with a built-in M.2 slot.
 - A home hub you already have a reason to own. The same Apple page says Thread-enabled Matter accessories require a Thread-enabled home hub, and names HomePod mini and Apple TV 4K as examples. A hub bought for remote access today also covers that.
 - Zigbee accessories from Chinese marketplaces. They were much cheaper than local shops for me. Dimmers I already owned gained a second life once the coordinator existed.
 
-**Skip**
+### Skip
 
 - An SD card as a system disk for anything that records history.
 - Bluetooth sensors read from the central computer. Keep Bluetooth for devices that live next to the radio that reads them.

@@ -14,15 +14,15 @@ tags:
 
 ## What the API is for
 
-Google's quickstart is explicit: the Indexing API "can only be used to crawl pages with either `JobPosting` or `BroadcastEvent` embedded in a `VideoObject`". It lets Google schedule a fresh crawl of such a page. It does not promise indexing. Every submission goes through spam detection, and Google warns that abuse, including spreading requests over several accounts, may get access revoked.
+Google's quickstart is explicit: the Indexing API "can only be used to crawl pages with either `JobPosting` or `BroadcastEvent` embedded in a `VideoObject`". It lets Google schedule a fresh crawl of such a page, which is a request to fetch it, not a promise to index it. Every submission goes through spam detection, and Google warns that abuse, including spreading requests over several accounts, may get access revoked.
 
 A blog post, a landing page or a documentation page is none of those types. A successful response code does not make sending them a supported use.
 
 ## What I did, and why I stopped
 
-On 28 November 2023 I added a step to the deployment of [dawidrylko.com](https://dawidrylko.com). It used [easyindex-cli](https://github.com/usk81/easyindex-cli) to send the home page, one static page and every post to the Indexing API. I described the setup in a Polish post, [Przesyłanie adresów do Google za pomocą Indexing API i GitHub Actions](https://dawidrylko.com/przesylanie-adresow-do-google-za-pomoca-indexing-api-i-github-actions/) (in Polish), and in the first version of this note.
+On 28 November 2023 I added a step to the deployment of dawidrylko.com, my Polish blog. It used [easyindex-cli](https://github.com/usk81/easyindex-cli) to send the home page, one static page and every post to the Indexing API. I described the setup in a Polish post, [Przesyłanie adresów do Google za pomocą Indexing API i GitHub Actions](https://dawidrylko.com/przesylanie-adresow-do-google-za-pomoca-indexing-api-i-github-actions/) (in Polish), and in the first version of this note.
 
-On 7 July 2026 I removed the step while aligning the site with Google's guidance. The Polish post and this note now both describe the script as an archive. Search Console shows what the API never changed: in November 2026, 14 of 57 sitemap URLs on that site are still crawled or discovered but not indexed. Whether a page gets indexed depends on Google's judgement of the page, and a crawl request does not change that judgement.
+On 7 July 2026 I removed the step while aligning the site with Google's guidance. The Polish post and this note now both describe the script as an archive. Four months after I removed the step, URL Inspection in Search Console lists 14 of the 57 sitemap URLs on that site as crawled or discovered but not indexed. A crawl request only asks Google to fetch a page again. Whether the page is then indexed is a separate decision.
 
 ## What to use instead
 
@@ -37,15 +37,15 @@ A `lastmod` helps only when it is true. Google's sitemap documentation says it u
 
 ## The archived script
 
-I keep it for reference and for sites that do publish `JobPosting` or `BroadcastEvent` pages. On such a site, replace the post loop with a list of the qualifying URLs. Do not run it against ordinary posts.
+This is the first version, from November 2023, kept for reference and for sites that do publish `JobPosting` or `BroadcastEvent` pages. On such a site, replace the post loop with a list of the qualifying URLs. Do not run it against ordinary posts. It downloads easyindex-cli without verifying a checksum. The [last version before removal](https://github.com/dawidrylko/dawidrylko.com/blob/fead8a7a0d403faebb75ecbb3fd34f0a1687a60d/scripts/notify/google.sh) pins the release by SHA-256 and retries failed calls, so start from that one.
 
-```bash title="scripts/notify/google.sh (archived)"
+```bash title="google.sh (first version, November 2023)"
 #!/usr/bin/env bash
 set -o errexit
 set -o nounset
 
 BASE_URL="https://dawidrylko.com"
-STATIC_PAGES=("bio")
+STATIC_PAGES=("about")
 POSTS_DIR="../../../content/pl/"
 TMP_DIR="$(pwd)/tmp"
 TMP_FILE="$TMP_DIR/google.csv"

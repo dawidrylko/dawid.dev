@@ -53,7 +53,7 @@ Each piece of the 2017 pipeline has a counterpart:
 | Entity | `fullName` | A property in the tool's `input_schema`, with a type and a description. |
 | `keywords` search strategy | A closed list of values | An `enum` in the schema. |
 | `free-text` search strategy | The name as typed | A `string` property. |
-| Built-in entity, such as `wit/datetime` | Dates and numbers resolved for me | Not built in. You pass today's date and the user's timezone in the prompt and ask for ISO 8601 values. |
+| Built-in entity, such as `wit$datetime` | Dates and numbers resolved for me | Not built in. You pass today's date and the user's timezone in the prompt and ask for ISO 8601 values. |
 | Training sentences | Typed into the console, validated one by one | The tool `description`, optional `input_examples`, and a test set you keep. |
 | Confidence | A number from 0 to 1 per intent | None on a tool call. |
 | Story and actions | `findPerson()` called by a story | Your loop: handle the `tool_use` block, run the function, return a `tool_result`. |
