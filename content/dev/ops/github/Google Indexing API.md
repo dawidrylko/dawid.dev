@@ -1,6 +1,8 @@
 ---
+title: "Google Indexing API: why it is not for blog posts"
 date: 2024-04-22
-description: "A Bash script that submits site URLs to the Google Indexing API from GitHub Actions, and why Google limits that API to job and livestream pages."
+modified: 2026-11-04
+description: "An archived script that sent blog URLs to the Google Indexing API from GitHub Actions, why that was outside its scope, and what to use instead."
 tags:
   - dev
   - ops
@@ -8,26 +10,42 @@ tags:
 ---
 
 > [!tldr]
-> Script to automate the notification process for submitting URLs to the Google search engine using the Google Indexing API and GitHub Actions.
+> The Google Indexing API accepts only pages with `JobPosting` or `BroadcastEvent` (embedded in a `VideoObject`) structured data. From November 2023 to July 2026 I ran a script that sent every blog post of dawidrylko.com to it. That was outside the API's scope, so I removed it. For ordinary pages the supported route is a sitemap, URL Inspection in Search Console and good internal links.
 
-> [!warning]
-> Google supports the Indexing API only for pages with `JobPosting` or `BroadcastEvent` (embedded in a `VideoObject`) structured data. Submitting ordinary blog posts this way falls outside that scope, so rely on the sitemap for those pages instead.
+## What the API is for
 
-## 🌐 Overview
+Google's quickstart is explicit: the Indexing API "can only be used to crawl pages with either `JobPosting` or `BroadcastEvent` embedded in a `VideoObject`". It lets Google schedule a fresh crawl of such a page. It does not promise indexing. Every submission goes through spam detection, and Google warns that abuse, including spreading requests over several accounts, may get access revoked.
 
-This script automates the process of notifying #Google about new and updated pages on your website using the [Google Indexing API](https://developers.google.com/search/apis/indexing-api/v3/quickstart). It constructs a CSV payload containing the site URL, a list of static pages, and a list of post URLs. The script then submits this payload to the Google Indexing API using the [easyindex-cli](https://github.com/usk81/easyindex-cli) tool and a provided service account credentials file.
+A blog post, a landing page or a documentation page is none of those types. A successful response code does not make sending them a supported use.
 
-I use this script in my [CD](./CD%20with%20GitHub%20and%20Gatsby.md) pipeline to notify Google about new or updated content on my website.
+## What I did, and why I stopped
 
-## 🚀 Script
+On 28 November 2023 I added a step to the deployment of [dawidrylko.com](https://dawidrylko.com). It used [easyindex-cli](https://github.com/usk81/easyindex-cli) to send the home page, one static page and every post to the Indexing API. I described the setup in a Polish post, [Przesyłanie adresów do Google za pomocą Indexing API i GitHub Actions](https://dawidrylko.com/przesylanie-adresow-do-google-za-pomoca-indexing-api-i-github-actions/) (in Polish), and in the first version of this note.
 
-```bash title=".github/scripts/google.sh"
+On 7 July 2026 I removed the step while aligning the site with Google's guidance. The Polish post and this note now both describe the script as an archive. Search Console shows what the API never changed: in November 2026, 14 of 57 sitemap URLs on that site are still crawled or discovered but not indexed. Whether a page gets indexed depends on Google's judgement of the page, and a crawl request does not change that judgement.
+
+## What to use instead
+
+| Need | Supported route |
+| --- | --- |
+| Tell Google which URLs exist and when they changed | A sitemap with an honest `lastmod`, declared in `robots.txt` and submitted in Search Console |
+| Ask for a recrawl of one changed page | URL Inspection, then "Request indexing", in Search Console |
+| Notify Bing and other IndexNow engines automatically | [[Bing URL Submission API]] or IndexNow, both meant for any page |
+| Get a page indexed at all | Content worth indexing, internal links from indexed pages, links from other sites |
+
+A `lastmod` helps only when it is true. Google's sitemap documentation says it uses the value only when it is consistently and verifiably accurate. A deploy that rewrites every date teaches Google to ignore the field.
+
+## The archived script
+
+I keep it for reference and for sites that do publish `JobPosting` or `BroadcastEvent` pages. On such a site, replace the post loop with a list of the qualifying URLs. Do not run it against ordinary posts.
+
+```bash title="scripts/notify/google.sh (archived)"
 #!/usr/bin/env bash
 set -o errexit
 set -o nounset
 
 BASE_URL="https://dawidrylko.com"
-STATIC_PAGES=("about")
+STATIC_PAGES=("bio")
 POSTS_DIR="../../../content/pl/"
 TMP_DIR="$(pwd)/tmp"
 TMP_FILE="$TMP_DIR/google.csv"
@@ -39,7 +57,6 @@ log_error() {
   exit 1
 }
 
-# Create a temporary working directory
 create_tmp_directory() {
   if [ ! -d "$TMP_DIR" ]; then
     echo "Creating temporary working directory: $TMP_DIR"
@@ -47,7 +64,6 @@ create_tmp_directory() {
   fi
 }
 
-# Download https://github.com/usk81/easyindex-cli
 download_easyindex_cli() {
   EASYINDEX_CLI="./easyindex-cli"
   if [ ! -f "$EASYINDEX_CLI" ]; then
@@ -57,7 +73,6 @@ download_easyindex_cli() {
   fi
 }
 
-# Copy credentials file
 copy_credentials_file() {
   echo "Using the GOOGLE_JSON_KEY_FILE environment variable..."
   if [ -z "${GOOGLE_JSON_KEY_FILE:-}" ]; then
@@ -67,7 +82,6 @@ copy_credentials_file() {
   echo "$GOOGLE_JSON_KEY_FILE" > "$TMP_DIR/credentials.json" || log_error "Failed to write to credentials file $TMP_DIR/credentials.json"
 }
 
-# Construct submission payload
 construct_submission_payload() {
   echo "\"notification_type\",\"url\"" >> "$TMP_FILE"
   echo "\"URL_UPDATED\",\"${BASE_URL}/\"" >> "$TMP_FILE"
@@ -91,14 +105,12 @@ construct_submission_payload() {
   echo
 }
 
-# Submit URLs to Google search engine
 submit_to_search_engine() {
   echo "Submitting to Google via Indexing API..."
   "$EASYINDEX_CLI" google publish --csv "$TMP_FILE" -C "$TMP_DIR/credentials.json" || log_error "An error returned by easyindex-cli. Exiting."
   echo
 }
 
-# Main execution
 create_tmp_directory
 
 cd "$TMP_DIR" || log_error "Failed to change to temporary directory $TMP_DIR"
@@ -114,14 +126,11 @@ echo "---------------------------------"
 echo "Script completed in $duration milliseconds."
 ```
 
-After creating the script file, make sure to make it executable:
+The service account key goes into a repository secret named `GOOGLE_JSON_KEY_FILE`, pasted whole. The script writes it to a temporary file on the runner and never into the repository.
 
-```bash
-chmod +x .github/scripts/google.sh
-```
+## Sources
 
-When setting up GitHub Actions secrets, add a new repository secret named `GOOGLE_JSON_KEY_FILE` and paste the entire contents of the downloaded JSON key file.
-
-## 🔗 Quick Links
-
-- [Submitting URLs to Google using Indexing API and GitHub Actions](https://dawidrylko.com/przesylanie-adresow-do-google-za-pomoca-indexing-api-i-github-actions/)
+1. Google Search Central, [Indexing API quickstart](https://developers.google.com/search/apis/indexing-api/v3/quickstart): supported page types, spam detection, revoked access for abuse.
+2. Google Search Central, [Build and submit a sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap): when Google uses `lastmod`.
+3. Google Search Console Help, [URL Inspection tool](https://support.google.com/webmasters/answer/9012289): requesting a recrawl of a single URL.
+4. usk81, [easyindex-cli](https://github.com/usk81/easyindex-cli): the CLI the archived script calls.
