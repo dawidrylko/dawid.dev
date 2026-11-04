@@ -37,9 +37,9 @@ A `lastmod` helps only when it is true. Google's sitemap documentation says it u
 
 ## The archived script
 
-This is the first version, from November 2023, kept for reference and for sites that do publish `JobPosting` or `BroadcastEvent` pages. On such a site, replace the post loop with a list of the qualifying URLs. Do not run it against ordinary posts. It downloads easyindex-cli without verifying a checksum. The [last version before removal](https://github.com/dawidrylko/dawidrylko.com/blob/fead8a7a0d403faebb75ecbb3fd34f0a1687a60d/scripts/notify/google.sh) pins the release by SHA-256 and retries failed calls, so start from that one.
+This is the simplified version this note has shown since April 2024, kept for reference and for sites that do publish `JobPosting` or `BroadcastEvent` pages. On such a site, replace the post loop with a list of the qualifying URLs. Do not run it against ordinary posts. It downloads easyindex-cli without verifying a checksum. The [last version before removal](https://github.com/dawidrylko/dawidrylko.com/blob/fead8a7a0d403faebb75ecbb3fd34f0a1687a60d/scripts/notify/google.sh) pins the release by SHA-256 and retries failed calls, so start from that one.
 
-```bash title="google.sh (first version, November 2023)"
+```bash title="google.sh (simplified, as published in April 2024)"
 #!/usr/bin/env bash
 set -o errexit
 set -o nounset
