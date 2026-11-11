@@ -24,6 +24,34 @@ if [[ ! -d "$cache" ]]; then
   rm -f "$dist/quartz.tar.gz"
 fi
 
+mermaid_version=$(sed -n 's/^version=//p' .mermaid-version)
+mermaid_integrity=$(sed -n 's/^integrity=//p' .mermaid-version)
+if [[ -z "$mermaid_version" || -z "$mermaid_integrity" ]]; then
+  echo "error: .mermaid-version must define version=<mermaid version> and integrity=<npm sha512 integrity>" >&2
+  exit 1
+fi
+
+mermaid_cache="$dist/mermaid-$mermaid_version"
+if [[ ! -f "$mermaid_cache/.integrity" || "$(cat "$mermaid_cache/.integrity")" != "$mermaid_integrity" ]]; then
+  rm -rf "$mermaid_cache" "$dist/mermaid-unpack" "$dist/mermaid-staging"
+  mkdir -p "$dist"
+  echo "downloading mermaid $mermaid_version"
+  curl -fsSL "https://registry.npmjs.org/mermaid/-/mermaid-$mermaid_version.tgz" -o "$dist/mermaid.tgz"
+  actual="sha512-$(openssl dgst -sha512 -binary "$dist/mermaid.tgz" | base64 | tr -d '\n')"
+  if [[ "$actual" != "$mermaid_integrity" ]]; then
+    rm -f "$dist/mermaid.tgz"
+    echo "error: mermaid $mermaid_version integrity mismatch: expected $mermaid_integrity, got $actual" >&2
+    exit 1
+  fi
+  mkdir -p "$dist/mermaid-unpack" "$dist/mermaid-staging/chunks/mermaid.esm.min"
+  tar -xzf "$dist/mermaid.tgz" -C "$dist/mermaid-unpack"
+  cp "$dist/mermaid-unpack/package/dist/mermaid.esm.min.mjs" "$dist/mermaid-staging/"
+  cp "$dist/mermaid-unpack/package/dist/chunks/mermaid.esm.min/"*.mjs "$dist/mermaid-staging/chunks/mermaid.esm.min/"
+  printf '%s' "$mermaid_integrity" > "$dist/mermaid-staging/.integrity"
+  mv "$dist/mermaid-staging" "$mermaid_cache"
+  rm -rf "$dist/mermaid-unpack" "$dist/mermaid.tgz"
+fi
+
 git ls-files > "$tracked"
 if [[ ! -s "$tracked" ]]; then
   echo "error: no tracked files found — run from the site repo (stage files before the first assemble)" >&2
@@ -57,34 +85,6 @@ fi
     echo "$f" >> "$manifest"
   fi
 done
-
-mermaid_version=$(sed -n 's/^version=//p' .mermaid-version)
-mermaid_integrity=$(sed -n 's/^integrity=//p' .mermaid-version)
-if [[ -z "$mermaid_version" || -z "$mermaid_integrity" ]]; then
-  echo "error: .mermaid-version must define version=<mermaid version> and integrity=<npm sha512 integrity>" >&2
-  exit 1
-fi
-
-mermaid_cache="$dist/mermaid-$mermaid_version"
-if [[ ! -d "$mermaid_cache" ]]; then
-  mkdir -p "$dist"
-  echo "downloading mermaid $mermaid_version"
-  curl -fsSL "https://registry.npmjs.org/mermaid/-/mermaid-$mermaid_version.tgz" -o "$dist/mermaid.tgz"
-  actual="sha512-$(openssl dgst -sha512 -binary "$dist/mermaid.tgz" | base64 | tr -d '\n')"
-  if [[ "$actual" != "$mermaid_integrity" ]]; then
-    rm -f "$dist/mermaid.tgz"
-    echo "error: mermaid $mermaid_version integrity mismatch: expected $mermaid_integrity, got $actual" >&2
-    exit 1
-  fi
-  rm -rf "$dist/mermaid-unpack"
-  mkdir -p "$dist/mermaid-unpack"
-  tar -xzf "$dist/mermaid.tgz" -C "$dist/mermaid-unpack"
-  mkdir -p "$dist/mermaid-staging/chunks/mermaid.esm.min"
-  cp "$dist/mermaid-unpack/package/dist/mermaid.esm.min.mjs" "$dist/mermaid-staging/"
-  cp "$dist/mermaid-unpack/package/dist/chunks/mermaid.esm.min/"*.mjs "$dist/mermaid-staging/chunks/mermaid.esm.min/"
-  mv "$dist/mermaid-staging" "$mermaid_cache"
-  rm -rf "$dist/mermaid-unpack" "$dist/mermaid.tgz"
-fi
 
 mermaid_static="quartz/static/mermaid"
 (cd "$mermaid_cache" && find . -type f -name '*.mjs' | sed 's|^\./||' | sort) | while IFS= read -r f; do

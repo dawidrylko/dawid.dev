@@ -126,12 +126,15 @@ describe("built output", { skip: missing ? "run `npx quartz build` first" : fals
     }
 
     assert.ok(seen.size > 1, "the entry module imports no chunks, so the walk proved nothing")
+    let loaders = 0
     for (const page of everyPage()) {
       const html = read(page.slice(output.length + 1))
       if (html.includes("code.mermaid")) {
+        loaders++
         assert.match(html, /import\(\s*"\/static\/mermaid\/mermaid\.esm\.min\.mjs"\s*\)/, page)
       }
     }
+    assert.ok(loaders > 0, "no page carries the mermaid loader, so the import check proved nothing")
   })
 
   test("the youtube embed ships as a facade, not as a player", () => {
