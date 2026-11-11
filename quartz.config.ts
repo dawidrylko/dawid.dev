@@ -6,6 +6,7 @@ import { KatexAssets } from "./quartz/plugins/emitters/katexAssets"
 import { Sitemap } from "./quartz/plugins/emitters/sitemap"
 import { RSS } from "./quartz/plugins/emitters/rss"
 import { SelfHostedLatex } from "./quartz/plugins/transformers/selfHostedLatex"
+import { SelfHostedObsidianMarkdown } from "./quartz/plugins/transformers/selfHostedObsidianMarkdown"
 import { YouTubeFacade } from "./quartz/plugins/transformers/youtubeFacade"
 
 const name = "dawid.dev"
@@ -74,7 +75,7 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
+      SelfHostedObsidianMarkdown({ enableInHtmlEmbed: false }),
       Plugin.GitHubFlavoredMarkdown(),
       YouTubeFacade(),
       Plugin.TableOfContents(),

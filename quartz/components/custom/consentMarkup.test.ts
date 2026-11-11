@@ -102,16 +102,39 @@ describe("built output", { skip: missing ? "run `npx quartz build` first" : fals
     assert.doesNotMatch(html, /data-consent-action="(customise|save|back)"/)
   })
 
-  test("no page renders a mermaid block, whose loader would fetch from a cdn", () => {
-    const offenders = everyPage().filter((page) =>
-      /class="[^"]*\bmermaid\b/.test(read(page.slice(output.length + 1))),
-    )
+  test("no page or script names cdnjs, so the mermaid loader stays on this domain", () => {
+    const offenders = everyPage()
+      .concat(["prescript.js", "postscript.js"].map((file) => join(output, file)))
+      .filter((file) => read(file.slice(output.length + 1)).includes("cdnjs.cloudflare.com"))
 
-    assert.deepEqual(
-      offenders,
-      [],
-      "upstream's mermaid script imports from cdnjs.cloudflare.com on first use; self-host it or turn mermaid off before publishing a diagram",
-    )
+    assert.deepEqual(offenders, [])
+  })
+
+  test("the self-hosted mermaid module and every chunk it imports are emitted", () => {
+    const pending = ["static/mermaid/mermaid.esm.min.mjs"]
+    const seen = new Set<string>()
+
+    while (pending.length > 0) {
+      const file = pending.pop()!
+      if (seen.has(file)) continue
+      seen.add(file)
+      assert.ok(existsSync(join(output, file)), `${file} is imported but not emitted`)
+      const dir = file.slice(0, file.lastIndexOf("/"))
+      for (const [, spec] of read(file).matchAll(/(?:from|import\()\s*"(\.{1,2}\/[^"]+\.mjs)"/g)) {
+        pending.push(join(dir, spec))
+      }
+    }
+
+    assert.ok(seen.size > 1, "the entry module imports no chunks, so the walk proved nothing")
+    let loaders = 0
+    for (const page of everyPage()) {
+      const html = read(page.slice(output.length + 1))
+      if (html.includes("code.mermaid")) {
+        loaders++
+        assert.match(html, /import\(\s*"\/static\/mermaid\/mermaid\.esm\.min\.mjs"\s*\)/, page)
+      }
+    }
+    assert.ok(loaders > 0, "no page carries the mermaid loader, so the import check proved nothing")
   })
 
   test("the youtube embed ships as a facade, not as a player", () => {
