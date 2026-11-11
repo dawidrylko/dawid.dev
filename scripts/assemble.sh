@@ -58,6 +58,41 @@ fi
   fi
 done
 
+mermaid_version=$(sed -n 's/^version=//p' .mermaid-version)
+mermaid_integrity=$(sed -n 's/^integrity=//p' .mermaid-version)
+if [[ -z "$mermaid_version" || -z "$mermaid_integrity" ]]; then
+  echo "error: .mermaid-version must define version=<mermaid version> and integrity=<npm sha512 integrity>" >&2
+  exit 1
+fi
+
+mermaid_cache="$dist/mermaid-$mermaid_version"
+if [[ ! -d "$mermaid_cache" ]]; then
+  mkdir -p "$dist"
+  echo "downloading mermaid $mermaid_version"
+  curl -fsSL "https://registry.npmjs.org/mermaid/-/mermaid-$mermaid_version.tgz" -o "$dist/mermaid.tgz"
+  actual="sha512-$(openssl dgst -sha512 -binary "$dist/mermaid.tgz" | base64 | tr -d '\n')"
+  if [[ "$actual" != "$mermaid_integrity" ]]; then
+    rm -f "$dist/mermaid.tgz"
+    echo "error: mermaid $mermaid_version integrity mismatch: expected $mermaid_integrity, got $actual" >&2
+    exit 1
+  fi
+  rm -rf "$dist/mermaid-unpack"
+  mkdir -p "$dist/mermaid-unpack"
+  tar -xzf "$dist/mermaid.tgz" -C "$dist/mermaid-unpack"
+  mkdir -p "$dist/mermaid-staging/chunks/mermaid.esm.min"
+  cp "$dist/mermaid-unpack/package/dist/mermaid.esm.min.mjs" "$dist/mermaid-staging/"
+  cp "$dist/mermaid-unpack/package/dist/chunks/mermaid.esm.min/"*.mjs "$dist/mermaid-staging/chunks/mermaid.esm.min/"
+  mv "$dist/mermaid-staging" "$mermaid_cache"
+  rm -rf "$dist/mermaid-unpack" "$dist/mermaid.tgz"
+fi
+
+mermaid_static="quartz/static/mermaid"
+(cd "$mermaid_cache" && find . -type f -name '*.mjs' | sed 's|^\./||' | sort) | while IFS= read -r f; do
+  mkdir -p "$(dirname "$mermaid_static/$f")"
+  cp "$mermaid_cache/$f" "$mermaid_static/$f"
+  echo "$mermaid_static/$f" >> "$manifest"
+done
+
 # keep git status clean without polluting .gitignore (quartz's build globs honor .gitignore)
 exclude_file=$(git rev-parse --git-path info/exclude)
 {
